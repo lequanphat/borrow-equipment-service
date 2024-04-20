@@ -8,8 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class ThanhVienService {
+    @Autowired
+    private EmailService emailService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -22,12 +25,15 @@ public class ThanhVienService {
     public List<ThanhVienDTO> findAll() {
         return thanhVienRepository.findAll();
     }
+
     public ThanhVienDTO findByEmail(String email) {
         return thanhVienRepository.findByEmail(email);
     }
+
     public ThanhVienDTO findByMaTV(int maTV) {
         return thanhVienRepository.findByMaTV(maTV);
     }
+
     public ThanhVienDTO save(RegistrationValidator registerData) {
         ThanhVienDTO thanhVien = new ThanhVienDTO();
         thanhVien.setMaTV(registerData.getMaTv());
@@ -36,18 +42,18 @@ public class ThanhVienService {
         thanhVien.setPassword(registerData.getPassword());
         return thanhVienRepository.save(thanhVien);
     }
+
     public ThanhVienDTO register(RegistrationValidator registerData) throws Exception {
         ThanhVienDTO thanhvien = thanhVienRepository.findByEmail(registerData.getEmail());
-        if(thanhvien != null) {
+        if (thanhvien != null) {
             throw new Exception("Email này đã được đăng kí với tài khoản khác.");
         }
         thanhvien = thanhVienRepository.findByMaTV(registerData.getMaTv());
-        if(thanhvien != null) {
+        if (thanhvien != null) {
             throw new Exception("Mã sinh viên đã được đăng kí với tài khoản khác.");
         }
         registerData.setPassword(passwordEncoder.encode(registerData.getPassword()));
         return this.save(registerData);
     }
-
 
 }

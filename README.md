@@ -33,6 +33,8 @@
 
    Right click on the project folder -> Maven-> Download Source
 
+   Right click on the project folder -> Maven-> Reload Project
+
 ## Step 4
 
 1. **Build project:**
@@ -41,7 +43,7 @@
 
 2. **Run Configurations:**
 
-   Select Run on the toolbar -> Run Configurations -> Add New Configuration -> Spring Boot -> Select Main class
+   Select Run on the toolbar -> Edit Configurations -> Add New Configuration -> Spring Boot -> Select Main class
 3. **Run project:**
 
    Select Run on the toolbar -> Run
