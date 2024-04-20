@@ -1,0 +1,21 @@
+<!doctype html >
+
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="~{components/head :: head}"></head>
+<body>
+<div class="page">
+    <!-- Navbar -->
+    <header th:replace="~{components/navbar :: navbar}"></header>
+    <!--  Menu  -->
+    <header th:replace="~{components/menu :: menu}"></header>
+    <div class="page-wrapper" layout:fragment="content">
+
+    </div>
+    <footer th:replace="~{components/footer :: footer}"></footer>
+</div>
+<!--Script-->
+<script th:src="@{/js/tabler.min.js}" defer></script>
+</body>
+</html>

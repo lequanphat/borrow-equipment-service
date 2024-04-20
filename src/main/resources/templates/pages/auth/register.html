@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/auth}">
+<body>
+<div layout:fragment="content">
+    <div class="text-center mb-4">
+        <a th:href="@{/}" class="navbar-brand navbar-brand-autodark"><img th:src="@{/svg/logo.svg}" height="36" alt=""></a>
+    </div>
+    <form th:object="${thanhvien}" th:action="@{/register}" method="post" class="card card-md" autocomplete="off"
+          novalidate>
+        <div class="card-body">
+            <h2 class="h2 text-center mb-4">Tạo tài khoản mới</h2>
+            <div class="mb-3">
+                <label class="form-label">Mã sinh viên</label>
+                <input th:field="*{maTv}" name="maTv" type="number" class="form-control"
+                       placeholder="Nhập mã sinh viên...">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Họ tên</label>
+                <input th:field="*{hoTen}" name="hoTen" type="text" class="form-control" placeholder="Nhập họ tên...">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input th:field="*{email}" name="email" type="email" class="form-control" placeholder="Nhập email...">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Mật khẩu</label>
+                <div class="input-group input-group-flat">
+                    <input th:field="*{password}" name="password" type="password" class="form-control"
+                           placeholder="Nhập mật khẩu" autocomplete="off">
+                    <span class="input-group-text">
+                  <a href="#" class="link-secondary" title="Show password" data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                         stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                         stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path
+                            d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path
+                            d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg>
+                  </a>
+                </span>
+                </div>
+            </div>
+
+
+            <div class="form-footer">
+                <p th:if="${registerError}" class="text-danger" th:text="${registerError}"></p>
+                <button type="submit" class="btn btn-primary w-100">Tạo tài khoản</button>
+            </div>
+        </div>
+    </form>
+    <div class="text-center text-muted mt-3">
+        Bạn đã có tài khoản? <a th:href="@{/login}" tabindex="-1">Đăng nhập</a>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+
+
