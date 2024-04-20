@@ -19,15 +19,21 @@
     cd borrow-equipment-service
     ```
 
-3. **Download source Maven:**
+3. **Update database:**
+
+   Update the password field of thanhvien table to varchar(100)
+
+## Step 3
+
+1. **Open project:**
+
+   Open Intellij IDEA -> Open project
+
+2. **Download source Maven:**
 
    Right click on the project folder -> Maven-> Download Source
 
-4. **Create database:**
-
-   Create MySQL Database with name: qlthanhvien
-
-## Step 3
+## Step 4
 
 1. **Build project:**
 
@@ -40,6 +46,6 @@
 
    Select Run on the toolbar -> Run
 
-## Step 4
+## Step 5
 
 Navigate to http://localhost:9999 in your browser to access the application.
