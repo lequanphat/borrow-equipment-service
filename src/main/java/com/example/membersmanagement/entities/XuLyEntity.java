@@ -1,5 +1,7 @@
 package com.example.membersmanagement.entities;
+
 import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "xuly")
 @NoArgsConstructor
-public class XuLyDTO {
+public class XuLyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "MaXL")
@@ -18,7 +20,7 @@ public class XuLyDTO {
     @ManyToOne
     @JoinColumn(name = "MaTV")
     @ToString.Exclude
-    private ThanhVienDTO thanhVien;
+    private ThanhVienEntity thanhVien;
 
     @Column(name = "hinhthucxl")
     private String hinhThucXL;
@@ -32,7 +34,7 @@ public class XuLyDTO {
     @Column(name = "trangthaixl")
     private Integer trangThaiXL;
 
-    public XuLyDTO(int maXL, ThanhVienDTO thanhVien, String hinhThucXL, Integer soTien, Date ngayXL, Integer trangThaiXL) {
+    public XuLyEntity(int maXL, ThanhVienEntity thanhVien, String hinhThucXL, Integer soTien, Date ngayXL, Integer trangThaiXL) {
         this.maXL = maXL;
         this.thanhVien = thanhVien;
         this.hinhThucXL = hinhThucXL;
@@ -41,7 +43,7 @@ public class XuLyDTO {
         this.trangThaiXL = trangThaiXL;
     }
 
-    public XuLyDTO( ThanhVienDTO thanhVien, String hinhThucXL, Integer soTien, Date ngayXL, Integer trangThaiXL) {
+    public XuLyEntity(ThanhVienEntity thanhVien, String hinhThucXL, Integer soTien, Date ngayXL, Integer trangThaiXL) {
         this.thanhVien = thanhVien;
         this.hinhThucXL = hinhThucXL;
         this.soTien = soTien;

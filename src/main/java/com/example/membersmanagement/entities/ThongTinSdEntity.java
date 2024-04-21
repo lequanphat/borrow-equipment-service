@@ -1,11 +1,15 @@
 package com.example.membersmanagement.entities;
+
 import jakarta.persistence.*;
+
 import java.util.Date;
+
 import lombok.Data;
+
 @Data
 @Entity
 @Table(name = "thongtinsd")
-public class ThongTinSdDTO {
+public class ThongTinSdEntity {
     @Id
     @Column(name = "MaTT")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,11 +17,11 @@ public class ThongTinSdDTO {
 
     @ManyToOne
     @JoinColumn(name = "MaTV")
-    private ThanhVienDTO thanhVien;
+    private ThanhVienEntity thanhVien;
 
     @ManyToOne
     @JoinColumn(name = "MaTB")
-    private ThietBiDTO thietBi;
+    private ThietBiEntity thietBi;
 
     @Column(name = "TGVao")
     private Date tgVao;

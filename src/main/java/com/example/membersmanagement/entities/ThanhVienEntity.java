@@ -1,4 +1,5 @@
 package com.example.membersmanagement.entities;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "thanhvien")
 @NoArgsConstructor
-public class ThanhVienDTO {
+public class ThanhVienEntity {
     @Id
     @Column(name = "MaTV")
     private int maTV;
@@ -30,7 +31,7 @@ public class ThanhVienDTO {
     @Column(name = "Password")
     private String password;
 
-    public ThanhVienDTO(int maTV, String hoTen, String khoa, String nganh, String sdt, String email, String password) {
+    public ThanhVienEntity(int maTV, String hoTen, String khoa, String nganh, String sdt, String email, String password) {
         this.maTV = maTV;
         this.hoTen = hoTen;
         this.khoa = khoa;

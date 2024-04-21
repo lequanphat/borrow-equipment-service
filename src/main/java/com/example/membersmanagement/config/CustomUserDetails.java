@@ -1,6 +1,6 @@
 package com.example.membersmanagement.config;
 
-import com.example.membersmanagement.entities.ThanhVienDTO;
+import com.example.membersmanagement.entities.ThanhVienEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,7 +13,7 @@ public class CustomUserDetails implements UserDetails {
     private String hoTen;
     private int maTV;
 
-    public CustomUserDetails(ThanhVienDTO thanhVienDTO) {
+    public CustomUserDetails(ThanhVienEntity thanhVienDTO) {
         this.email = thanhVienDTO.getEmail();
         this.password = thanhVienDTO.getPassword();
         this.hoTen = thanhVienDTO.getHoTen();

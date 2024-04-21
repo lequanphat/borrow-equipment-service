@@ -1,6 +1,6 @@
 package com.example.membersmanagement.services;
 
-import com.example.membersmanagement.entities.ThanhVienDTO;
+import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.validators.RegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +22,20 @@ public class ThanhVienService {
         this.thanhVienRepository = thanhVienRepository;
     }
 
-    public List<ThanhVienDTO> findAll() {
+    public List<ThanhVienEntity> findAll() {
         return thanhVienRepository.findAll();
     }
 
-    public ThanhVienDTO findByEmail(String email) {
+    public ThanhVienEntity findByEmail(String email) {
         return thanhVienRepository.findByEmail(email);
     }
 
-    public ThanhVienDTO findByMaTV(int maTV) {
+    public ThanhVienEntity findByMaTV(int maTV) {
         return thanhVienRepository.findByMaTV(maTV);
     }
 
-    public ThanhVienDTO save(RegistrationValidator registerData) {
-        ThanhVienDTO thanhVien = new ThanhVienDTO();
+    public ThanhVienEntity save(RegistrationValidator registerData) {
+        ThanhVienEntity thanhVien = new ThanhVienEntity();
         thanhVien.setMaTV(registerData.getMaTv());
         thanhVien.setEmail(registerData.getEmail());
         thanhVien.setHoTen(registerData.getHoTen());
@@ -43,8 +43,8 @@ public class ThanhVienService {
         return thanhVienRepository.save(thanhVien);
     }
 
-    public ThanhVienDTO register(RegistrationValidator registerData) throws Exception {
-        ThanhVienDTO thanhvien = thanhVienRepository.findByEmail(registerData.getEmail());
+    public ThanhVienEntity register(RegistrationValidator registerData) throws Exception {
+        ThanhVienEntity thanhvien = thanhVienRepository.findByEmail(registerData.getEmail());
         if (thanhvien != null) {
             throw new Exception("Email này đã được đăng kí với tài khoản khác.");
         }

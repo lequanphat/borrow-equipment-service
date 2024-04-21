@@ -75,9 +75,17 @@
                                 <tbody th:each="item : ${list}">
                                 <tr>
                                     <td th:text="${item.maXL}"></td>
-                                    <td class="text-muted" >
-                                        <span th:text="${item.thanhVien.maTV}"></span> -
-                                        <span th:text="${item.thanhVien.hoTen}"></span>
+                                    <td >
+                                        <div class="d-flex py-1 align-items-center">
+                                            <span class="avatar me-2" style="background-image: url('/images/default_avatar.jpg')"></span>
+                                            <div class="flex-fill">
+                                                <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
+                                                </div>
+                                                <div class="text-muted">
+                                                    <a href="#" class="text-reset" th:text="${item.thanhVien.maTV}"></a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="text-muted">
                                         <span  th:text="${item.hinhThucXL}"></span>

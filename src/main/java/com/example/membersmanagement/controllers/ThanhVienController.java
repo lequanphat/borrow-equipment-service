@@ -1,6 +1,6 @@
 package com.example.membersmanagement.controllers;
 
-import com.example.membersmanagement.entities.ThanhVienDTO;
+import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.services.ThanhVienService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class ThanhVienController {
 
     @ResponseBody()
     @GetMapping("/members")
-    public List<ThanhVienDTO> getAll() {
+    public List<ThanhVienEntity> getAll() {
         return thanhVienService.findAll();
     }
 }

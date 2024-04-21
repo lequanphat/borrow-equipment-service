@@ -1,6 +1,6 @@
 package com.example.membersmanagement.controllers;
 
-import com.example.membersmanagement.entities.XuLyDTO;
+import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.services.XuLyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class XuLyController {
 
     @GetMapping("/violation")
     public String usageInformation(Model model) {
-        List<XuLyDTO> list = xuLyService.getAll();
+        List<XuLyEntity> list = xuLyService.getAll();
         model.addAttribute("list", list);
         return "pages/main/violation";
     }

@@ -1,15 +1,14 @@
 package com.example.membersmanagement.entities;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
-import lombok.ToString;
 
 @Data
 @Entity
 @Table(name = "thietbi")
 @NoArgsConstructor
-public class ThietBiDTO {
+public class ThietBiEntity {
     @Id
     @Column(name = "MaTB")
     private int maTB;
@@ -20,7 +19,7 @@ public class ThietBiDTO {
     @Column(name = "motatb")
     private String moTaTB;
 
-    public ThietBiDTO(int maTB, String tenTB, String moTaTB) {
+    public ThietBiEntity(int maTB, String tenTB, String moTaTB) {
         this.maTB = maTB;
         this.tenTB = tenTB;
         this.moTaTB = moTaTB;
