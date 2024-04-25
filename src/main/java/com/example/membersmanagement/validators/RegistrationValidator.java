@@ -6,10 +6,9 @@ import lombok.Data;
 @Data
 public class RegistrationValidator {
 
-    @NotNull(message="Mã sinh viên không được trống.")
-    @Max(value = 999999999, message = "Mã sinh viên phải có 8 - 9 chữ số.")
-    @Min(value = 10000000, message = "Mã sinh viên phải có 8 - 9 chữ số.")
-    private Integer  maTv;
+    @NotEmpty(message = "Mã sinh viên không được trống.")
+    @Pattern(regexp = "^[0-9]{8,9}$", message = "Mã sinh viên gồm 8 - 9 chữ số.")
+    private String maTv;
 
     @Size(min = 5, max = 30, message = "Họ tên phải từ 5 - 30 kí tự.")
     private String hoTen;

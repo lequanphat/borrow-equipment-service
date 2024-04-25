@@ -14,7 +14,6 @@ public class ThongTinSdController {
     @Autowired
     private ThongTinSdService thongTinSdService;
 
-
     @GetMapping("/usage-information")
     public String usageInformation(Model model) {
         List<ThongTinSdEntity> list = thongTinSdService.getAll();

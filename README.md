@@ -19,10 +19,6 @@
     cd borrow-equipment-service
     ```
 
-3. **Update database:**
-
-   Update the password field of thanhvien table to varchar(100)
-
 ## Step 3
 
 1. **Open project:**

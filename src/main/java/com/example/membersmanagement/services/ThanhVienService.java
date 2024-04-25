@@ -36,7 +36,7 @@ public class ThanhVienService {
 
     public ThanhVienEntity save(RegistrationValidator registerData) {
         ThanhVienEntity thanhVien = new ThanhVienEntity();
-        thanhVien.setMaTV(registerData.getMaTv());
+        thanhVien.setMaTV(Integer.parseInt(registerData.getMaTv()));
         thanhVien.setEmail(registerData.getEmail());
         thanhVien.setHoTen(registerData.getHoTen());
         thanhVien.setPassword(registerData.getPassword());
@@ -48,12 +48,20 @@ public class ThanhVienService {
         if (thanhvien != null) {
             throw new Exception("Email này đã được đăng kí với tài khoản khác.");
         }
-        thanhvien = thanhVienRepository.findByMaTV(registerData.getMaTv());
+        thanhvien = thanhVienRepository.findByMaTV(Integer.parseInt(registerData.getMaTv()));
         if (thanhvien != null) {
             throw new Exception("Mã sinh viên đã được đăng kí với tài khoản khác.");
         }
         registerData.setPassword(passwordEncoder.encode(registerData.getPassword()));
         return this.save(registerData);
+    }
+
+    public void sendPassword(String email) throws Exception {
+        ThanhVienEntity thanhvien = thanhVienRepository.findByEmail(email);
+        if (thanhvien == null) {
+            throw new Exception("Email này không tồn tại trong hệ thống.");
+        }
+        emailService.sendSimpleMessage(email, "Send Password", "Your password is " + thanhvien.getPassword());
     }
 
 }
