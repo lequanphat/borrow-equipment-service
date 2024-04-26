@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layouts/main}">
+<body>
+<div layout:fragment="content">
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title"> Hồ sơ cá nhân</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page body -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-3 d-none d-md-block border-end">
+                        <div class="card-body">
+                            <h4 class="subheader">Tài khoản</h4>
+                            <div class="list-group list-group-transparent">
+                                <a th:href="@{/profile}"
+                                   class="list-group-item list-group-item-action d-flex align-items-center active">Tài
+                                    khoản của tôi</a>
+                                <a th:href="@{/change-password}"
+                                   class="list-group-item list-group-item-action d-flex align-items-center ">Đổi
+                                    mật khẩu</a>
+                                <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger">Đăng
+                                    xuất</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <form th:action="@{/profile}" method="post" class="col d-flex flex-column">
+                        <div class="card-body">
+                            <h2 class="mb-4">Thông tin tài khoản</h2>
+                            <div class="row g-3">
+                                <div class="col-md">
+                                    <div class="form-label">Mã thành viên</div>
+                                    <input name="maTV" type="text" class="form-control" th:value="${thanhVien.maTV}"
+                                           readonly>
+                                </div>
+                                <div class="col-md">
+                                    <div class="form-label">Họ tên</div>
+                                    <input name="hoTen" type="text" class="form-control" th:value="${thanhVien.hoTen}">
+                                </div>
+
+                            </div>
+                            <div class="row g-3 mt-3 mb-3">
+                                <div class="col-md">
+                                    <div class="form-label">Email</div>
+                                    <input name="email" type="text" class="form-control"
+                                           th:value="${thanhVien.email}" readonly>
+                                </div>
+                                <div class="col-md">
+                                    <div class="form-label">Số điện thoại</div>
+                                    <input name="sdt" type="text" class="form-control"
+                                           th:value="${thanhVien.sdt}">
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-3 mb-3">
+
+                                <div class="col-md">
+                                    <div class="form-label">Khoa</div>
+                                    <input name="khoa" type="text" class="form-control" th:value="${thanhVien.khoa}">
+                                </div>
+                                <div class="col-md">
+                                    <div class="form-label">Ngành</div>
+                                    <input name="nganh" type="text" class="form-control" th:value="${thanhVien.nganh}">
+                                </div>
+                            </div>
+                            <p th:if="${param.success}" class="text-success">Cập nhật hồ sơ thành công.</p>
+                            <p th:if="${error}" class="text-danger" th:text="${error}"></p>
+
+                        </div>
+
+                        <div class="card-footer bg-transparent mt-auto">
+                            <div class="btn-list justify-content-end">
+                                <a th:href="@{/profile}" class="btn">
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

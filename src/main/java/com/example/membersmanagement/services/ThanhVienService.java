@@ -2,9 +2,10 @@ package com.example.membersmanagement.services;
 
 import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
+import com.example.membersmanagement.validators.ChangePasswordValidator;
 import com.example.membersmanagement.validators.RegistrationValidator;
+import com.example.membersmanagement.validators.UpdateProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +14,6 @@ import java.util.List;
 public class ThanhVienService {
     @Autowired
     private EmailService emailService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     @Autowired
     private ThanhVienRepository thanhVienRepository;
 
@@ -52,7 +51,7 @@ public class ThanhVienService {
         if (thanhvien != null) {
             throw new Exception("Mã sinh viên đã được đăng kí với tài khoản khác.");
         }
-        registerData.setPassword(passwordEncoder.encode(registerData.getPassword()));
+        registerData.setPassword(registerData.getPassword());
         return this.save(registerData);
     }
 
@@ -61,7 +60,36 @@ public class ThanhVienService {
         if (thanhvien == null) {
             throw new Exception("Email này không tồn tại trong hệ thống.");
         }
-        emailService.sendSimpleMessage(email, "Send Password", "Your password is " + thanhvien.getPassword());
+        emailService.sendSimpleMessage(email, "Send Password", "Mật khẩu của bạn là " + thanhvien.getPassword());
     }
 
+    public ThanhVienEntity updateProfile(int maTv, UpdateProfileValidator data) throws Exception {
+        try {
+            ThanhVienEntity thanhVien = thanhVienRepository.findByMaTV(maTv);
+            thanhVien.setHoTen(data.getHoTen());
+            thanhVien.setSdt(data.getSdt());
+            thanhVien.setKhoa(data.getKhoa());
+            thanhVien.setNganh(data.getNganh());
+            return thanhVienRepository.save(thanhVien);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+    }
+
+    public ThanhVienEntity changePassword(int maTv, ChangePasswordValidator data) throws Exception {
+        try {
+            ThanhVienEntity thanhVien = thanhVienRepository.findByMaTV(maTv);
+            if (data.getPassword().equals(data.getNewPassword())) {
+                throw new Exception("Mật khẩu mới phải khác mật khẩu cũ.");
+            }
+            if (thanhVien.getPassword().equals(data.getPassword())) {
+                thanhVien.setPassword(data.getNewPassword());
+                return thanhVienRepository.save(thanhVien);
+            }
+            throw new Exception("Xác nhận mật khẩu không đúng.");
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
 }
