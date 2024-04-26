@@ -59,10 +59,15 @@ public class AuthController {
         }
         try {
             thanhVienService.sendPassword(data.getEmail());
-            return "pages/auth/send-password";
+            return "redirect:/check-email";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "pages/auth/forgot-password";
         }
+    }
+
+    @GetMapping("/check-email")
+    public String checkEmailUI() {
+        return "pages/auth/check-email";
     }
 }

@@ -17,7 +17,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/images/**", "/css/**", "/svg/**", "/js/**").permitAll()
-                        .requestMatchers("/login", "/register", "/forgot-password", "/send-password").anonymous()
+                        .requestMatchers("/login", "/register", "/forgot-password", "/send-password", "/check-email").anonymous()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin((form) -> form
