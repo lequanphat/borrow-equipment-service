@@ -32,7 +32,6 @@
                                 <a th:href="@{/logout}" class="list-group-item list-group-item-action text-danger">Đăng
                                     xuất</a>
                             </div>
-
                         </div>
                     </div>
                     <form th:action="@{/profile}" method="post" class="col d-flex flex-column">
@@ -48,7 +47,6 @@
                                     <div class="form-label">Họ tên</div>
                                     <input name="hoTen" type="text" class="form-control" th:value="${thanhVien.hoTen}">
                                 </div>
-
                             </div>
                             <div class="row g-3 mt-3 mb-3">
                                 <div class="col-md">
@@ -63,7 +61,6 @@
                                 </div>
                             </div>
                             <div class="row g-3 mt-3 mb-3">
-
                                 <div class="col-md">
                                     <div class="form-label">Khoa</div>
                                     <input name="khoa" type="text" class="form-control" th:value="${thanhVien.khoa}">
@@ -75,9 +72,7 @@
                             </div>
                             <p th:if="${param.success}" class="text-success">Cập nhật hồ sơ thành công.</p>
                             <p th:if="${error}" class="text-danger" th:text="${error}"></p>
-
                         </div>
-
                         <div class="card-footer bg-transparent mt-auto">
                             <div class="btn-list justify-content-end">
                                 <a th:href="@{/profile}" class="btn">

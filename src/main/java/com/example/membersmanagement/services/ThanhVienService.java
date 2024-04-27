@@ -80,14 +80,17 @@ public class ThanhVienService {
     public ThanhVienEntity changePassword(int maTv, ChangePasswordValidator data) throws Exception {
         try {
             ThanhVienEntity thanhVien = thanhVienRepository.findByMaTV(maTv);
-            if (data.getPassword().equals(data.getNewPassword())) {
+            if(!data.isNewPasswordConfirmed()){
+                throw new Exception("Mật khẩu xác nhận không trùng.");
+            }
+            if(!thanhVien.getPassword().equals(data.getOldPassword())){
+                throw new Exception("Mật khẩu cũ không đúng.");
+            }
+            if (thanhVien.getPassword().equals(data.getNewPassword())) {
                 throw new Exception("Mật khẩu mới phải khác mật khẩu cũ.");
             }
-            if (thanhVien.getPassword().equals(data.getPassword())) {
-                thanhVien.setPassword(data.getNewPassword());
-                return thanhVienRepository.save(thanhVien);
-            }
-            throw new Exception("Xác nhận mật khẩu không đúng.");
+            thanhVien.setPassword(data.getNewPassword());
+            return thanhVienRepository.save(thanhVien);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

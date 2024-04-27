@@ -65,7 +65,7 @@
                                     class="table table-vcenter table-mobile-md card-table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>Mã thiết bị</th>
                                     <th>Tên thiết bị</th>
                                     <th>Mô tả</th>
                                     <th class="w-1"></th>
@@ -74,23 +74,15 @@
                                 <tbody th:each="item : ${list}">
                                 <tr>
                                     <td th:text="${item.maTB}"></td>
-                                    <td class="text-muted" th:text="${item.tenTB}">
-
-                                    </td>
-                                    <td class="text-muted"><a href="#" class="text-reset" th:text="${item.moTaTB}"></a>
-                                    </td>
-
-                                    <td>
-                                        <a href="#">Edit</a>
-                                    </td>
+                                    <td class="text-muted" th:text="${item.tenTB}"></td>
+                                    <td class="text-muted"><a href="#" class="text-reset" th:text="${item.moTaTB}"></a></td>
+                                    <td><a href="#">Edit</a></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

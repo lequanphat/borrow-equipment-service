@@ -57,7 +57,6 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
-
                 <div class="col-12">
                     <div class="card">
                         <div class="table-responsive">
@@ -87,21 +86,12 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-muted">
-                                        <span  th:text="${item.hinhThucXL}"></span>
-                                    </td>
-
+                                    <td class="text-muted"><span  th:text="${item.hinhThucXL}"></span></td>
                                     <td class="text-muted">
                                         <span th:if="${item.soTien != null}"  th:text="${item.soTien}"></span>
                                         <span th:if="${item.soTien == null}"  >Không có</span>
                                     </td>
-
-                                    <td class="text-muted">
-                                        <span  th:text="${item.ngayXL}"></span>
-                                    </td>
-
-
-
+                                    <td class="text-muted"><span  th:text="${item.ngayXL}"></span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -111,7 +101,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 </html>
