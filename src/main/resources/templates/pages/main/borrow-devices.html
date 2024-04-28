@@ -70,16 +70,21 @@
                                     <th>Thiết bị</th>
                                     <th>TG mượn</th>
                                     <th>TG trả</th>
-                                    <th>TG vào</th>
-                                    <th>TG đặt chỗ</th>
                                 </tr>
                                 </thead>
+                                <tbody th:if="${list.empty}">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No data available</td>
+                                </tr>
+                                </tbody>
+                                <tbody th:unless="${list.empty}">
                                 <tbody th:each="item : ${list}">
                                 <tr>
                                     <td th:text="${item.maTT}"></td>
                                     <td>
                                         <div class="d-flex py-1 align-items-center">
-                                            <span class="avatar me-2" style="background-image: url('/images/default_avatar.jpg')"></span>
+                                            <span class="avatar me-2"
+                                                  style="background-image: url('/images/default_avatar.jpg')"></span>
                                             <div class="flex-fill">
                                                 <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
                                                 </div>
@@ -91,7 +96,7 @@
                                     </td>
                                     <td class="text-muted">
                                         <span th:if="${item.thietBi != null}" th:text="${item.thietBi.maTB}"></span>
-                                        <span th:if="${item.thietBi != null}" > - </span>
+                                        <span th:if="${item.thietBi != null}"> - </span>
                                         <span th:if="${item.thietBi != null}" th:text="${item.thietBi.tenTB}"></span>
                                         <span th:if="${item.thietBi == null}">/</span>
                                     </td>
@@ -103,14 +108,7 @@
                                         <span th:if="${item.TgTra != null}" th:text="${item.TgTra}"></span>
                                         <span th:if="${item.TgTra == null}">null</span>
                                     </td>
-                                    <td class="text-muted">
-                                        <span th:if="${item.TgVao != null}" th:text="${item.TgVao}"></span>
-                                        <span th:if="${item.TgVao == null}">null</span>
-                                    </td>
-                                    <td class="text-muted">
-                                        <span th:if="${item.TgDatCho != null}" th:text="${item.TgDatCho}"></span>
-                                        <span th:if="${item.TgDatCho == null}">null</span>
-                                    </td>
+
                                 </tr>
                                 </tbody>
                             </table>

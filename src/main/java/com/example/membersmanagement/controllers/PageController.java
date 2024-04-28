@@ -13,5 +13,4 @@ public class PageController {
         return "pages/main/home";
     }
 
-
 }

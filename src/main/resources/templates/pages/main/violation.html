@@ -71,10 +71,16 @@
                                     <th>Ngày xử lý</th>
                                 </tr>
                                 </thead>
+                                <tbody th:if="${list.empty}">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No data available</td>
+                                    </tr>
+                                </tbody>
+                                <tbody th:unless="${list.empty}">
                                 <tbody th:each="item : ${list}">
                                 <tr>
                                     <td th:text="${item.maXL}"></td>
-                                    <td >
+                                    <td>
                                         <div class="d-flex py-1 align-items-center">
                                             <span class="avatar me-2" style="background-image: url('/images/default_avatar.jpg')"></span>
                                             <div class="flex-fill">
@@ -86,13 +92,14 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-muted"><span  th:text="${item.hinhThucXL}"></span></td>
+                                    <td class="text-muted"><span th:text="${item.hinhThucXL}"></span></td>
                                     <td class="text-muted">
-                                        <span th:if="${item.soTien != null}"  th:text="${item.soTien}"></span>
-                                        <span th:if="${item.soTien == null}"  >Không có</span>
+                                        <span th:if="${item.soTien != null}" th:text="${item.soTien}"></span>
+                                        <span th:if="${item.soTien == null}">Không có</span>
                                     </td>
-                                    <td class="text-muted"><span  th:text="${item.ngayXL}"></span></td>
+                                    <td class="text-muted"><span th:text="${item.ngayXL}"></span></td>
                                 </tr>
+                                </tbody>
                                 </tbody>
                             </table>
                         </div>

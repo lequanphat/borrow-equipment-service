@@ -2,7 +2,7 @@
 <html xmlns:th="http://thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 
-      layout:decorate="~{layouts/main}">
+      layout:decorate="~{layouts/admin}">
 <body>
 <div layout:fragment="content">
     <!-- Page header -->
@@ -15,7 +15,7 @@
                         Overview
                     </div>
                     <h2 class="page-title">
-                        Danh sách thiết bị
+                        Quản lý thành viên
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -26,7 +26,7 @@
                       New view
                     </a>
                   </span>
-                        <a th:href="@{/add-device}" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -35,9 +35,10 @@
                                 <path d="M12 5l0 14"/>
                                 <path d="M5 12l14 0"/>
                             </svg>
-                            Tạo thiết bị
+                            Thêm thành viên
                         </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon"
+                           data-bs-toggle="modal"
                            data-bs-target="#modal-team" aria-label="Create new report">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -64,28 +65,41 @@
                                     class="table table-vcenter table-mobile-md card-table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Mã thiết bị</th>
-                                    <th>Tên thiết bị</th>
-                                    <th>Mô tả</th>
-                                    <th>Trạng thái</th>
+                                    <th>Thành viên</th>
+                                    <th>Email</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Khoa</th>
+                                    <th>Ngành</th>
                                     <th class="w-1"></th>
                                 </tr>
                                 </thead>
                                 <tbody th:each="item : ${list}">
                                 <tr>
-                                    <td th:text="${item.maTB}"></td>
-                                    <td class="text-muted" th:text="${item.tenTB}"></td>
-                                    <td class="text-muted" th:text="${item.moTaTB}"></td>
                                     <td>
-                                        <!-- 1 in 3 -->
-                                        <span class="badge bg-success me-1"></span> Có thể mượn
-                                        <span class="badge bg-danger me-1"></span> Đã được mượn
-                                        <span class="badge bg-warning me-1"></span> Đã được đặt chỗ
+                                        <div class="d-flex py-1 align-items-center">
+                                            <span class="avatar me-2"
+                                                  style="background-image: url('/images/default_avatar.jpg')"></span>
+                                            <div class="flex-fill">
+                                                <div class="font-weight-medium" th:text="${item.hoTen}">
+                                                </div>
+                                                <div class="text-muted">
+                                                    <a href="#" class="text-reset" th:text="${item.maTV}"></a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
+                                    <td class="text-muted" th:text="${item.email}"></td>
+                                    <td class="text-muted" th:text="${item.sdt}"></td>
+                                    <td class="text-muted" th:text="${item.nganh}"></td>
+                                    <td class="text-muted" th:text="${item.khoa}"></td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
                                             <a href="#" class="btn">
-                                                Đặt mượn
+                                                Chỉnh sửa
+                                            </a>
+                                            <a href="#"
+                                               class="btn btn-outline-danger">
+                                                Xoá
                                             </a>
                                         </div>
                                     </td>

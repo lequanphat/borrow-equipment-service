@@ -22,46 +22,53 @@ public class ThietBiController {
     private ThietBiService thietBiService;
 
     @GetMapping("/devices")
-    public String devices(Model model) {
+    public String devicesList(Model model) {
         List<ThietBiEntity> list = thietBiService.getAll();
         model.addAttribute("list", list);
         return "pages/main/devices";
     }
 
-    @GetMapping("/add-device")
-    public String addDevice(Model model) {
-        model.addAttribute("deviceDto", CreateThietBiDto.builder().build());
-        return "pages/main/add-device";
+    @GetMapping("/admin/devices")
+    public String admin_devices(Model model) {
+        List<ThietBiEntity> list = thietBiService.getAll();
+        model.addAttribute("list", list);
+        return "pages/admin/devices";
     }
 
-    @PostMapping("/add-device")
+    @GetMapping("/admin/add-device")
+    public String addDevice(Model model) {
+        model.addAttribute("deviceDto", CreateThietBiDto.builder().build());
+        return "pages/admin/add-device";
+    }
+
+    @PostMapping("/admin/add-device")
     public String addDeviceProcess(@Valid @ModelAttribute("deviceDto") CreateThietBiDto deviceDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("deviceDto", deviceDto);
             model.addAttribute("errors", result.getAllErrors());
-            return "pages/main/add-device";
+            return "pages/admin/add-device";
         }
 
         if (thietBiService.existsByMaTb(deviceDto.getMaTB())) {
             result.rejectValue("maTb", "duplicate", "Mã thiết bị đã tồn tại.");
             model.addAttribute("deviceDto", deviceDto);
             model.addAttribute("errors", result.getAllErrors());
-            return "pages/main/add-device";
+            return "pages/admin/add-device";
         }
 
         thietBiService.save(deviceDto);
-        return "redirect:/devices?success";
+        return "redirect:/admin/devices?success";
     }
 
-    @GetMapping("/devices/{id}")
+    @GetMapping("/admin/devices/{id}")
     public String updateDevice(@PathVariable int id, Model model) {
         ThietBiEntity device = thietBiService.getById(id);
         CreateThietBiDto deviceDto = ThietBiMapper.toDto(device);
         model.addAttribute("deviceDto", deviceDto);
-        return "pages/main/update-device";
+        return "pages/admin/update-device";
     }
 
-    @PostMapping("/devices/{id}")
+    @PostMapping("/admin/devices/{id}")
     public String updateDeviceProcess(@PathVariable int id,
                                       @Valid @ModelAttribute("deviceDto") UpdateThietBiDto deviceDto,
                                       BindingResult result,
@@ -69,10 +76,10 @@ public class ThietBiController {
         if (result.hasErrors()) {
             model.addAttribute("deviceDto", deviceDto);
             model.addAttribute("errors", result.getAllErrors());
-            return "pages/main/update-device";
+            return "pages/admin/update-device";
         }
 
         thietBiService.update(deviceDto);
-        return "redirect:/devices?success";
+        return "redirect:/admin/devices?success";
     }
 }

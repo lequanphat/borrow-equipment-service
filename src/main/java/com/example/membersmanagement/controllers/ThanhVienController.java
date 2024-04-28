@@ -2,6 +2,7 @@ package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.entities.ThanhVienEntity;
+import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Controller
@@ -67,5 +70,13 @@ public class ThanhVienController {
             model.addAttribute("error", e.getMessage());
             return "pages/main/change-password";
         }
+    }
+
+
+    @GetMapping("/admin/members")
+    public String admin_members(Model model) {
+        List<ThanhVienEntity> list = thanhVienService.getAll();
+        model.addAttribute("list", list);
+        return "pages/admin/members";
     }
 }
