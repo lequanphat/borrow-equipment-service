@@ -22,7 +22,7 @@ public class ThanhVienService {
         this.thanhVienRepository = thanhVienRepository;
     }
 
-    public List<ThanhVienEntity> findAll() {
+    public List<ThanhVienEntity> getAll() {
         return thanhVienRepository.findAll();
     }
 
@@ -77,10 +77,10 @@ public class ThanhVienService {
     public ThanhVienEntity changePassword(int maTv, ChangePasswordDto data) throws Exception {
         try {
             ThanhVienEntity thanhVien = thanhVienRepository.findByMaTV(maTv);
-            if(!data.isNewPasswordConfirmed()){
+            if (!data.isNewPasswordConfirmed()) {
                 throw new Exception("Mật khẩu xác nhận không trùng.");
             }
-            if(!thanhVien.getPassword().equals(data.getOldPassword())){
+            if (!thanhVien.getPassword().equals(data.getOldPassword())) {
                 throw new Exception("Mật khẩu cũ không đúng.");
             }
             if (thanhVien.getPassword().equals(data.getNewPassword())) {

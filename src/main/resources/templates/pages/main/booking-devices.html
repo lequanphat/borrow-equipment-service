@@ -15,7 +15,7 @@
                         Overview
                     </div>
                     <h2 class="page-title">
-                        Danh sách thiết bị
+                        Thông tin sử dụng
                     </h2>
                 </div>
                 <!-- Page title actions -->
@@ -26,7 +26,8 @@
                       New view
                     </a>
                   </span>
-                        <a th:href="@{/add-device}" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                           data-bs-target="#modal-report">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -35,10 +36,10 @@
                                 <path d="M12 5l0 14"/>
                                 <path d="M5 12l14 0"/>
                             </svg>
-                            Tạo thiết bị
+                            Create new report
                         </a>
                         <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                           data-bs-target="#modal-team" aria-label="Create new report">
+                           data-bs-target="#modal-report" aria-label="Create new report">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -64,30 +65,44 @@
                                     class="table table-vcenter table-mobile-md card-table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Mã thiết bị</th>
-                                    <th>Tên thiết bị</th>
-                                    <th>Mô tả</th>
-                                    <th>Trạng thái</th>
-                                    <th class="w-1"></th>
+                                    <th>#</th>
+                                    <th>Thành viên</th>
+                                    <th>Thiết bị</th>
+                                    <th>TG đặt chỗ</th>
                                 </tr>
                                 </thead>
+                                <tbody th:if="${list.empty}">
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">No data available</td>
+                                </tr>
+                                </tbody>
+                                <tbody th:unless="${list.empty}">
                                 <tbody th:each="item : ${list}">
                                 <tr>
-                                    <td th:text="${item.maTB}"></td>
-                                    <td class="text-muted" th:text="${item.tenTB}"></td>
-                                    <td class="text-muted" th:text="${item.moTaTB}"></td>
+                                    <td th:text="${item.maTT}"></td>
                                     <td>
-                                        <!-- 1 in 3 -->
-                                        <span class="badge bg-success me-1"></span> Có thể mượn
-                                        <span class="badge bg-danger me-1"></span> Đã được mượn
-                                        <span class="badge bg-warning me-1"></span> Đã được đặt chỗ
-                                    </td>
-                                    <td>
-                                        <div class="btn-list flex-nowrap">
-                                            <a href="#" class="btn">
-                                                Đặt mượn
-                                            </a>
+                                        <div class="d-flex py-1 align-items-center">
+                                            <span class="avatar me-2"
+                                                  style="background-image: url('/images/default_avatar.jpg')"></span>
+                                            <div class="flex-fill">
+                                                <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
+                                                </div>
+                                                <div class="text-muted">
+                                                    <a href="#" class="text-reset" th:text="${item.thanhVien.maTV}"></a>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </td>
+                                    <td class="text-muted">
+                                        <span th:if="${item.thietBi != null}" th:text="${item.thietBi.maTB}"></span>
+                                        <span th:if="${item.thietBi != null}"> - </span>
+                                        <span th:if="${item.thietBi != null}" th:text="${item.thietBi.tenTB}"></span>
+                                        <span th:if="${item.thietBi == null}">/</span>
+                                    </td>
+
+                                    <td class="text-muted">
+                                        <span th:if="${item.TgDatCho != null}" th:text="${item.TgDatCho}"></span>
+                                        <span th:if="${item.TgDatCho == null}">null</span>
                                     </td>
                                 </tr>
                                 </tbody>
