@@ -3,8 +3,8 @@ package com.example.membersmanagement.controllers;
 import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.services.ThanhVienService;
-import com.example.membersmanagement.validators.ChangePasswordValidator;
-import com.example.membersmanagement.validators.UpdateProfileValidator;
+import com.example.membersmanagement.dtos.ChangePasswordDto;
+import com.example.membersmanagement.dtos.UpdateProfileDto;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -31,7 +31,7 @@ public class ThanhVienController {
     }
 
     @PostMapping("/profile")
-    public String updateProfile(@Valid @ModelAttribute("thanhvien") UpdateProfileValidator data, BindingResult result, Model model, Authentication authentication) {
+    public String updateProfile(@Valid @ModelAttribute("thanhvien") UpdateProfileDto data, BindingResult result, Model model, Authentication authentication) {
         model.addAttribute("thanhVien", data);
         if (result.hasErrors()) {
             model.addAttribute("error", result.getAllErrors().get(0).getDefaultMessage());
@@ -54,7 +54,7 @@ public class ThanhVienController {
 
 
     @PostMapping("/change-password")
-    public String changePasswordProcess(@Valid @ModelAttribute("thanhvien") ChangePasswordValidator data, BindingResult result, Model model, Authentication authentication) {
+    public String changePasswordProcess(@Valid @ModelAttribute("thanhvien") ChangePasswordDto data, BindingResult result, Model model, Authentication authentication) {
         if (result.hasErrors()) {
             model.addAttribute("error", result.getAllErrors().get(0).getDefaultMessage());
             return "pages/main/change-password";

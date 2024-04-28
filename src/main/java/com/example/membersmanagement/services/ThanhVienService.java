@@ -1,10 +1,11 @@
 package com.example.membersmanagement.services;
 
 import com.example.membersmanagement.entities.ThanhVienEntity;
+import com.example.membersmanagement.mappers.ThanhVienMapper;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
-import com.example.membersmanagement.validators.ChangePasswordValidator;
-import com.example.membersmanagement.validators.RegistrationValidator;
-import com.example.membersmanagement.validators.UpdateProfileValidator;
+import com.example.membersmanagement.dtos.ChangePasswordDto;
+import com.example.membersmanagement.dtos.RegistrationDto;
+import com.example.membersmanagement.dtos.UpdateProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,16 +34,12 @@ public class ThanhVienService {
         return thanhVienRepository.findByMaTV(maTV);
     }
 
-    public ThanhVienEntity save(RegistrationValidator registerData) {
-        ThanhVienEntity thanhVien = new ThanhVienEntity();
-        thanhVien.setMaTV(Integer.parseInt(registerData.getMaTv()));
-        thanhVien.setEmail(registerData.getEmail());
-        thanhVien.setHoTen(registerData.getHoTen());
-        thanhVien.setPassword(registerData.getPassword());
+    public ThanhVienEntity save(RegistrationDto registerData) {
+        ThanhVienEntity thanhVien = ThanhVienMapper.toThanhVienFromRegistration(registerData);
         return thanhVienRepository.save(thanhVien);
     }
 
-    public ThanhVienEntity register(RegistrationValidator registerData) throws Exception {
+    public ThanhVienEntity register(RegistrationDto registerData) throws Exception {
         ThanhVienEntity thanhvien = thanhVienRepository.findByEmail(registerData.getEmail());
         if (thanhvien != null) {
             throw new Exception("Email này đã được đăng kí với tài khoản khác.");
@@ -63,7 +60,7 @@ public class ThanhVienService {
         emailService.sendSimpleMessage(email, "Send Password", "Mật khẩu của bạn là " + thanhvien.getPassword());
     }
 
-    public ThanhVienEntity updateProfile(int maTv, UpdateProfileValidator data) throws Exception {
+    public ThanhVienEntity updateProfile(int maTv, UpdateProfileDto data) throws Exception {
         try {
             ThanhVienEntity thanhVien = thanhVienRepository.findByMaTV(maTv);
             thanhVien.setHoTen(data.getHoTen());
@@ -77,7 +74,7 @@ public class ThanhVienService {
 
     }
 
-    public ThanhVienEntity changePassword(int maTv, ChangePasswordValidator data) throws Exception {
+    public ThanhVienEntity changePassword(int maTv, ChangePasswordDto data) throws Exception {
         try {
             ThanhVienEntity thanhVien = thanhVienRepository.findByMaTV(maTv);
             if(!data.isNewPasswordConfirmed()){

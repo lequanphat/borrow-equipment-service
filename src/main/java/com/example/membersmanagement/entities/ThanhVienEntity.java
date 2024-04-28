@@ -1,11 +1,13 @@
 package com.example.membersmanagement.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
 @Table(name = "thanhvien")
 @NoArgsConstructor
 public class ThanhVienEntity {

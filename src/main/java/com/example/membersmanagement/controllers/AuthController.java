@@ -1,8 +1,8 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.services.ThanhVienService;
-import com.example.membersmanagement.validators.ForgotPasswordValidator;
-import com.example.membersmanagement.validators.RegistrationValidator;
+import com.example.membersmanagement.dtos.ForgotPasswordDto;
+import com.example.membersmanagement.dtos.RegistrationDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,12 +27,12 @@ public class AuthController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute("thanhvien", new RegistrationValidator());
+        model.addAttribute("thanhvien", new RegistrationDto());
         return "pages/auth/register";
     }
 
     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute("thanhvien") RegistrationValidator user, BindingResult result, Model model) {
+    public String register(@Valid @ModelAttribute("thanhvien") RegistrationDto user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("registerError", result.getAllErrors().get(0).getDefaultMessage());
             return "pages/auth/register";
@@ -52,7 +52,7 @@ public class AuthController {
     }
 
     @PostMapping("/send-password")
-    public String forgotPasswordProcess(@Valid @ModelAttribute("thanhvien") ForgotPasswordValidator data, BindingResult result, Model model) {
+    public String forgotPasswordProcess(@Valid @ModelAttribute("thanhvien") ForgotPasswordDto data, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("error", result.getAllErrors().get(0).getDefaultMessage());
             return "pages/auth/forgot-password";
