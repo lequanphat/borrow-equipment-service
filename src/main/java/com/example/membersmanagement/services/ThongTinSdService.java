@@ -35,5 +35,9 @@ public class ThongTinSdService {
                 .setParameter("maTV", maTV)
                 .getResultList();
     }
+    
+    public List<ThongTinSdEntity> getDsDatCho() {
+        return thongTinSdRepository.findByTgMuonIsNotNull();
+    }
 }
 

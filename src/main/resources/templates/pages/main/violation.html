@@ -69,6 +69,7 @@
                                     <th>Hình thức xử lý</th>
                                     <th>Số tiền</th>
                                     <th>Ngày xử lý</th>
+                                    <th>Trạng thái</th>
                                 </tr>
                                 </thead>
                                 <tbody th:if="${list.empty}">
@@ -97,7 +98,13 @@
                                         <span th:if="${item.soTien != null}" th:text="${item.soTien}"></span>
                                         <span th:if="${item.soTien == null}">Không có</span>
                                     </td>
-                                    <td class="text-muted"><span th:text="${item.ngayXL}"></span></td>
+                                    <td class="text-muted">
+                                        <span  th:text="${item.ngayXL}"></span></td>
+                                    <td class="text-muted">
+                                        <span class="badge bg-red text-red-fg" th:if="${item.trangThaiXL != 1}">Đang xử lý</span>
+                                        <span class="badge bg-teal text-teal-fg" th:if="${item.trangThaiXL == 1}">Đã xử lý</span>
+                                    </td>
+
                                 </tr>
                                 </tbody>
                                 </tbody>
