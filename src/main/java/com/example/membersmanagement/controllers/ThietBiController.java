@@ -6,7 +6,6 @@ import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.services.ThietBiService;
 import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@Slf4j
 public class ThietBiController {
     @Autowired
     private ThietBiService thietBiService;

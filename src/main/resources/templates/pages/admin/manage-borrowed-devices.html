@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layouts/admin}">
+<body>
+<div layout:fragment="content">
+    <!-- Page header -->
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        Thiết bị đang được mượn
+                    </h2>
+                </div>
+                <!-- Page title actions -->
+                <div class="col-auto ms-auto d-print-none">
+                    <div class="btn-list">
+                  <span class="d-none d-sm-inline">
+                    <a href="#" class="btn">
+                      New view
+                    </a>
+                  </span>
+                        <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
+                           data-bs-target="#modal-report">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 5l0 14"/>
+                                <path d="M5 12l14 0"/>
+                            </svg>
+                            Create new report
+                        </a>
+                        <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                           data-bs-target="#modal-report" aria-label="Create new report">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 5l0 14"/>
+                                <path d="M5 12l14 0"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-vcenter table-mobile-md card-table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Thành viên</th>
+                                    <th>Thiết bị</th>
+                                    <th>TG mượn</th>
+                                </tr>
+                                </thead>
+                                <tbody th:if="${list.empty}">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No data available</td>
+                                </tr>
+                                </tbody>
+                                <tbody th:unless="${list.empty}">
+                                <tbody th:each="item : ${list}">
+                                <tr>
+                                    <td th:text="${item.maTT}"></td>
+                                    <td>
+                                        <div class="d-flex py-1 align-items-center">
+                                            <span class="avatar me-2"
+                                                  style="background-image: url('/images/default_avatar.jpg')"></span>
+                                            <div class="flex-fill">
+                                                <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
+                                                </div>
+                                                <div class="text-muted">
+                                                    <a href="#" class="text-reset" th:text="${item.thanhVien.maTV}"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted">
+                                        <span th:text="${item.thietBi.maTB}"></span>
+                                        <span> - </span>
+                                        <span th:text="${item.thietBi.tenTB}"></span>
+                                    </td>
+                                    <td class="text-muted">
+                                        <span th:if="${item.TgMuon != null}" th:text="${item.TgMuon}"></span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

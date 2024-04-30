@@ -71,8 +71,8 @@
                                     <th class="w-1"></th>
                                 </tr>
                                 </thead>
-                                <tbody th:each="item : ${list}">
-                                <tr>
+                                <tbody>
+                                <tr th:each="item : ${list}">
                                     <td th:text="${item.maTB}"></td>
                                     <td class="text-muted" th:text="${item.tenTB}"></td>
                                     <td class="text-muted" th:text="${item.moTaTB}"></td>

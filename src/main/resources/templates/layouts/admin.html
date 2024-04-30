@@ -5,7 +5,6 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="~{components/head :: head}"></head>
 <body>
-<script src="./dist/js/demo-theme.min.js?1684106062"></script>
 <div class="page">
     <!-- Sidebar -->
     <aside th:replace="~{components/sidebar :: sidebar}"></aside>
@@ -16,5 +15,7 @@
 </div>
 <!--Script-->
 <script th:src="@{/js/tabler.min.js}" defer></script>
+<div layout:fragment="scripts">
+</div>
 </body>
 </html>

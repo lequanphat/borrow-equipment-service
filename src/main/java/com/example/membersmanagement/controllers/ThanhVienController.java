@@ -2,7 +2,6 @@ package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;

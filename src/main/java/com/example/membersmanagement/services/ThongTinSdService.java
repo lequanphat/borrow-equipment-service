@@ -1,15 +1,14 @@
 package com.example.membersmanagement.services;
 
-import com.example.membersmanagement.dtos.ThongTinSd.TraThietBiDto;
+import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
-import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
-import com.example.membersmanagement.repositories.XuLyRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +50,24 @@ public class ThongTinSdService {
                 findByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(maTB);
         thongTinSdEntity.setTgTra(new Date());
         return thongTinSdRepository.save(thongTinSdEntity);
+    }
+
+    public List<ThongKeLuotVaoDto> thongKeLuotVao(String thongKeTheo, LocalDate tgBatDau, LocalDate tgKetThuc) {
+        String groupByField = thongKeTheo.equals("khoa") ? "ttsd.thanhVien.khoa" : "ttsd.thanhVien.nganh";
+
+        String jpql = "SELECT new com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto(" + groupByField + ", count(ttsd.thanhVien.maTV)) " +
+                "FROM ThongTinSdEntity ttsd " +
+                "WHERE ttsd.tgVao BETWEEN :tgBatDau AND :tgKetThuc " +
+                "GROUP BY " + groupByField;
+
+        return entityManager.createQuery(jpql, ThongKeLuotVaoDto.class)
+                .setParameter("tgBatDau", java.sql.Date.valueOf(tgBatDau))
+                .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
+                .getResultList();
+    }
+
+    public List<ThongTinSdEntity> getDsThietBiDangDuocMuon() {
+        return thongTinSdRepository.findByTgMuonIsNotNullAndTgTraIsNull();
     }
 }
 
