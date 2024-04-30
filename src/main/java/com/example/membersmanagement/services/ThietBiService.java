@@ -8,6 +8,8 @@ import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.repositories.ThietBiRepository;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +21,8 @@ public class ThietBiService {
     @Autowired
     private ThongTinSdRepository thongTinSdRepository;
 
-    public List<ThietBiEntity> getAll() {
-        return thietBiRepository.findAll();
+    public Page<ThietBiEntity> getAll(String keyword, Pageable paging) {
+        return thietBiRepository.findByTenTBContainingIgnoreCase(keyword, paging);
     }
 
     public ThietBiEntity save(CreateThietBiDto addDeviceDto) {

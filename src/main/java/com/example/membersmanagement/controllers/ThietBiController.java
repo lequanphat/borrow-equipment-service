@@ -6,7 +6,11 @@ import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.services.ThietBiService;
 import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,21 +19,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class ThietBiController {
     @Autowired
     private ThietBiService thietBiService;
 
     @GetMapping("/devices")
-    public String devicesList(Model model) {
-        List<ThietBiEntity> list = thietBiService.getAll();
-        model.addAttribute("list", list);
+    public String devicesList(Model model,
+                              @RequestParam(required = false) String keyword,
+                              @RequestParam(defaultValue = "1") int page,
+                              @RequestParam(defaultValue = "8") int size) {
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        model.addAttribute("list", list.getContent());
         return "pages/main/devices";
     }
 
     @GetMapping("/admin/devices")
-    public String admin_devices(Model model) {
-        List<ThietBiEntity> list = thietBiService.getAll();
-        model.addAttribute("list", list);
+    public String admin_devices(Model model,
+                                @RequestParam(required = false, defaultValue = "") String keyword,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "8") int size) {
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pagedList", list);
         return "pages/admin/devices";
     }
 
