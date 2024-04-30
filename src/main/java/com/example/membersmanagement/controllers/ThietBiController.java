@@ -49,7 +49,7 @@ public class ThietBiController {
             return "pages/admin/add-device";
         }
 
-        if (thietBiService.existsByMaTb(deviceDto.getMaTB())) {
+        if (thietBiService.existsByMaTb(Integer.valueOf(deviceDto.getMaTB()))) {
             result.rejectValue("maTb", "duplicate", "Mã thiết bị đã tồn tại.");
             model.addAttribute("deviceDto", deviceDto);
             model.addAttribute("errors", result.getAllErrors());

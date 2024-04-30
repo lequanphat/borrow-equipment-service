@@ -9,4 +9,6 @@ public interface ThanhVienRepository extends JpaRepository<ThanhVienEntity, Inte
     ThanhVienEntity findByEmail(String email);
 
     ThanhVienEntity findByMaTV(int maTV);
+
+    boolean existsByMaTV(int maTV);
 }

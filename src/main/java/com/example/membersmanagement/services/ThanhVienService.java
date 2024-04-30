@@ -71,7 +71,6 @@ public class ThanhVienService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-
     }
 
     public ThanhVienEntity changePassword(int maTv, ChangePasswordDto data) throws Exception {
@@ -91,5 +90,9 @@ public class ThanhVienService {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
+    }
+
+    public boolean existsByMaTV(int maTV) {
+        return thanhVienRepository.existsByMaTV(maTV);
     }
 }

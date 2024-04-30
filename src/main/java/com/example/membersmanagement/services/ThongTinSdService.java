@@ -1,5 +1,6 @@
 package com.example.membersmanagement.services;
 
+import com.example.membersmanagement.dtos.ThongTinSd.TraThietBiDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
@@ -9,6 +10,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,9 +37,20 @@ public class ThongTinSdService {
                 .setParameter("maTV", maTV)
                 .getResultList();
     }
-    
+
     public List<ThongTinSdEntity> getDsDatCho() {
         return thongTinSdRepository.findByTgMuonIsNotNull();
+    }
+
+    public ThongTinSdEntity save(ThongTinSdEntity thongTinSdEntity) {
+        return thongTinSdRepository.save(thongTinSdEntity);
+    }
+
+    public ThongTinSdEntity traThietBi(int maTB) {
+        ThongTinSdEntity thongTinSdEntity = thongTinSdRepository.
+                findByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(maTB);
+        thongTinSdEntity.setTgTra(new Date());
+        return thongTinSdRepository.save(thongTinSdEntity);
     }
 }
 

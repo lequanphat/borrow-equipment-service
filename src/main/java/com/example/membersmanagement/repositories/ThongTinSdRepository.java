@@ -8,4 +8,10 @@ import java.util.List;
 public interface ThongTinSdRepository extends JpaRepository<ThongTinSdEntity, Integer> {
 
     List<ThongTinSdEntity> findByTgMuonIsNotNull();
+
+    // Kiểm tra thiết bị có đang được mượn hoặc đặt chỗ
+    boolean existsByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(int maTB);
+    boolean existsByThietBiMaTBAndTgDatChoIsNotNull(int maTB);
+
+    ThongTinSdEntity findByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(int maTB);
 }
