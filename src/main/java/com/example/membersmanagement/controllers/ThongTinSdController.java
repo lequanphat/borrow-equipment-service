@@ -1,16 +1,22 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
+import com.example.membersmanagement.dtos.BookingDeviceDTO;
 import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
 import com.example.membersmanagement.dtos.ThongTinSd.MuonThietBiDto;
 import com.example.membersmanagement.dtos.ThongTinSd.TraThietBiDto;
+import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import com.example.membersmanagement.mappers.ThongTinSdMapper;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.services.ThietBiService;
 import com.example.membersmanagement.services.ThongTinSdService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +24,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
+@Slf4j
 public class ThongTinSdController {
     @Autowired
     private ThongTinSdService thongTinSdService;
@@ -44,6 +52,55 @@ public class ThongTinSdController {
         List<ThongTinSdEntity> list = thongTinSdService.getThietBiDangDatChoByMaTV(maTv);
         model.addAttribute("list", list);
         return "pages/main/booking-devices";
+    }
+
+    @GetMapping("/add-booking-device")
+    public String addBookingDevice(Model model, Authentication authentication,
+                                   @RequestParam(required = false, defaultValue = "") String keyword,
+                                   @RequestParam(defaultValue = "1") int page,
+                                   @RequestParam(defaultValue = "8") int size) {
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pagedList", list);
+        model.addAttribute("bookingDeviceDTO", BookingDeviceDTO.builder().build());
+        return "pages/main/add-booking-device";
+    }
+
+    @PostMapping("/add-booking-device")
+    public String addBookingDevice(@Valid BookingDeviceDTO bookingDeviceDTO, BindingResult result, Model model, Authentication authentication,
+                                   @RequestParam(required = false, defaultValue = "") String keyword,
+                                   @RequestParam(defaultValue = "1") int page,
+                                   @RequestParam(defaultValue = "8") int size){
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pagedList", list);
+        model.addAttribute("bookingDeviceDTO", bookingDeviceDTO);
+        if(result.hasErrors()) {
+            log.error(result.getAllErrors().toString());
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/main/add-booking-device";
+        }
+        int maTv = ((CustomUserDetails) authentication.getPrincipal()).getMaTV();
+        int maTb = bookingDeviceDTO.getMaTB();
+
+        if (!thietBiService.existsByMaTb(maTb)) {
+            result.rejectValue("MaTB", "notFound", "Mã thiết bị không tồn tại.");
+        }
+
+        if (thietBiService.isBorrowedOrBooked(maTb)) {
+            result.rejectValue("MaTB", "unavailable", "Thiết bị đang được mượn hoặc đặt chỗ");
+        }
+
+        if(result.hasErrors()) {
+            model.addAttribute("bookingDeviceDTO", bookingDeviceDTO);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/main/add-booking-device";
+        }
+        bookingDeviceDTO.setMaTV(maTv);
+        thongTinSdService.save(ThongTinSdMapper.toThongTinSdFromBookingDevice(bookingDeviceDTO));
+        return "redirect:/my-booking-devices";
     }
 
     @GetMapping("/admin/device-borrowing")

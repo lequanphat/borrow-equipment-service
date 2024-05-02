@@ -69,5 +69,6 @@ public class ThongTinSdService {
     public List<ThongTinSdEntity> getDsThietBiDangDuocMuon() {
         return thongTinSdRepository.findByTgMuonIsNotNullAndTgTraIsNull();
     }
+
 }
 
