@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
+
 public class ChangePasswordDto {
 
     @NotEmpty(message = "Mật khẩu không được để trống.")
