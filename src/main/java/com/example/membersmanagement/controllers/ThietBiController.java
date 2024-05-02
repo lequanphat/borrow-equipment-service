@@ -1,5 +1,6 @@
 package com.example.membersmanagement.controllers;
 
+import com.example.membersmanagement.dtos.BookingDeviceDTO;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThietBiMapper;
@@ -23,6 +24,19 @@ import java.util.List;
 public class ThietBiController {
     @Autowired
     private ThietBiService thietBiService;
+
+    @GetMapping("/devices")
+    public String devicesList(Model model,
+                              @RequestParam(required = false, defaultValue = "") String keyword,
+                              @RequestParam(defaultValue = "1") int page,
+                              @RequestParam(defaultValue = "8") int size) {
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pagedList", list);
+        model.addAttribute("bookingDeviceDTO", BookingDeviceDTO.builder().build());
+        return "pages/main/devices";
+    }
 
     @GetMapping("/admin/devices")
     public String admin_devices(Model model,

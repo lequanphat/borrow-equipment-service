@@ -23,7 +23,6 @@ public class ThanhVienController {
         this.thanhVienService = thanhVienService;
     }
 
-
     @GetMapping("/profile")
     public String profile(Model model, Authentication authentication) {
         int maTv = ((CustomUserDetails) authentication.getPrincipal()).getMaTV();
@@ -54,7 +53,6 @@ public class ThanhVienController {
         return "pages/main/change-password";
     }
 
-
     @PostMapping("/change-password")
     public String changePasswordProcess(@Valid @ModelAttribute("thanhvien") ChangePasswordDto data, BindingResult result, Model model, Authentication authentication) {
         if (result.hasErrors()) {
@@ -70,7 +68,6 @@ public class ThanhVienController {
             return "pages/main/change-password";
         }
     }
-
 
     @GetMapping("/admin/members")
     public String admin_members(Model model) {

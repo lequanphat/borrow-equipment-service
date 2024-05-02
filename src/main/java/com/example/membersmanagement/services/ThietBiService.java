@@ -30,6 +30,10 @@ public class ThietBiService {
         return thietBiRepository.save(newDevice);
     }
 
+    public List<ThietBiEntity> getAllDevices(){
+        return thietBiRepository.findAll();
+    }
+
     public boolean existsByMaTb(int maTb) {
         return thietBiRepository.existsById(maTb);
     }
@@ -47,4 +51,5 @@ public class ThietBiService {
         ThietBiEntity device = ThietBiMapper.toThietBiFromUpdate(deviceDto);
         thietBiRepository.save(device);
     }
+
 }
