@@ -24,17 +24,6 @@ public class ThietBiController {
     @Autowired
     private ThietBiService thietBiService;
 
-    @GetMapping("/devices")
-    public String devicesList(Model model,
-                              @RequestParam(required = false) String keyword,
-                              @RequestParam(defaultValue = "1") int page,
-                              @RequestParam(defaultValue = "8") int size) {
-        Pageable paging = PageRequest.of(page - 1, size);
-        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
-        model.addAttribute("list", list.getContent());
-        return "pages/main/devices";
-    }
-
     @GetMapping("/admin/devices")
     public String admin_devices(Model model,
                                 @RequestParam(required = false, defaultValue = "") String keyword,

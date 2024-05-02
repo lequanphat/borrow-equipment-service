@@ -13,6 +13,11 @@ public class RegistrationDto {
     @Size(min = 5, max = 30, message = "Họ tên phải từ 5 - 30 kí tự.")
     private String hoTen;
 
+    @NotEmpty(message = "Khoa không được trống.")
+    private String khoa;
+    @NotEmpty(message = "Ngành không được trống.")
+    private String nganh;
+
     @NotEmpty(message = "Email không được để trống.")
     @Email(message = "Email không đúng định dạng.")
     private String email;

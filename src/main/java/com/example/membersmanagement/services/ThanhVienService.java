@@ -9,7 +9,7 @@ import com.example.membersmanagement.dtos.UpdateProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ThanhVienService {
@@ -94,5 +94,20 @@ public class ThanhVienService {
 
     public boolean existsByMaTV(int maTV) {
         return thanhVienRepository.existsByMaTV(maTV);
+    }
+
+
+    public List<Set<String>> getDanhSachNganhAndKhoa() {
+        List<ThanhVienEntity> list = thanhVienRepository.findAll();
+        Set<String> danhSachNganh = new HashSet<>();
+        Set<String> danhSachKhoa = new HashSet<>();
+        for (ThanhVienEntity thanhVienEntity : list) {
+            danhSachNganh.add(thanhVienEntity.getNganh());
+            danhSachKhoa.add(thanhVienEntity.getKhoa());
+        }
+        List<Set<String>> returnList = new ArrayList<>();
+        returnList.add(danhSachNganh);
+        returnList.add(danhSachKhoa);
+        return returnList;
     }
 }
