@@ -63,11 +63,13 @@
                             <div class="row g-3 mt-3 mb-3">
                                 <div class="col-md">
                                     <div class="form-label">Khoa</div>
-                                    <input name="khoa" type="text" class="form-control" th:value="${thanhVien.khoa}">
+                                    <input name="khoa" type="text" class="form-control" th:value="${thanhVien.khoa}"
+                                           readonly>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-label">Ngành</div>
-                                    <input name="nganh" type="text" class="form-control" th:value="${thanhVien.nganh}">
+                                    <input name="nganh" type="text" class="form-control" th:value="${thanhVien.nganh}"
+                                           readonly>
                                 </div>
                             </div>
                             <p th:if="${param.success}" class="text-success">Cập nhật hồ sơ thành công.</p>

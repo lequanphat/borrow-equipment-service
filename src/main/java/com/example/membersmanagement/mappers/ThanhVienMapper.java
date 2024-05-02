@@ -9,6 +9,8 @@ public class ThanhVienMapper {
                 .maTV(Integer.valueOf(registrationDto.getMaTv()))
                 .email(registrationDto.getEmail())
                 .hoTen(registrationDto.getHoTen())
+                .khoa(registrationDto.getKhoa())
+                .nganh(registrationDto.getNganh())
                 .password(registrationDto.getPassword())
                 .build();
     }

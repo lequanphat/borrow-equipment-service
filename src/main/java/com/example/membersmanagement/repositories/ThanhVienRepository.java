@@ -4,6 +4,8 @@ import com.example.membersmanagement.entities.ThanhVienEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ThanhVienRepository extends JpaRepository<ThanhVienEntity, Integer> {
     ThanhVienEntity findByEmail(String email);
@@ -11,4 +13,6 @@ public interface ThanhVienRepository extends JpaRepository<ThanhVienEntity, Inte
     ThanhVienEntity findByMaTV(int maTV);
 
     boolean existsByMaTV(int maTV);
+
+    List<ThanhVienEntity> findAll();
 }

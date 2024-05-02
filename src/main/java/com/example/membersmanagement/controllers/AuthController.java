@@ -10,6 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
 
 @Controller
 public class AuthController {
@@ -28,13 +33,19 @@ public class AuthController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("thanhvien", new RegistrationDto());
+        List<Set<String>> list = thanhVienService.getDanhSachNganhAndKhoa();
+        model.addAttribute("danhSachNganh", list.get(0));
+        model.addAttribute("danhSachKhoa", list.get(1));
         return "pages/auth/register";
     }
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("thanhvien") RegistrationDto user, BindingResult result, Model model) {
+        List<Set<String>> list = thanhVienService.getDanhSachNganhAndKhoa();
+        model.addAttribute("danhSachNganh", list.get(0));
+        model.addAttribute("danhSachKhoa", list.get(1));
         if (result.hasErrors()) {
-            model.addAttribute("registerError", result.getAllErrors().get(0).getDefaultMessage());
+            model.addAttribute("registerError", result.getAllErrors().getLast().getDefaultMessage());
             return "pages/auth/register";
         }
         try {
@@ -54,7 +65,7 @@ public class AuthController {
     @PostMapping("/send-password")
     public String forgotPasswordProcess(@Valid @ModelAttribute("thanhvien") ForgotPasswordDto data, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("error", result.getAllErrors().get(0).getDefaultMessage());
+            model.addAttribute("error", result.getAllErrors().getLast().getDefaultMessage());
             return "pages/auth/forgot-password";
         }
         try {
