@@ -102,16 +102,19 @@
         </div>
     </div>
 </div>
-</body>
-</html>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var inputs = document.querySelectorAll('input[name="maTBRadio"]');
-        inputs.forEach(function(input) {
-            input.addEventListener('change', function(event) {
-                var keywordValue = event.target.value;
-                document.querySelector('input[name="MaTB"]').value = keywordValue;
+<div layout:fragment="scripts">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var inputs = document.querySelectorAll('input[name="maTBRadio"]');
+            inputs.forEach(function(input) {
+                input.addEventListener('change', function(event) {
+                    var keywordValue = event.target.value;
+                    document.querySelector('input[name="MaTB"]').value = keywordValue;
+                });
             });
         });
-    });
-</script>
+    </script>
+</div>
+</body>
+</html>
+
