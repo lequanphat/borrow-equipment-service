@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin}">
+<body>
+<div layout:fragment="content">
+    <!-- Page header -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row g-2 align-items-center w-full">
+                                <div class="col">
+                                    <h3 class="card-title">Thống kê lượt mượn thiết bị</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form class="row w-full">
+                                <div class="col">
+                                    <label class="form-label">Thời gian bắt đầu</label>
+                                    <div class="input-icon">
+                                        <input class="form-control " placeholder="Select a date" id="start-date" name="tgBatDau"
+                                               th:value="${tgBatDau}"/>
+                                        <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                     stroke-linecap="round" stroke-linejoin="round"><path stroke="none"
+                                                                                          d="M0 0h24v24H0z"
+                                                                                          fill="none"/><path
+                                        d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path
+                                        d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path
+                                        d="M12 15v3"/></svg>
+                              </span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="form-label">Thời gian kết thúc</label>
+                                    <div class="input-icon">
+                                        <input class="form-control " placeholder="Select a date" id="end-date" name="tgKetThuc"
+                                               th:value="${tgKetThuc}"/>
+                                        <span class="input-icon-addon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                     stroke-linecap="round" stroke-linejoin="round"><path stroke="none"
+                                                                                          d="M0 0h24v24H0z"
+                                                                                          fill="none"/><path
+                                        d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"/><path
+                                        d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path
+                                        d="M12 15v3"/></svg>
+                              </span>
+                                    </div>
+                                </div>
+                                <div class="col-auto d-flex align-items-end">
+                                    <button type="submit" class="btn btn-primary">Thống kê</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-vcenter table-mobile-md card-table table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Tên</th>
+                                    <th class="text-center">Số lượt vào</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${list}">
+                                    <td class="text-center" th:text="${item.ten}"></td>
+                                    <td class="text-center" th:text="${item.luotVao}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div layout:fragment="scripts">
+    <script th:src="@{/js/libs/litepicker.js}" defer></script>
+    <script th:src="@{/js/libs/tom-select.base.min.js}" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            window.Litepicker && (new Litepicker({
+                element: document.getElementById('start-date'),
+                format: 'DD/MM/YYYY',
+                buttonText: {
+                    previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
+                    nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
+                },
+            }));
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            window.Litepicker && (new Litepicker({
+                element: document.getElementById('end-date'),
+                format: 'DD/MM/YYYY',
+                buttonText: {
+                    previousMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
+                    nextMonth: `<!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
+                },
+            }));
+        });
+    </script>
+
+</div>
+</body>
+</html>

@@ -2,10 +2,14 @@ package com.example.membersmanagement.services;
 
 import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
+import com.example.membersmanagement.repositories.ThanhVienRepository;
+import com.example.membersmanagement.repositories.ThietBiRepository;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,10 +41,6 @@ public class ThongTinSdService {
                 .getResultList();
     }
 
-    public List<ThongTinSdEntity> getDsDatCho() {
-        return thongTinSdRepository.findByTgMuonIsNotNull();
-    }
-
     public ThongTinSdEntity save(ThongTinSdEntity thongTinSdEntity) {
         return thongTinSdRepository.save(thongTinSdEntity);
     }
@@ -68,6 +68,10 @@ public class ThongTinSdService {
 
     public List<ThongTinSdEntity> getDsThietBiDangDuocMuon() {
         return thongTinSdRepository.findByTgMuonIsNotNullAndTgTraIsNull();
+    }
+
+    public Page<ThongTinSdEntity> getDsDatChoThietBi(String keyword, Pageable paging) {
+        return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNotNull(keyword, paging);
     }
 }
 

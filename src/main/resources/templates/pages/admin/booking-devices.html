@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin}">
+<body>
+<div layout:fragment="content">
+    <!-- Page header -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row g-2 align-items-center w-full">
+                                <div class="col">
+                                    <h3 class="card-title">Danh sách đặt chỗ</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <form method="get" class="d-flex">
+                                <div class="text-secondary">
+                                    Show
+                                    <div class="mx-2 d-inline-block">
+                                        <select name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
+                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
+                                        </select>
+                                    </div>
+                                    entries
+                                </div>
+                                <div class="ms-auto text-secondary">
+                                    Search:
+                                    <div class="ms-2 d-inline-block">
+                                        <input name="keyword" type="text" class="form-control form-control-sm" th:value="${keyword}">
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Tìm kiếm</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table
+                                    class="table table-vcenter table-mobile-md card-table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Họ tên</th>
+                                    <th>Mã thiết bị</th>
+                                    <th>Tên thiết bị</th>
+                                    <th>Mô tả</th>
+                                    <th>Thời gian</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${pagedList.getContent()}">
+                                    <td th:text="${item.maTT}"></td>
+                                    <td th:text="${item.thanhVien.hoTen}"></td>
+                                    <td th:text="${item.thietBi.maTB}"></td>
+                                    <td class="text-muted" th:text="${item.thietBi.tenTB}"></td>
+                                    <td class="text-muted" th:text="${item.thietBi.moTaTB}"></td>
+                                    <td class="text-muted" th:text="${item.tgDatCho}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <div th:replace="~{components/pagination :: nav}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

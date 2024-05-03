@@ -51,7 +51,7 @@
                                 <div class="text-secondary">
                                     Show
                                     <div class="mx-2 d-inline-block">
-                                        <select name="size" th:value="${pagedList.getSize()}" onchange="changePageSize()" class="form-select form-select-sm">
+                                        <select name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
                                             <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
                                         </select>
                                     </div>

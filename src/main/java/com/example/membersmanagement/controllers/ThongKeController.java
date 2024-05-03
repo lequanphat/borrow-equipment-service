@@ -39,4 +39,9 @@ public class ThongKeController {
         model.addAttribute("list", list);
         return "pages/admin/manage-borrowed-devices";
     }
+
+    @GetMapping("/admin/statistics-borrow")
+    public String statisticsBorrow(Model model){
+        return "pages/admin/statistics-borrow";
+    }
 }
