@@ -16,6 +16,7 @@ public class XuLyService {
     private EntityManager entityManager;
     @Autowired
     private XuLyRepository xuLyRepository;
+    @Autowired ThanhVienService thanhVienService;
 
     public List<XuLyEntity> getAll() {
         return xuLyRepository.findAll();
@@ -26,5 +27,10 @@ public class XuLyService {
         return entityManager.createQuery(jpql, XuLyEntity.class)
                 .setParameter("maTV", maTV)
                 .getResultList();
+    }
+
+    public XuLyEntity getXuLyByMaTVAndTrangThai(int id, int trangThaiXL) {
+        var tv = thanhVienService.findByMaTV(id);
+        return xuLyRepository.findByThanhVienAndTrangThaiXL(tv, trangThaiXL);
     }
 }

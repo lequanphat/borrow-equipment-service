@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layouts/admin}">
+<body>
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="container">
+            <div class="row row-cards justify-content-center">
+                <div class="col-12 col-xl-6">
+                    <form method="post" th:action="@{/admin/enter-study-zone}" th:object="${vaoKhuVucHocTapDto}"
+                          autocomplete="off"
+                          novalidate>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Vào khu vực học tập</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label required" for="maTV">Mã thành viên</label>
+                                    <input type="number" placeholder="Nhập mã thành viên (VD: 121410422)"
+                                           class="form-control" th:errorclass="is-invalid" id="maTV"
+                                           th:field="*{maTV}"
+                                           required/>
+                                    <div th:if="${#fields.hasErrors('maTV')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{maTV}"/>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end gap-2">
+                                <a class="btn" th:href="@{/devices}">Huỷ</a>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

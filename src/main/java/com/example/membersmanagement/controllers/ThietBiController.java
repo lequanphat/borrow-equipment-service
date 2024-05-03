@@ -1,6 +1,6 @@
 package com.example.membersmanagement.controllers;
 
-import com.example.membersmanagement.dtos.BookingDeviceDTO;
+import com.example.membersmanagement.dtos.BookingDeviceDto;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThietBiMapper;
@@ -17,8 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @Slf4j
 public class ThietBiController {
@@ -34,7 +32,7 @@ public class ThietBiController {
         Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
-        model.addAttribute("bookingDeviceDTO", BookingDeviceDTO.builder().build());
+        model.addAttribute("bookingDeviceDTO", BookingDeviceDto.builder().build());
         return "pages/main/devices";
     }
 
