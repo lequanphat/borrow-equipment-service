@@ -16,7 +16,6 @@ public class XuLyController {
     @Autowired
     private XuLyService xuLyService;
 
-
     @GetMapping("/violation")
     public String myViolation(Model model, Authentication authentication) {
         int maTv = ((CustomUserDetails) authentication.getPrincipal()).getMaTV();

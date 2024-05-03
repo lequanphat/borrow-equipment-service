@@ -12,4 +12,9 @@ public class PageController {
     public String admin() {
         return "redirect:/admin/devices";
     }
+
+    @GetMapping("/")
+    public String user() {
+        return "redirect:/my-borrow-devices";
+    }
 }
