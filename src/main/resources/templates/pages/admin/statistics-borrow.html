@@ -13,7 +13,7 @@
                         <div class="card-header">
                             <div class="row g-2 align-items-center w-full">
                                 <div class="col">
-                                    <h3 class="card-title">Thống kê lượt mượn thiết bị</h3>
+                                    <h3 class="card-title">Thống kê mượn thiết bị</h3>
                                 </div>
                             </div>
                         </div>
@@ -63,14 +63,18 @@
                                     class="table table-vcenter table-mobile-md card-table table-striped">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">Tên</th>
-                                    <th class="text-center">Số lượt vào</th>
+                                    <th class="text-center">MaTb</th>
+                                    <th class="text-center">Tên thiết bị</th>
+                                    <th class="text-center">Mô tả</th>
+                                    <th class="text-center">Số lượng</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="item : ${list}">
-                                    <td class="text-center" th:text="${item.ten}"></td>
-                                    <td class="text-center" th:text="${item.luotVao}"></td>
+                                    <td class="text-center" th:text="${item.maTB}"></td>
+                                    <td class="text-center" th:text="${item.tenTB}"></td>
+                                    <td class="text-center" th:text="${item.moTaTB}"></td>
+                                    <td class="text-center" th:text="${item.count}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -112,7 +116,6 @@
             }));
         });
     </script>
-
 </div>
 </body>
 </html>

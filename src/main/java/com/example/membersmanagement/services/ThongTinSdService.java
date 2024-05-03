@@ -1,6 +1,7 @@
 package com.example.membersmanagement.services;
 
 import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
+import com.example.membersmanagement.dtos.ThongKe.ThongKeMuonThietBiDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.repositories.ThietBiRepository;
@@ -72,6 +73,17 @@ public class ThongTinSdService {
 
     public Page<ThongTinSdEntity> getDsDatChoThietBi(String keyword, Pageable paging) {
         return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNotNull(keyword, paging);
+    }
+
+    public List<ThongKeMuonThietBiDto> thongKeMuonThietBiTheoNgay(LocalDate tgBatDau, LocalDate tgKetThuc) {
+        String jpql = "SELECT ttsd.thietBi.maTB, ttsd.thietBi.tenTB, ttsd.thietBi.moTaTB, count(ttsd.thietBi.maTB) " +
+                "FROM ThongTinSdEntity ttsd " +
+                "WHERE ttsd.tgMuon BETWEEN :tgBatDau AND :tgKetThuc " +
+                "GROUP BY ttsd.thietBi.maTB";
+        return entityManager.createQuery(jpql, ThongKeMuonThietBiDto.class)
+                .setParameter("tgBatDau", java.sql.Date.valueOf(tgBatDau))
+                .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
+                .getResultList();
     }
 }
 

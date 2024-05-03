@@ -1,6 +1,7 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
+import com.example.membersmanagement.dtos.ThongKe.ThongKeMuonThietBiDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import com.example.membersmanagement.services.ThongTinSdService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,13 @@ public class ThongKeController {
     }
 
     @GetMapping("/admin/statistics-borrow")
-    public String statisticsBorrow(Model model){
+    public String statisticsOfBorrow(@RequestParam(name = "tgBatDau", required = false, defaultValue = "01/01/1990") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
+                                     @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc,
+                                     Model model) {
+        List<ThongKeMuonThietBiDto> list = thongTinSdService.thongKeMuonThietBiTheoNgay(tgBatDau, tgKetThuc);
+        model.addAttribute("list", list);
+        model.addAttribute("tgBatDau", tgBatDau);
+        model.addAttribute("tgKetThuc", tgKetThuc);
         return "pages/admin/statistics-borrow";
     }
 }
