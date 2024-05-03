@@ -70,6 +70,7 @@ public class ThongTinSdController {
         return "pages/main/add-booking-device";
     }
 
+
     @PostMapping("/add-booking-device")
     public String addBookingDevice(@Valid BookingDeviceDto bookingDeviceDTO, BindingResult result, Model model, Authentication authentication,
                                    @RequestParam(required = false, defaultValue = "") String keyword,
@@ -208,5 +209,17 @@ public class ThongTinSdController {
         ThongTinSdEntity thongTinSdEntity = ThongTinSdMapper.toThongTinSdFromVaoKhuVucHocTapDto(vaoKhuVucHocTapDto);
         thongTinSdService.save(thongTinSdEntity);
         return "redirect:/admin/enter-study-zone";
+    }
+
+    @GetMapping("/admin/booking-devices")
+    public String bookingDevice(Model model,
+                                @RequestParam(required = false, defaultValue = "") String keyword,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "8") int size){
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThongTinSdEntity> list = thongTinSdService.getDsDatChoThietBi(keyword, paging);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pagedList", list);
+        return "pages/admin/booking-devices";
     }
 }

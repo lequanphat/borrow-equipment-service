@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class PageController {
-    @GetMapping("/")
-    public String home() {
-        return "pages/main/home";
+    @GetMapping("/admin")
+    public String admin() {
+        return "redirect:/admin/devices";
     }
-
 }
