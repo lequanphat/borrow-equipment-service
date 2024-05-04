@@ -1,11 +1,17 @@
 package com.example.membersmanagement.services;
 
+import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
+import com.example.membersmanagement.dtos.ThanhVien.UpdateThanhVienDto;
+import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
+import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThanhVienMapper;
+import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.RegistrationDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
+import groovy.lang.GString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +57,17 @@ public class ThanhVienService {
         registerData.setPassword(registerData.getPassword());
         return this.save(registerData);
     }
+
+    public ThanhVienEntity save2(CreateThanhVienDto addMemberDto) {
+        ThanhVienEntity thanhVien = ThanhVienMapper.toThanhvienFromCreate(addMemberDto);
+        return thanhVienRepository.save(thanhVien);
+    }
+
+    public ThanhVienEntity existsByEmail(String Email) {
+        return thanhVienRepository.findByEmail(Email);
+    }
+
+
 
     public void sendPassword(String email) throws Exception {
         ThanhVienEntity thanhvien = thanhVienRepository.findByEmail(email);
@@ -110,4 +127,10 @@ public class ThanhVienService {
         returnList.add(danhSachKhoa);
         return returnList;
     }
+
+    public void update(UpdateThanhVienDto membersDto) {
+        ThanhVienEntity member = ThanhVienMapper.toThanhVienFromUpdate(membersDto);
+        thanhVienRepository.save(member);
+    }
+
 }

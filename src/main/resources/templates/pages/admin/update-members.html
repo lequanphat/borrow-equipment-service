@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layouts/admin}">
+<body>
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="container">
+            <div class="row row-cards justify-content-center">
+                <div class="col-12 col-xl-6">
+                    <form method="post" th:action="@{/admin/members/{itemId}(itemId=${membersDto.maTV})}"
+                          th:object="${membersDto}" autocomplete="off" novalidate>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Cập nhật thành viên</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label" for="maTV">Mã thành viên</label>
+                                    <input type="number" placeholder="Nhập mã thành viên (VD: 1111111)"
+                                           class="form-control" th:errorclass="is-invalid" id="maTV" th:field="*{maTV}"
+                                           readonly/>
+                                    <div th:if="${#fields.hasErrors('maTV')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{maTV}"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tên thành viên</label>
+                                    <input placeholder="Nguyễn Văn A" type="text" class="form-control"
+                                           th:errorclass="is-invalid" th:field="*{hoTen}"/>
+                                    <div th:if="${#fields.hasErrors('hoTen')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{hoTen}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Khoa</label>
+                                    <textarea placeholder="Nhập khoa" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{khoa}"></textarea>
+                                    <div th:if="${#fields.hasErrors('khoa')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{khoa}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ngành</label>
+                                    <textarea placeholder="Nhập ngành" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{nganh}"></textarea>
+                                    <div th:if="${#fields.hasErrors('nganh')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{nganh}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Số điện thoại</label>
+                                    <textarea placeholder="Nhập số điện thoại" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{sdt}"></textarea>
+                                    <div th:if="${#fields.hasErrors('sdt')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{sdt}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <textarea placeholder="Nhập email" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{email}"></textarea>
+                                    <div th:if="${#fields.hasErrors('email')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{email}"></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Mật khẩu</label>
+                                    <textarea placeholder="Nhập mật khẩu" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{password}"></textarea>
+                                    <div th:if="${#fields.hasErrors('password')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{password}"></div>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end gap-2">
+                                <a class="btn" th:href="@{/members}">Huỷ</a>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

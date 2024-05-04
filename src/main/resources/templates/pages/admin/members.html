@@ -22,11 +22,11 @@
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                   <span class="d-none d-sm-inline">
-                    <a href="#" class="btn">
+                    <a href="@{/admin/add-members" class="btn">
                       New view
                     </a>
                   </span>
-                        <a href="#" class="btn btn-primary d-none d-sm-inline-block">
+                        <a href="@{/admin/add-members" class="btn btn-primary d-none d-sm-inline-block">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -37,7 +37,7 @@
                             </svg>
                             Thêm thành viên
                         </a>
-                        <a href="#" class="btn btn-primary d-sm-none btn-icon"
+                        <a href="@{/admin/add-members" class="btn btn-primary d-sm-none btn-icon"
                            data-bs-toggle="modal"
                            data-bs-target="#modal-team" aria-label="Create new report">
                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -94,7 +94,7 @@
                                     <td class="text-muted" th:text="${item.khoa}"></td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
-                                            <a href="#" class="btn">
+                                            <a th:href="@{/admin/members/{itemId}(itemId=${item.maTV})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
                                             <a href="#"

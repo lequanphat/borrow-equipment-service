@@ -1,7 +1,13 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
+import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
+import com.example.membersmanagement.dtos.ThanhVien.UpdateThanhVienDto;
+import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
+import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
+import com.example.membersmanagement.entities.ThietBiEntity;
+import com.example.membersmanagement.mappers.ThanhVienMapper;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
@@ -74,5 +80,60 @@ public class ThanhVienController {
         List<ThanhVienEntity> list = thanhVienService.getAll();
         model.addAttribute("list", list);
         return "pages/admin/members";
+    }
+
+    @GetMapping("/admin/add-members")
+    public String addMember(Model model) {
+        model.addAttribute("membersDto", CreateThanhVienDto.builder().build());
+        return "pages/admin/add-members";
+    }
+
+    @PostMapping("/admin/add-members")
+    public String addMemberProcess(@Valid @ModelAttribute("membersDto") CreateThanhVienDto membersDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("membersDto", membersDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/add-members";
+        }
+
+        if (thanhVienService.existsByMaTV(Integer.valueOf(membersDto.getMaTV()))) {
+            result.rejectValue("maTv", "duplicate", "Mã thành viên đã tồn tại.");
+            model.addAttribute("membersDto", membersDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/add-members";
+        }
+
+        if (thanhVienService.existsByEmail(membersDto.getEmail()) != null) {
+            result.rejectValue("email", "duplicate", "Email này đã được đăng kí với tài khoản khác.");
+            model.addAttribute("membersDto", membersDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/add-members";
+        }
+
+        thanhVienService.save2(membersDto);
+        return "redirect:/admin/members?success";
+    }
+
+    @GetMapping("/admin/members/{id}")
+    public String updateMember(@PathVariable int id, Model model) {
+        ThanhVienEntity member = thanhVienService.findByMaTV(id);
+        CreateThanhVienDto membersDto = ThanhVienMapper.toDto(member);
+        model.addAttribute("membersDto", membersDto);
+        return "pages/admin/update-members";
+    }
+
+    @PostMapping("/admin/members/{id}")
+    public String updateMemberProcess(@PathVariable int id,
+                                      @Valid @ModelAttribute("membersDto") UpdateThanhVienDto membersDto,
+                                      BindingResult result,
+                                      Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("membersDto", membersDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/update-members";
+        }
+
+        thanhVienService.update(membersDto);
+        return "redirect:/admin/members?success";
     }
 }
