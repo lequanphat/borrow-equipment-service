@@ -52,4 +52,8 @@ public class ThietBiService {
         thietBiRepository.save(device);
     }
 
+    public void delete(int id) {
+        thietBiRepository.deleteById(id);
+    }
+
 }

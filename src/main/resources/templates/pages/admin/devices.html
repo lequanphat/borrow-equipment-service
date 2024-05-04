@@ -88,10 +88,11 @@
                                             <a th:href="@{/admin/devices/{itemId}(itemId=${item.maTB})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
-                                            <a th:href="@{/admin/devices/{itemId}(itemId=${item.maTB})}"
-                                               class="btn btn-outline-danger">
-                                                Xoá
-                                            </a>
+                                            <form th:action="@{/admin/devices/{itemId}(itemId=${item.maTB})}" method="post" style="display: inline;">
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa thiết bị này không?')">
+                                                    Xoá
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
