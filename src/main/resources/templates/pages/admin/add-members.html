@@ -28,7 +28,7 @@
                                     <label class="form-label">Tên thành viên</label>
                                     <input placeholder="Nguyễn Văn A" type="text" class="form-control"
                                            th:errorclass="is-invalid" th:field="*{hoTen}"/>
-                                    <div th:if="${#fields.hasErrors('tenTB')}" th:errorclass="invalid-feedback"
+                                    <div th:if="${#fields.hasErrors('hoTen')}" th:errorclass="invalid-feedback"
                                          th:errors="*{hoTen}"></div>
                                 </div>
                                 <div class="mb-3">
