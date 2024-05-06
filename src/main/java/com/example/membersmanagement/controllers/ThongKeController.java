@@ -35,9 +35,10 @@ public class ThongKeController {
     }
 
     @GetMapping("/admin/manage-borrowed-devices")
-    public String manageBorrowedDevices(Model model) {
-        List<ThongTinSdEntity> list = thongTinSdService.getDsThietBiDangDuocMuon();
+    public String manageBorrowedDevices(@RequestParam(name = "search", required = false, defaultValue = "") String search, Model model) {
+        List<ThongTinSdEntity> list = thongTinSdService.getDsThietBiDangDuocMuon(search);
         model.addAttribute("list", list);
+        model.addAttribute("search", search);
         return "pages/admin/manage-borrowed-devices";
     }
 
