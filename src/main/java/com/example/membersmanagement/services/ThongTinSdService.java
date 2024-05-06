@@ -67,8 +67,8 @@ public class ThongTinSdService {
                 .getResultList();
     }
 
-    public List<ThongTinSdEntity> getDsThietBiDangDuocMuon() {
-        return thongTinSdRepository.findByTgMuonIsNotNullAndTgTraIsNull();
+    public List<ThongTinSdEntity> getDsThietBiDangDuocMuon(String tenTB) {
+        return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgMuonIsNotNullAndTgTraIsNull(tenTB);
     }
 
     public Page<ThongTinSdEntity> getDsDatChoThietBi(String keyword, Pageable paging) {
