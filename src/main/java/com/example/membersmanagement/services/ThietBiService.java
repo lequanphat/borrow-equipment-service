@@ -55,5 +55,4 @@ public class ThietBiService {
     public void delete(int id) {
         thietBiRepository.deleteById(id);
     }
-
 }

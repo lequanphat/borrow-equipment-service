@@ -88,8 +88,8 @@
                                             <a th:href="@{/admin/devices/{itemId}(itemId=${item.maTB})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
-                                            <form th:action="@{/admin/devices/{itemId}(itemId=${item.maTB})}" method="post" style="display: inline;">
-                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa thiết bị này không?')">
+                                            <form th:action="@{/admin/devices/delete/{itemId}(itemId=${item.maTB})}" method="post" onsubmit="submitForm(event, this)">
+                                                <button type="submit" class="btn btn-outline-danger">
                                                     Xoá
                                                 </button>
                                             </form>
@@ -103,11 +103,23 @@
                             <div th:replace="~{components/pagination :: nav}">
                             </div>
                         </div>
+                        <p th:if="${param.success}" class="text-success text-center">Xoá thiết bị thành công.</p>
+                        <p th:if="${param.error}" class="text-danger text-center">Không thể xoá thiết bị</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div layout:fragment="scripts">
+    <script>
+        function submitForm(event, form) {
+            event.preventDefault();
+            if (confirm('Bạn có chắc muốn xóa thiết bị này không?')) {
+                form.submit();
+            }
+        }
+    </script>
 </div>
 </body>
 </html>
