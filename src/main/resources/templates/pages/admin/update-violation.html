@@ -9,14 +9,21 @@
         <div class="container">
             <div class="row row-cards justify-content-center">
                 <div class="col-12 col-xl-6">
-                    <form method="post" th:action="@{/admin/add-violation}" th:object="${violationsDto}"
-                          autocomplete="off"
-                          novalidate>
+                    <form method="post" th:action="@{/admin/violation/{itemId}(itemId=${xuLyDto.maXL})}"
+                          th:object="${xuLyDto}" autocomplete="off" novalidate>
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Tạo Xử lý</h3>
+                                <h3 class="card-title">Cập nhật xử lý</h3>
                             </div>
                             <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label" for="maXL">Mã xử lý</label>
+                                    <input type="number" class="form-control" th:errorclass="is-invalid" id="maXL"
+                                           th:field="*{maXL}" readonly/>
+                                    <div th:if="${#fields.hasErrors('maXL')}" class="invalid-feedback"
+                                         th:errors="*{maXL}"></div>
+
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="maTV">Mã thành viên</label>
                                     <input type="number" placeholder="Nhập mã thành viên (VD: 1111111)"
@@ -29,23 +36,23 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="hinhThucXL">Hình thức xử lý</label>
                                     <select class="form-select" id="hinhThucXL" name="hinhThucXL">
-                                        <option value="1" th:selected="${hinhThucXL == 'Khóa thẻ 1 tháng'}">Khóa thẻ 1
+                                        <option value="Khóa thẻ 1 tháng" th:selected="${xuLyDto.hinhThucXL == 'Khóa thẻ 1 tháng'}">Khóa thẻ 1
                                             tháng
                                         </option>
-                                        <option value="2" th:selected="${hinhThucXL == 'Khóa thẻ 2 tháng'}">Khóa thẻ 2
+                                        <option value="Khóa thẻ 2 tháng" th:selected="${xuLyDto.hinhThucXL == 'Khóa thẻ 2 tháng'}">Khóa thẻ 2
                                             tháng
                                         </option>
-                                        <option value="3" th:selected="${hinhThucXL == 'Bồi thường mất tài sản'}">Bồi thường mất tài sản
+                                        <option value="Bồi thường mất tài sản" th:selected="${xuLyDto.hinhThucXL == 'Bồi thường mất tài sản'}">Bồi thường mất tài sản
                                         </option>
-                                        <option value="4"
-                                                th:selected="${hinhThucXL == 'Khóa thẻ 1 tháng và bồi thường'}">Khóa thẻ
+                                        <option value="Khóa thẻ 1 tháng và bồi thường"
+                                                th:selected="${xuLyDto.hinhThucXL == 'Khóa thẻ 1 tháng và bồi thường'}">Khóa thẻ
                                             1 tháng và bồi thường
                                         </option>
-                                        <option value="5"
-                                                th:selected="${hinhThucXL == 'Khóa thẻ 2 tháng và bồi thường'}">Khóa thẻ
+                                        <option value="Khóa thẻ 2 tháng và bồi thường"
+                                                th:selected="${xuLyDto.hinhThucXL == 'Khóa thẻ 2 tháng và bồi thường'}">Khóa thẻ
                                             2 tháng và bồi thường
                                         </option>
-                                        <option value="6" th:selected="${hinhThucXL == 'Khóa thẻ vĩnh viễn'}">Khóa thẻ
+                                        <option value="Khóa thẻ vĩnh viễn" th:selected="${xuLyDto.hinhThucXL == 'Khóa thẻ vĩnh viễn'}">Khóa thẻ
                                             vĩnh viễn
                                         </option>
                                         <!-- Thêm các tùy chọn cố định tại đây -->
@@ -54,7 +61,7 @@
                                          th:errors="*{hinhThucXL}"></div>
                                 </div>
 
-                                <div class="mb-3" id="soTienWrapper ">
+                                <div class="mb-3" id="soTienWrapper">
                                     <label class="form-label" for="soTien">Số tiền</label>
                                     <input type="number" placeholder="Nhập số tiền phạt (VD: 100000)"
                                            class="form-control" th:errorclass="is-invalid" id="soTien"
@@ -73,8 +80,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="trangThaiXL">Hình thức xử lý</label>
                                     <select class="form-select" id="trangThaiXL" name="trangThaiXL">
-                                        <option value="1" th:selected="${trangThaiXL == 1}">Đang xử lý</option>
-                                        <option value="0" th:selected="${trangThaiXL == 0}">Đã xử lý</option>
+                                        <option value="1" th:selected="${xuLyDto.trangThaiXL == 1}">Đang xử lý</option>
+                                        <option value="0" th:selected="${xuLyDto.trangThaiXL == 0}">Đã xử lý</option>
                                         <!-- Thêm các tùy chọn cố định tại đây -->
                                     </select>
                                     <div th:if="${#fields.hasErrors('trangThaiXL')}" th:errorclass="invalid-feedback"
@@ -82,7 +89,7 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-end gap-2">
-                                <a class="btn" th:href="@{/violation}">Huỷ</a>
+                                <a class="btn" th:href="@{/devices}">Huỷ</a>
                                 <button type="submit" class="btn btn-primary">Lưu</button>
                             </div>
                         </div>
@@ -96,8 +103,8 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var hinhThucXL = document.getElementById("hinhThucXL");
-            var soTienWrapper = document.getElementById("soTienWrapper ");
-
+            var soTienWrapper = document.getElementById("soTienWrapper");
+            var soTien = document.getElementById("soTien");
             hinhThucXL.addEventListener("change", function () {
                 var selectedOption = hinhThucXL.options[hinhThucXL.selectedIndex];
                 var selectedText = selectedOption.textContent;
@@ -106,22 +113,13 @@
                     soTienWrapper.style.display = "block";
                 } else {
                     soTienWrapper.style.display = "none";
+                    soTien.value = "";
                 }
             });
 
             // Ẩn input số tiền ban đầu
             soTienWrapper.style.display = "none";
         });
-    </script>
-    <script>
-        // Lấy ngày hiện tại
-        var today = new Date();
-
-        // Định dạng ngày tháng
-        var formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
-
-        // Đặt giá trị cho input
-        document.getElementById('ngayXL').value = formattedDate;
     </script>
 </div>
 </body>

@@ -144,13 +144,15 @@
                                     </td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
-                                            <a href="#" class="btn">
+                                            <a th:href="@{/admin/violation/{itemId}(itemId=${item.maXL})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
-                                            <a href="#"
-                                               class="btn btn-outline-danger">
-                                                Xoá
-                                            </a>
+                                            <form id="deleteForm" action="/admin/violation/{itemId}" method="post" style="display: inline;">
+                                                <input type="hidden" name="itemId" th:value="${item.maXL}">
+                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa thiết bị này không?')">
+                                                    Xoá
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
@@ -189,6 +191,30 @@
     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
                 },
             }));
+        });
+    </script>
+    <script>
+        document.getElementById("deleteForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi bằng phương thức POST mặc định
+            var confirmation = confirm('Bạn có chắc muốn xóa thiết bị này không?');
+            if (confirmation) {
+                var form = this;
+                var url = form.getAttribute("action");
+                fetch(url, {
+                    method: 'delete' ,
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(function(response) {
+                    if (response.ok) {
+                        window.location.href = "/admin/devices"; // Chuyển hướng sau khi xóa thành công
+                    } else {
+                        alert("Có lỗi xảy ra khi xóa thiết bị.");
+                    }
+                }).catch(function(error) {
+                    console.error('Có lỗi:', error);
+                });
+            }
         });
     </script>
 </div>

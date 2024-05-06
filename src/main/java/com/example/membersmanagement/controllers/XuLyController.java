@@ -1,9 +1,10 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
-import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
+import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
 import com.example.membersmanagement.entities.XuLyEntity;
+import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.services.XuLyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,5 +51,34 @@ public class XuLyController {
         }
         xuLyService.save(violationsDto);
         return "redirect:/admin/violation?success";
+    }
+
+    @GetMapping("/admin/violation/{id}")
+    public String updateDevice(@PathVariable int id, Model model) {
+        XuLyEntity xuLy = xuLyService.getById(id);
+        UpdateXuLyDto xuLyDto = XuLyMapper.toDto(xuLy);
+        model.addAttribute("xuLyDto", xuLyDto);
+        return "pages/admin/update-violation";
+    }
+
+    @PostMapping("/admin/violation/{id}")
+    public String updateViolationProcess(@PathVariable int id,
+                                      @Valid @ModelAttribute("violationDto") UpdateXuLyDto xuLyDto,
+                                      BindingResult result,
+                                      Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("xuLyDto", xuLyDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/update-violation";
+        }
+
+        xuLyService.update(xuLyDto);
+        return "redirect:/admin/violation?success";
+    }
+
+    @DeleteMapping("/admin/violation/{id}")
+    public String deleteViolation(@PathVariable int id, Model model) {
+        xuLyService.delete(id);
+        return "redirect:/admin/violation";
     }
 }
