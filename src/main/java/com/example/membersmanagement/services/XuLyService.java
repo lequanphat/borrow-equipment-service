@@ -1,7 +1,12 @@
 package com.example.membersmanagement.services;
 
 
+import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
+import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
+import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
+import com.example.membersmanagement.mappers.ThanhVienMapper;
+import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.repositories.XuLyRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -32,5 +37,10 @@ public class XuLyService {
     public XuLyEntity getXuLyByMaTVAndTrangThai(int id, int trangThaiXL) {
         var tv = thanhVienService.findByMaTV(id);
         return xuLyRepository.findByThanhVienAndTrangThaiXL(tv, trangThaiXL);
+    }
+
+    public XuLyEntity save(CreateXuLyDto addxulydto) {
+        XuLyEntity xuLy = XuLyMapper.toXuLyFromCreate(addxulydto);
+        return xuLyRepository.save(xuLy);
     }
 }

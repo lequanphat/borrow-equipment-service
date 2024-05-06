@@ -50,21 +50,7 @@ public class XuLyController {
             return "pages/admin/add-violation";
         }
 
-        /*if (xuLyService.existsByMaTV(Integer.valueOf(violationsDto.getMaTV()))) {
-            result.rejectValue("maTv", "duplicate", "Mã thành viên đã tồn tại.");
-            model.addAttribute("violationsDto", violationsDto);
-            model.addAttribute("errors", result.getAllErrors());
-            return "pages/admin/add-violation";
-        }
-
-        if (xuLyService.existsByEmail(violationsDto.getEmail()) != null) {
-            result.rejectValue("email", "duplicate", "Email này đã được đăng kí với tài khoản khác.");
-            model.addAttribute("violationsDto", violationsDto);
-            model.addAttribute("errors", result.getAllErrors());
-            return "pages/admin/add-violation";
-        }
-
-        xuLyService.save2(violationsDto);*/
+        xuLyService.save(violationsDto);
         return "redirect:/admin/violation?success";
     }
 }

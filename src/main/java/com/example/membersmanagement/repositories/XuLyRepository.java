@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface XuLyRepository extends JpaRepository<XuLyEntity, Integer> {
     XuLyEntity findByThanhVienAndTrangThaiXL(ThanhVienEntity thanhVien, int trangThaiXL);
-
-
 }
