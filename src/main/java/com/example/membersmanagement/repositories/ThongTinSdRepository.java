@@ -12,9 +12,14 @@ import java.util.List;
 
 public interface ThongTinSdRepository extends JpaRepository<ThongTinSdEntity, Integer> {
     List<ThongTinSdEntity> findByTgMuonIsNotNull();
+
     boolean existsByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(int maTB);
+
     boolean existsByThietBiMaTBAndTgDatChoIsNotNull(int maTB);
+
     ThongTinSdEntity findByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(int maTB);
-    List<ThongTinSdEntity> findByTgMuonIsNotNullAndTgTraIsNull();
+
+    List<ThongTinSdEntity> findByThietBiTenTBContainingIgnoreCaseAndTgMuonIsNotNullAndTgTraIsNull(String tenTB);
+
     Page<ThongTinSdEntity> findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNotNull(String tenTB, Pageable paging);
 }
