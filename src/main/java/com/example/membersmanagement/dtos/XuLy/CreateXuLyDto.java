@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 @Data
@@ -19,6 +21,7 @@ public class CreateXuLyDto {
 
     private Integer soTien;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date ngayXL;
 
     private Integer trangThaiXL;

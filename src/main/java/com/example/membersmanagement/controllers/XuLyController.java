@@ -1,6 +1,7 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
+import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.services.XuLyService;
@@ -49,7 +50,6 @@ public class XuLyController {
             model.addAttribute("errors", result.getAllErrors());
             return "pages/admin/add-violation";
         }
-
         xuLyService.save(violationsDto);
         return "redirect:/admin/violation?success";
     }
