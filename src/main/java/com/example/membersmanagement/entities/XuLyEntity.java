@@ -3,12 +3,14 @@ package com.example.membersmanagement.entities;
 import java.util.Date;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @Entity
+@Builder
 @Table(name = "xuly")
 @NoArgsConstructor
 public class XuLyEntity {

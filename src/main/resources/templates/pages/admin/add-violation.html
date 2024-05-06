@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layouts/admin}">
+<body>
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="container">
+            <div class="row row-cards justify-content-center">
+                <div class="col-12 col-xl-6">
+                    <form method="post" th:action="@{/admin/add-violation}" th:object="${violationsDto}" autocomplete="off"
+                          novalidate>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Tạo Xử lý</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label" for="maTV">Mã thành viên</label>
+                                    <input type="number" placeholder="Nhập mã thành viên (VD: 1111111)"
+                                           class="form-control" th:errorclass="is-invalid" id="maTV"
+                                           th:field="*{maTV}"/>
+                                    <div th:if="${#fields.hasErrors('maTV')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{maTV}"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="hinhThucXL">Hình thức xử lý </label>
+                                    <select class="form-select" id="hinhThucXL" name="hinhThucXL">
+                                        <option value="1">Khóa thẻ 1 tháng</option>
+                                        <option value="2">Khóa thẻ 2 tháng</option>
+                                        <option value="3">Bồi thường mất tài sản</option>
+                                        <option value="3">Khóa thẻ 1 tháng và bồi thường </option>
+                                        <option value="3">Khóa thẻ 1 tháng và bồi thường </option>
+                                        <option value="3">Khóa thẻ vĩnh viễn</option>
+                                        <!-- Thêm các tùy chọn cố định tại đây -->
+                                    </select>
+                                    <div th:if="${#fields.hasErrors('hinhThucXL')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{hinhThucXL}"/>
+                                </div>
+                                <div class="mb-3" id="soTienWrapper ">
+                                    <label class="form-label" for="soTien">Số tiền</label>
+                                    <input type="number" placeholder="Nhập số tiền phạt (VD: 100000)"
+                                           class="form-control" th:errorclass="is-invalid" id="soTien"
+                                           th:field="*{soTien}"/>
+                                    <div th:if="${#fields.hasErrors('soTien')}" th:errorclass="invalid-feedback"
+                                         th:errors="*{soTien}"/>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end gap-2">
+                                <a class="btn" th:href="@{/violation}">Huỷ</a>
+                                <button type="submit" class="btn btn-primary">Lưu</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div layout:fragment="scripts">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var hinhThucXL = document.getElementById("hinhThucXL");
+            var soTienWrapper  = document.getElementById("soTienWrapper ");
+
+            hinhThucXL.addEventListener("change", function() {
+                var selectedOption = hinhThucXL.options[hinhThucXL.selectedIndex];
+                var selectedText = selectedOption.textContent;
+
+                if (selectedText.toLowerCase().includes("bồi thường")) {
+                    soTienWrapper.style.display = "block";
+                } else {
+                    soTienWrapper.style.display = "none";
+                }
+            });
+
+            // Ẩn input số tiền ban đầu
+            soTienWrapper.style.display = "none";
+        });
+    </script>
+</div>
+</body>
+</html>
