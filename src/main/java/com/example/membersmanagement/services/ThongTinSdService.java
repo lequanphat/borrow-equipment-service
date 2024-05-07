@@ -29,7 +29,7 @@ public class ThongTinSdService {
     }
 
     public List<ThongTinSdEntity> getThietBiDangDatChoByMaTV(int maTV) {
-        String jpql = "SELECT ttsd FROM ThongTinSdEntity ttsd WHERE ttsd.thanhVien.maTV = :maTV and ttsd.tgDatCho is not null ";
+        String jpql = "SELECT ttsd FROM ThongTinSdEntity ttsd WHERE ttsd.thanhVien.maTV = :maTV and ttsd.tgDatCho is not null and ttsd.tgMuon is null ";
         return entityManager.createQuery(jpql, ThongTinSdEntity.class)
                 .setParameter("maTV", maTV)
                 .getResultList();
@@ -84,6 +84,11 @@ public class ThongTinSdService {
                 .setParameter("tgBatDau", java.sql.Date.valueOf(tgBatDau))
                 .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
                 .getResultList();
+    }
+
+    //Xoá 1 tt theo mã
+    public void delete(int id){
+        thongTinSdRepository.deleteById(id);
     }
 }
 
