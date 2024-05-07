@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layouts/admin}">
+<body>
+<div layout:fragment="content">
+    <!-- Page header -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row g-2 align-items-center w-full">
+                                <div class="col">
+                                    <h3 class="card-title">Lịch sử mượn thiết bị</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <form id="form-devices" method="get" class="d-flex">
+                                <div class="text-secondary">
+                                    Show
+                                    <div class="mx-2 d-inline-block">
+                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
+                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
+                                        </select>
+                                    </div>
+                                    entries
+                                </div>
+                                <div class="ms-auto text-secondary">
+                                    Search:
+                                    <div class="ms-2 d-inline-block">
+                                        <input name="keyword" type="text" class="form-control form-control-sm" th:value="${keyword}">
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Tìm kiếm</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+
+                            <table
+                                    class="table table-vcenter table-mobile-md card-table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Thành viên</th>
+                                    <th>TG mượn</th>
+                                    <th>TG trả</th>
+                                </tr>
+                                </thead>
+                                <tbody th:if="${pagedList.getContent().empty}">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No data available</td>
+                                </tr>
+                                </tbody>
+                                <tbody th:unless="${pagedList.getContent().empty}">
+                                <tbody th:each="item : ${pagedList.getContent()}">
+                                <tr>
+                                    <td th:text="${item.maTT}"></td>
+                                    <td>
+                                        <div class="d-flex py-1 align-items-center">
+                                            <span class="avatar me-2"
+                                                  style="background-image: url('/images/default_avatar.jpg')"></span>
+                                            <div class="flex-fill">
+                                                <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
+                                                </div>
+                                                <div class="text-muted">
+                                                    <a href="#" class="text-reset" th:text="${item.thanhVien.maTV}"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-muted">
+                                        <span th:text="${item.TgMuon}"></span>
+                                    </td>
+                                    <td class="text-muted">
+                                        <span th:if="${item.TgTra != null}" th:text="${item.TgTra}"></span>
+                                        <span th:if="${item.TgTra == null}"><span class="badge bg-red  text-red-fg">Chưa trả</span></span>
+                                    </td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <div th:replace="~{components/pagination :: nav}">
+                            </div>
+                        </div>
+                        <p th:if="${param.success}" class="text-success text-center">Xoá thiết bị thành công.</p>
+                        <p th:if="${param.error}" class="text-danger text-center">Không thể xoá thiết bị</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div layout:fragment="scripts">
+    <script>
+        function submitForm(event, form) {
+            event.preventDefault();
+            if (confirm('Bạn có chắc muốn xóa thiết bị này không?')) {
+                form.submit();
+            }
+        }
+        const pageSize = document.getElementById('pageSize');
+        pageSize.addEventListener('change', function () {
+            pageSize.form.submit();
+        });
+    </script>
+</div>
+</body>
+</html>

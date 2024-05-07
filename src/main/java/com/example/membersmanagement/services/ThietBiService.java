@@ -43,8 +43,7 @@ public class ThietBiService {
     }
 
     public boolean isBorrowedOrBooked(int id) {
-        return thongTinSdRepository.existsByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(id) ||
-                thongTinSdRepository.existsByThietBiMaTBAndTgDatChoIsNotNull(id);
+        return isBorrowed(id) || isBooked(id);
     }
 
     public void update(UpdateThietBiDto deviceDto) {
@@ -54,5 +53,13 @@ public class ThietBiService {
 
     public void delete(int id) {
         thietBiRepository.deleteById(id);
+    }
+
+    public boolean isBorrowed(int id) {
+        return thongTinSdRepository.existsByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(id);
+    }
+
+    public boolean isBooked(int id) {
+        return thongTinSdRepository.existsByThietBiMaTBAndTgDatChoIsNotNull(id);
     }
 }

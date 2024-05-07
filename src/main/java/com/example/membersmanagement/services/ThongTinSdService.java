@@ -85,5 +85,9 @@ public class ThongTinSdService {
                 .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
                 .getResultList();
     }
+
+    public Page<ThongTinSdEntity> getLichSuMuonThietBi(int maTb, String keyword, Pageable paging) {
+        return thongTinSdRepository.findByThietBiMaTBAndThanhVienHoTenContainingIgnoreCaseAndTgMuonIsNotNullOrderByTgMuonDesc(maTb, keyword, paging);
+    }
 }
 

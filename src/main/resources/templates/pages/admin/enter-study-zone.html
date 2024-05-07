@@ -17,6 +17,16 @@
                                 <h3 class="card-title">Vào khu vực học tập</h3>
                             </div>
                             <div class="card-body">
+                                <div class="alert alert-success mb-3" role="alert" th:if="${param.success}">
+                                    <div class="d-flex">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                                        </div>
+                                        <div>
+                                            Vào khu vực học tập thành công
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label required" for="maTV">Mã thành viên</label>
                                     <input type="number" placeholder="Nhập mã thành viên (VD: 121410422)"

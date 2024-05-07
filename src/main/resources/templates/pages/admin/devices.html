@@ -47,11 +47,11 @@
                             </div>
                         </div>
                         <div class="card-body border-bottom py-3">
-                            <form method="get" class="d-flex">
+                            <form id="form-devices" method="get" class="d-flex">
                                 <div class="text-secondary">
                                     Show
                                     <div class="mx-2 d-inline-block">
-                                        <select name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
+                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
                                             <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
                                         </select>
                                     </div>
@@ -85,6 +85,9 @@
 
                                     <td>
                                         <div class="btn-list flex-nowrap">
+                                            <a th:href="@{/admin/borrow-history/{itemId}(itemId=${item.maTB})}" class="btn">
+                                                Lịch sử mượn
+                                            </a>
                                             <a th:href="@{/admin/devices/{itemId}(itemId=${item.maTB})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
@@ -119,6 +122,10 @@
                 form.submit();
             }
         }
+        const pageSize = document.getElementById('pageSize');
+        pageSize.addEventListener('change', function () {
+            pageSize.form.submit();
+        });
     </script>
 </div>
 </body>
