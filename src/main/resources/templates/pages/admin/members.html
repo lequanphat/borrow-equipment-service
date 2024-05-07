@@ -47,11 +47,11 @@
                             </div>
                         </div>
                         <div class="card-body border-bottom py-3">
-                            <form method="get" class="d-flex">
+                            <form id="form-members" method="get" class="d-flex">
                                 <div class="text-secondary">
                                     Show
                                     <div class="mx-2 d-inline-block">
-                                        <select name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
+                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
                                             <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
                                         </select>
                                     </div>
@@ -124,6 +124,12 @@
             if (confirm('Bạn có chắc muốn xóa thành viên này không?')) {
                 form.submit();
             }
+            const pageSize = document.getElementById('pageSize');
+            console.log(pageSize)
+            pageSize.addEventListener('change', function () {
+                console.log("change ")
+                pageSize.form.submit();
+            });
         }
     </script>
 </div>
