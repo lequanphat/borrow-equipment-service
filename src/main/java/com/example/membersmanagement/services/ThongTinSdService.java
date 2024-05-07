@@ -60,12 +60,7 @@ public class ThongTinSdService {
     }
 
     public List<ThongTinSdEntity> getDsThietBiDangDuocMuon(String search) {
-        String jpql = "SELECT ttsd " +
-                "FROM ThongTinSdEntity ttsd " +
-                "WHERE  ttsd.thietBi.tenTB LIKE :search OR CAST(ttsd.thietBi.maTB AS string) LIKE :search OR ttsd.thanhVien.hoTen LIKE :search OR CAST(ttsd.thanhVien.maTV AS string) LIKE :search";
-        return entityManager.createQuery(jpql, ThongTinSdEntity.class)
-                .setParameter("search", "%" + search + "%")
-                .getResultList();
+        return thongTinSdRepository.getDsThietBiDangDuocMuon("%" + search + "%");
     }
 
     public Page<ThongTinSdEntity> getDsDatChoThietBi(String keyword, Pageable paging) {

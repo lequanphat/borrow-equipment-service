@@ -1,16 +1,9 @@
 package com.example.membersmanagement.services;
 
 
-import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
-import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
-import com.example.membersmanagement.dtos.ThongKe.ThongKeMuonThietBiDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
-import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
-import com.example.membersmanagement.mappers.ThanhVienMapper;
-import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.repositories.XuLyRepository;
 import jakarta.persistence.EntityManager;
@@ -31,21 +24,19 @@ public class XuLyService {
     private EntityManager entityManager;
     @Autowired
     private XuLyRepository xuLyRepository;
-    @Autowired ThanhVienService thanhVienService;
+    @Autowired
+    ThanhVienService thanhVienService;
 
     public List<XuLyEntity> getAll() {
         return xuLyRepository.findAll();
     }
 
     public List<XuLyEntity> getXuLyByMaTV(int maTV) {
-        String jpql = "SELECT xu FROM XuLyEntity xu WHERE xu.thanhVien.maTV = :maTV";
-        return entityManager.createQuery(jpql, XuLyEntity.class)
-                .setParameter("maTV", maTV)
-                .getResultList();
+        return xuLyRepository.findByThanhVienMaTVOrderByNgayXLDesc(maTV);
     }
 
-    public int getTongTien(Page<XuLyEntity> page) {
-        List<XuLyEntity> list = page.getContent();
+    public int getTongTien() {
+        List<XuLyEntity> list = xuLyRepository.findAll();
         return xuLyRepository.sumTongTien(list);
     }
 
@@ -72,51 +63,26 @@ public class XuLyService {
         xuLyRepository.deleteById(id);
     }
 
-    public Page<XuLyEntity> TimKiem(String search, int trangthai, LocalDate tgBatDau, LocalDate tgKetThuc, Pageable paging) {
+    public Page<XuLyEntity> filterViolations(String search, int trangthai, LocalDate tgBatDau, LocalDate tgKetThuc, Pageable paging) {
         String jpql = "SELECT xl " +
                 "FROM XuLyEntity xl " +
-                "WHERE xl.ngayXL BETWEEN :tgBatDau AND :tgKetThuc AND (xl.thanhVien.hoTen LIKE :search OR CAST(xl.thanhVien.maTV AS string) LIKE :search) ";
+                "WHERE xl.ngayXL BETWEEN :tgBatDau AND :tgKetThuc AND (xl.thanhVien.hoTen LIKE :search OR CAST(xl.thanhVien.maTV AS string) LIKE :search) " +
+                "AND (:trangthai = 3 OR xl.trangThaiXL = :trangthai) ORDER BY xl.ngayXL DESC";
 
-        if (trangthai != 3) {
-            jpql = "SELECT xl " +
-                    "FROM XuLyEntity xl " +
-                    "WHERE xl.ngayXL BETWEEN :tgBatDau AND :tgKetThuc AND (xl.thanhVien.hoTen LIKE :search OR CAST(xl.thanhVien.maTV AS string) LIKE :search) " +
-                    "AND xl.trangThaiXL = :trangthai";
-            return createQueryAndPaginate(jpql, search, trangthai, tgBatDau, tgKetThuc, paging);
-        } else {
-            return createQueryAndPaginate(jpql, search, tgBatDau, tgKetThuc, paging);
-        }
-    }
-
-    private Page<XuLyEntity> createQueryAndPaginate(String jpql, String search, int trangthai, LocalDate tgBatDau, LocalDate tgKetThuc, Pageable paging) {
+        // Create the query
         Query query = entityManager.createQuery(jpql, XuLyEntity.class)
                 .setParameter("tgBatDau", java.sql.Date.valueOf(tgBatDau))
                 .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
                 .setParameter("search", "%" + search + "%")
                 .setParameter("trangthai", trangthai);
+        int totalResults = query.getResultList().size();
+        // Execute the query and get the result list
+        List<XuLyEntity> resultList = query
+                .setFirstResult(paging.getPageNumber() * paging.getPageSize())
+                .setMaxResults(paging.getPageSize())
+                .getResultList();
 
-        return getPageResult(query, paging);
+        // Create and return a Page object
+        return new PageImpl<>(resultList, paging, totalResults);
     }
-
-    private Page<XuLyEntity> createQueryAndPaginate(String jpql, String search, LocalDate tgBatDau, LocalDate tgKetThuc, Pageable paging) {
-        Query query = entityManager.createQuery(jpql, XuLyEntity.class)
-                .setParameter("tgBatDau", java.sql.Date.valueOf(tgBatDau))
-                .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
-                .setParameter("search", "%" + search + "%");
-
-        return getPageResult(query, paging);
-    }
-
-    private Page<XuLyEntity> getPageResult(Query query, Pageable paging) {
-        query.setFirstResult(paging.getPageNumber() * paging.getPageSize());
-        query.setMaxResults(paging.getPageSize());
-
-        List<XuLyEntity> result = query.getResultList();
-
-        // Đếm tổng số lượng kết quả
-        int totalResults = result.size();
-
-        return new PageImpl<>(result, paging, totalResults);
-    }
-
 }

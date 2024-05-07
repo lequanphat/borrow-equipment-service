@@ -38,22 +38,22 @@ public class XuLyController {
 
     @GetMapping("/admin/violation")
     public String admin_violation(Model model,
-                                  @RequestParam(name = "keyword",required = false, defaultValue = "") String keyword,
+                                  @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
                                   @RequestParam(name = "thongKeTheo", required = false, defaultValue = "3") int thongKeTheo,
-                                  @RequestParam(name = "tgBatDau", required = false, defaultValue = "01/01/1990") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
+                                  @RequestParam(name = "tgBatDau", required = false, defaultValue = "#{T(java.time.LocalDate).now().minusYears(1)}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
                                   @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc,
                                   @RequestParam(defaultValue = "1") int page,
                                   @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<XuLyEntity> list = xuLyService.TimKiem(keyword,thongKeTheo,tgBatDau,tgKetThuc,paging);
-        int tongTien = xuLyService.getTongTien(list);
+        Page<XuLyEntity> list = xuLyService.filterViolations(keyword, thongKeTheo, tgBatDau, tgKetThuc, paging);
+        int tongTien = xuLyService.getTongTien();
         model.addAttribute("list", list);
         model.addAttribute("keyword", keyword);
         model.addAttribute("thongKeTheo", thongKeTheo);
         model.addAttribute("tgBatDau", tgBatDau);
         model.addAttribute("tgKetThuc", tgKetThuc);
         model.addAttribute("pagedList", list);
-        model.addAttribute("tongTien", "Tổng tiền : "+tongTien+" VNĐ");
+        model.addAttribute("tongTien", "Tổng tiền : " + tongTien + " VNĐ");
         return "pages/admin/violation";
     }
 
@@ -84,9 +84,9 @@ public class XuLyController {
 
     @PostMapping("/admin/violation/{id}")
     public String updateViolationProcess(@PathVariable int id,
-                                      @Valid @ModelAttribute("violationDto") UpdateXuLyDto xuLyDto,
-                                      BindingResult result,
-                                      Model model) {
+                                         @Valid @ModelAttribute("violationDto") UpdateXuLyDto xuLyDto,
+                                         BindingResult result,
+                                         Model model) {
         if (result.hasErrors()) {
             model.addAttribute("xuLyDto", xuLyDto);
             model.addAttribute("errors", result.getAllErrors());

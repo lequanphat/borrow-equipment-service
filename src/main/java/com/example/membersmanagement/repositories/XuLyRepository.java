@@ -8,9 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface XuLyRepository extends JpaRepository<XuLyEntity, Integer> {
+    List<XuLyEntity> findByThanhVienMaTVOrderByNgayXLDesc(int maTV);
+
     XuLyEntity findByThanhVienAndTrangThaiXL(ThanhVienEntity thanhVien, int trangThaiXL);
 
     @Query("SELECT SUM(xl.soTien) FROM XuLyEntity xl WHERE xl IN :list")
