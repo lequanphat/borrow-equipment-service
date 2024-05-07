@@ -1,15 +1,8 @@
 package com.example.membersmanagement.services;
 
-
-import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
-import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
-import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
-import com.example.membersmanagement.mappers.ThanhVienMapper;
-import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.repositories.XuLyRepository;
 import jakarta.persistence.EntityManager;
@@ -25,7 +18,8 @@ public class XuLyService {
     private EntityManager entityManager;
     @Autowired
     private XuLyRepository xuLyRepository;
-    @Autowired ThanhVienService thanhVienService;
+    @Autowired
+    ThanhVienService thanhVienService;
 
     public List<XuLyEntity> getAll() {
         return xuLyRepository.findAll();

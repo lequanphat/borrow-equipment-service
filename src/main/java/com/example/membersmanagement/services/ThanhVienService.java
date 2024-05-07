@@ -2,16 +2,12 @@ package com.example.membersmanagement.services;
 
 import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
 import com.example.membersmanagement.dtos.ThanhVien.UpdateThanhVienDto;
-import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThanhVienMapper;
-import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.RegistrationDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
-import groovy.lang.GString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +62,6 @@ public class ThanhVienService {
     public ThanhVienEntity existsByEmail(String Email) {
         return thanhVienRepository.findByEmail(Email);
     }
-
 
 
     public void sendPassword(String email) throws Exception {
@@ -133,4 +128,7 @@ public class ThanhVienService {
         thanhVienRepository.save(member);
     }
 
+    public void delete(int id) {
+        thanhVienRepository.deleteById(id);
+    }
 }
