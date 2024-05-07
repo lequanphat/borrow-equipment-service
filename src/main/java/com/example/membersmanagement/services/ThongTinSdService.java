@@ -67,14 +67,15 @@ public class ThongTinSdService {
         return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNull(keyword, paging);
     }
 
-    public List<ThongKeMuonThietBiDto> thongKeMuonThietBiTheoNgay(LocalDate tgBatDau, LocalDate tgKetThuc) {
+    public List<ThongKeMuonThietBiDto> thongKeMuonThietBiTheoNgay(String search, LocalDate tgBatDau, LocalDate tgKetThuc) {
         String jpql = "SELECT ttsd.thietBi.maTB, ttsd.thietBi.tenTB, ttsd.thietBi.moTaTB, count(ttsd.thietBi.maTB) " +
                 "FROM ThongTinSdEntity ttsd " +
-                "WHERE ttsd.tgMuon BETWEEN :tgBatDau AND :tgKetThuc " +
+                "WHERE ttsd.tgMuon BETWEEN :tgBatDau AND :tgKetThuc AND (ttsd.thietBi.tenTB LIKE :search OR CAST(ttsd.thietBi.maTB AS string) LIKE :search) " +
                 "GROUP BY ttsd.thietBi.maTB";
         return entityManager.createQuery(jpql, ThongKeMuonThietBiDto.class)
                 .setParameter("tgBatDau", java.sql.Date.valueOf(tgBatDau))
                 .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
+                .setParameter("search", "%" + search + "%")
                 .getResultList();
     }
 }
