@@ -3,8 +3,6 @@ package com.example.membersmanagement.services;
 import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
 import com.example.membersmanagement.dtos.ThongKe.ThongKeMuonThietBiDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
-import com.example.membersmanagement.repositories.ThanhVienRepository;
-import com.example.membersmanagement.repositories.ThietBiRepository;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -29,17 +27,11 @@ public class ThongTinSdService {
     }
 
     public List<ThongTinSdEntity> getThietBiDangDatChoByMaTV(int maTV) {
-        String jpql = "SELECT ttsd FROM ThongTinSdEntity ttsd WHERE ttsd.thanhVien.maTV = :maTV and ttsd.tgDatCho is not null ";
-        return entityManager.createQuery(jpql, ThongTinSdEntity.class)
-                .setParameter("maTV", maTV)
-                .getResultList();
+        return thongTinSdRepository.findByThanhVienMaTVAndTgDatChoIsNotNullAndTgMuonIsNull(maTV);
     }
 
     public List<ThongTinSdEntity> getThietBiDangMuonByMaTV(int maTV) {
-        String jpql = "SELECT ttsd FROM ThongTinSdEntity ttsd WHERE ttsd.thanhVien.maTV = :maTV and ttsd.tgMuon is not null ";
-        return entityManager.createQuery(jpql, ThongTinSdEntity.class)
-                .setParameter("maTV", maTV)
-                .getResultList();
+        return thongTinSdRepository.findByThanhVienMaTVAndTgMuonIsNotNullAndTgTraIsNull(maTV);
     }
 
     public ThongTinSdEntity save(ThongTinSdEntity thongTinSdEntity) {
@@ -72,7 +64,7 @@ public class ThongTinSdService {
     }
 
     public Page<ThongTinSdEntity> getDsDatChoThietBi(String keyword, Pageable paging) {
-        return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNotNull(keyword, paging);
+        return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNull(keyword, paging);
     }
 
     public List<ThongKeMuonThietBiDto> thongKeMuonThietBiTheoNgay(LocalDate tgBatDau, LocalDate tgKetThuc) {
