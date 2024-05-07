@@ -47,7 +47,7 @@ public class AjaxController {
                 );
             } else if (thietBiService.existsByMaTb(Integer.parseInt(idStr))) {
                 return new ResponseEntity<>(
-                        new AjaxResponse(STR."Mã thiết bị \{idStr} đã tồn tại"),
+                        new AjaxResponse("Mã thiết bị " + idStr + " đã tồn tại"),
                         HttpStatus.BAD_REQUEST
                 );
             }
