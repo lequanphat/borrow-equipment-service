@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/admin}">
+<head>
+    <title>Xóa nhiều Thành Viên</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="container">
+            <div class="row row-cards justify-content-center">
+                <div class="col-12 col-xl-6">
+                    <form id="deleteForm" method="post" th:action="@{/admin/deleteMulti-members}" th:object="${membersDto}" autocomplete="off" novalidate>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Xóa nhiều Thành Viên</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="khoa">Nhập Khóa</label>
+                                    <input type="number" class="form-control" id="khoa" name="khoa" placeholder="Nhập mã khóa" required>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-end gap-2">
+                                <a class="btn" th:href="@{admin/members}">Huỷ</a>
+                                <button type="button" onclick="confirmDelete()" class="btn btn-primary">Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete() {
+        var khoa = document.getElementById('khoa').value;
+        var confirmation = confirm("Bạn có chắc muốn xóa các thành viên này?");
+        if (confirmation) {
+            // Submit form if user confirms
+            document.getElementById('deleteForm').submit();
+        }
+    }
+</script>
+
+</body>
+</html>
