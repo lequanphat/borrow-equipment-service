@@ -97,21 +97,34 @@
                                             <a th:href="@{/admin/members/{itemId}(itemId=${item.maTV})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
-                                            <a href="#"
-                                               class="btn btn-outline-danger">
-                                                Xoá
-                                            </a>
+                                            <form th:action="@{/admin/members/delete/{itemId}(itemId=${item.maTV})}" method="post" onsubmit="submitForm(event, this)">
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    Xoá
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <p th:if="${param.success}" class="text-success text-center">Xoá thành viên thành công.</p>
+                        <p th:if="${param.error}" class="text-danger text-center">Không thể xoá thành viên</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div layout:fragment="scripts">
+    <script>
+        function submitForm(event, form) {
+            event.preventDefault();
+            if (confirm('Bạn có chắc muốn xóa thành viên này không?')) {
+                form.submit();
+            }
+        }
+    </script>
 </div>
 </body>
 </html>
