@@ -23,10 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,18 +69,17 @@ public class ThongTinSdController {
         return "pages/main/add-booking-device";
     }
 
-
     @PostMapping("/add-booking-device")
     public String addBookingDevice(@Valid @ModelAttribute("bookingDeviceDTO") BookingDeviceDto bookingDeviceDTO, BindingResult result, Model model, Authentication authentication,
                                    @RequestParam(required = false, defaultValue = "") String keyword,
                                    @RequestParam(defaultValue = "1") int page,
-                                   @RequestParam(defaultValue = "8") int size){
+                                   @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
         Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         model.addAttribute("bookingDeviceDTO", bookingDeviceDTO);
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             log.error(result.getAllErrors().toString());
             return "pages/main/add-booking-device";
@@ -103,7 +99,7 @@ public class ThongTinSdController {
             result.rejectValue("MaTB", "unavailable", "Thiết bị đang được mượn hoặc đặt chỗ");
         }
 
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             return "pages/main/add-booking-device";
         }
@@ -120,7 +116,7 @@ public class ThongTinSdController {
 
     @PostMapping("/admin/device-borrowing")
     public String deviceBorrowing(@Valid MuonThietBiDto muonThietBiDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("muonThietBiDto", muonThietBiDto);
             model.addAttribute("errors", result.getAllErrors());
             return "pages/admin/device-borrowing";
@@ -160,7 +156,7 @@ public class ThongTinSdController {
 
     @PostMapping("/admin/return-device")
     public String returnDevice(@Valid TraThietBiDto traThietBiDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("traThietBiDto", traThietBiDto);
             model.addAttribute("errors", result.getAllErrors());
             return "pages/admin/return-device";
@@ -192,7 +188,7 @@ public class ThongTinSdController {
 
     @PostMapping("/admin/enter-study-zone")
     public String enterStudyZone(@Valid VaoKhuVucHocTapDto vaoKhuVucHocTapDto, BindingResult result, Model model) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("vaoKhuVucHocTapDto", vaoKhuVucHocTapDto);
             return "pages/admin/enter-study-zone";
         }
@@ -220,12 +216,24 @@ public class ThongTinSdController {
     public String bookingDevice(Model model,
                                 @RequestParam(required = false, defaultValue = "") String keyword,
                                 @RequestParam(defaultValue = "1") int page,
-                                @RequestParam(defaultValue = "8") int size){
+                                @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
         Page<ThongTinSdEntity> list = thongTinSdService.getDsDatChoThietBi(keyword, paging);
         log.info(list.toString());
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/booking-devices";
+    }
+
+    @PostMapping("/booking-device/delete/{id}")
+    public String deleteDevice(@PathVariable int id) {
+        thongTinSdService.delete(id);
+        return "redirect:/my-booking-devices";
+    }
+
+    @PostMapping("admin/booking-device/delete/{id}")
+    public String admindeleteBookingDevice(@PathVariable int id) {
+        thongTinSdService.delete(id);
+        return "redirect:/admin/booking-devices?success";
     }
 }

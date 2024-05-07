@@ -23,7 +23,7 @@ public class ThongKeController {
 
     @GetMapping("/admin/statistics-of-visits")
     public String statisticsOfVisits(@RequestParam(name = "thongKeTheo", required = false, defaultValue = "khoa") String thongKeTheo,
-                                     @RequestParam(name = "tgBatDau", required = false, defaultValue = "01/01/1990") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
+                                     @RequestParam(name = "tgBatDau", required = false, defaultValue = "#{T(java.time.LocalDate).now().minusYears(1)}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
                                      @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc,
                                      Model model) {
         List<ThongKeLuotVaoDto> list = thongTinSdService.thongKeLuotVao(thongKeTheo, tgBatDau, tgKetThuc);
@@ -43,13 +43,15 @@ public class ThongKeController {
     }
 
     @GetMapping("/admin/statistics-borrow")
-    public String statisticsOfBorrow(@RequestParam(name = "tgBatDau", required = false, defaultValue = "01/01/1990") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
+    public String statisticsOfBorrow(@RequestParam(name = "tgBatDau", required = false, defaultValue = "#{T(java.time.LocalDate).now().minusYears(1)}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
                                      @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc,
+                                     @RequestParam(name = "search", required = false, defaultValue = "") String search,
                                      Model model) {
-        List<ThongKeMuonThietBiDto> list = thongTinSdService.thongKeMuonThietBiTheoNgay(tgBatDau, tgKetThuc);
+        List<ThongKeMuonThietBiDto> list = thongTinSdService.thongKeMuonThietBiTheoNgay(search, tgBatDau, tgKetThuc);
         model.addAttribute("list", list);
         model.addAttribute("tgBatDau", tgBatDau);
         model.addAttribute("tgKetThuc", tgKetThuc);
+        model.addAttribute("search", search);
         return "pages/admin/statistics-borrow";
     }
 }
