@@ -136,4 +136,10 @@ public class ThanhVienController {
         thanhVienService.update(membersDto);
         return "redirect:/admin/members?success";
     }
+
+    @PostMapping("/admin/members/delete/{id}")
+    public String deleteDevice(@PathVariable int id) {
+        thanhVienService.delete(id);
+        return "redirect:/admin/members?success";
+    }
 }

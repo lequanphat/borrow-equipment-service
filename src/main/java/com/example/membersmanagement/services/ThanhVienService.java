@@ -133,4 +133,7 @@ public class ThanhVienService {
         thanhVienRepository.save(member);
     }
 
+    public void delete(int id) {
+        thanhVienRepository.deleteById(id);
+    }
 }
