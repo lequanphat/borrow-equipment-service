@@ -44,15 +44,16 @@ public class XuLyController {
                                   @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc,
                                   @RequestParam(defaultValue = "1") int page,
                                   @RequestParam(defaultValue = "8") int size) {
-        //List<XuLyEntity> list = xuLyService.TimKiem(keyword,thongKeTheo,tgBatDau,tgKetThuc);
         Pageable paging = PageRequest.of(page - 1, size);
         Page<XuLyEntity> list = xuLyService.TimKiem(keyword,thongKeTheo,tgBatDau,tgKetThuc,paging);
+        int tongTien = xuLyService.getTongTien(list);
         model.addAttribute("list", list);
         model.addAttribute("keyword", keyword);
         model.addAttribute("thongKeTheo", thongKeTheo);
         model.addAttribute("tgBatDau", tgBatDau);
         model.addAttribute("tgKetThuc", tgKetThuc);
         model.addAttribute("pagedList", list);
+        model.addAttribute("tongTien", "Tổng tiền : "+tongTien+" VNĐ");
         return "pages/admin/violation";
     }
 

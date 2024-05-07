@@ -44,6 +44,11 @@ public class XuLyService {
                 .getResultList();
     }
 
+    public int getTongTien(Page<XuLyEntity> page) {
+        List<XuLyEntity> list = page.getContent();
+        return xuLyRepository.sumTongTien(list);
+    }
+
     public XuLyEntity getXuLyByMaTVAndTrangThai(int id, int trangThaiXL) {
         var tv = thanhVienService.findByMaTV(id);
         return xuLyRepository.findByThanhVienAndTrangThaiXL(tv, trangThaiXL);
