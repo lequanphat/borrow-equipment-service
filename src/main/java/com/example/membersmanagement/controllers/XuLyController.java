@@ -46,8 +46,7 @@ public class XuLyController {
                                   @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
         Page<XuLyEntity> list = xuLyService.filterViolations(keyword, thongKeTheo, tgBatDau, tgKetThuc, paging);
-//        int tongTien = xuLyService.getTongTien(list);
-        int tongTien = 1000;
+        int tongTien = xuLyService.getTongTien();
         model.addAttribute("list", list);
         model.addAttribute("keyword", keyword);
         model.addAttribute("thongKeTheo", thongKeTheo);

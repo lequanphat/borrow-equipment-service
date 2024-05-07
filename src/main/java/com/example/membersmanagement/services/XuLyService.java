@@ -38,8 +38,8 @@ public class XuLyService {
                 .getResultList();
     }
 
-    public int getTongTien(Page<XuLyEntity> page) {
-        List<XuLyEntity> list = page.getContent();
+    public int getTongTien() {
+        List<XuLyEntity> list = xuLyRepository.findAll();
         return xuLyRepository.sumTongTien(list);
     }
 
