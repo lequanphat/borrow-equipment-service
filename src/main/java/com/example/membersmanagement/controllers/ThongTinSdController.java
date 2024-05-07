@@ -2,6 +2,7 @@ package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.dtos.BookingDeviceDto;
+import com.example.membersmanagement.dtos.ThietBi.ReadThietBiDto;
 import com.example.membersmanagement.dtos.ThongTinSd.MuonThietBiDto;
 import com.example.membersmanagement.dtos.ThongTinSd.TraThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
@@ -62,7 +63,7 @@ public class ThongTinSdController {
                                    @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        Page<ReadThietBiDto> list = thietBiService.getAll(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         model.addAttribute("bookingDeviceDTO", BookingDeviceDto.builder().build());
@@ -75,7 +76,7 @@ public class ThongTinSdController {
                                    @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        Page<ReadThietBiDto> list = thietBiService.getAll(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         model.addAttribute("bookingDeviceDTO", bookingDeviceDTO);

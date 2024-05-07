@@ -1,16 +1,9 @@
 package com.example.membersmanagement.services;
 
 
-import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
-import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
-import com.example.membersmanagement.dtos.ThongKe.ThongKeMuonThietBiDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
-import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
-import com.example.membersmanagement.mappers.ThanhVienMapper;
-import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.repositories.XuLyRepository;
 import jakarta.persistence.EntityManager;
@@ -45,6 +38,11 @@ public class XuLyService {
                 .getResultList();
     }
 
+    public int getTongTien(Page<XuLyEntity> page) {
+        List<XuLyEntity> list = page.getContent();
+        return xuLyRepository.sumTongTien(list);
+    }
+
     public XuLyEntity getXuLyByMaTVAndTrangThai(int id, int trangThaiXL) {
         var tv = thanhVienService.findByMaTV(id);
         return xuLyRepository.findByThanhVienAndTrangThaiXL(tv, trangThaiXL);
@@ -68,11 +66,11 @@ public class XuLyService {
         xuLyRepository.deleteById(id);
     }
 
-    public Page<XuLyEntity> TimKiem(String search, int trangthai, LocalDate tgBatDau, LocalDate tgKetThuc, Pageable paging) {
+    public Page<XuLyEntity> filterViolations(String search, int trangthai, LocalDate tgBatDau, LocalDate tgKetThuc, Pageable paging) {
         String jpql = "SELECT xl " +
                 "FROM XuLyEntity xl " +
                 "WHERE xl.ngayXL BETWEEN :tgBatDau AND :tgKetThuc AND (xl.thanhVien.hoTen LIKE :search OR CAST(xl.thanhVien.maTV AS string) LIKE :search) " +
-                "AND (:trangthai = 3 OR xl.trangThaiXL = :trangthai)";
+                "AND (:trangthai = 3 OR xl.trangThaiXL = :trangthai) ORDER BY xl.ngayXL DESC";
 
         // Create the query
         Query query = entityManager.createQuery(jpql, XuLyEntity.class)

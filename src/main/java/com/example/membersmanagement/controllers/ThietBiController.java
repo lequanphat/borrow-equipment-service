@@ -1,6 +1,7 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.dtos.BookingDeviceDto;
+import com.example.membersmanagement.dtos.ThietBi.ReadThietBiDto;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThietBiMapper;
@@ -30,7 +31,8 @@ public class ThietBiController {
                                 @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<ThietBiEntity> list = thietBiService.getAll(keyword, paging);
+        Page<ReadThietBiDto> list = thietBiService.getAll(keyword, paging);
+        log.info("List of devices: {}", list.getContent());
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/devices";

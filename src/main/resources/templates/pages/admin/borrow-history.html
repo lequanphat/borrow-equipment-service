@@ -23,8 +23,10 @@
                                 <div class="text-secondary">
                                     Show
                                     <div class="mx-2 d-inline-block">
-                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
-                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
+                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}"
+                                                class="form-select form-select-sm">
+                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}"
+                                                    th:selected="${s == pagedList.getSize()}"></option>
                                         </select>
                                     </div>
                                     entries
@@ -32,14 +34,14 @@
                                 <div class="ms-auto text-secondary">
                                     Search:
                                     <div class="ms-2 d-inline-block">
-                                        <input name="keyword" type="text" class="form-control form-control-sm" th:value="${keyword}">
+                                        <input name="keyword" type="text" class="form-control form-control-sm"
+                                               th:value="${keyword}">
                                     </div>
                                     <button class="btn btn-primary btn-sm">Tìm kiếm</button>
                                 </div>
                             </form>
                         </div>
                         <div class="table-responsive">
-
                             <table
                                     class="table table-vcenter table-mobile-md card-table table-striped">
                                 <thead>
@@ -104,6 +106,7 @@
                 form.submit();
             }
         }
+
         const pageSize = document.getElementById('pageSize');
         pageSize.addEventListener('change', function () {
             pageSize.form.submit();

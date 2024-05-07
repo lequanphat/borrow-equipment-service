@@ -19,7 +19,8 @@
                                 <!-- Page title actions -->
                                 <div class="col-auto ms-auto d-print-none">
                                     <div class="btn-list">
-                                        <a th:href="@{/admin/add-device}" class="btn btn-primary d-none d-sm-inline-block">
+                                        <a th:href="@{/admin/add-device}"
+                                           class="btn btn-primary d-none d-sm-inline-block">
                                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                                  viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -51,8 +52,10 @@
                                 <div class="text-secondary">
                                     Show
                                     <div class="mx-2 d-inline-block">
-                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
-                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
+                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}"
+                                                class="form-select form-select-sm">
+                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}"
+                                                    th:selected="${s == pagedList.getSize()}"></option>
                                         </select>
                                     </div>
                                     entries
@@ -60,7 +63,8 @@
                                 <div class="ms-auto text-secondary">
                                     Search:
                                     <div class="ms-2 d-inline-block">
-                                        <input name="keyword" type="text" class="form-control form-control-sm" th:value="${keyword}">
+                                        <input name="keyword" type="text" class="form-control form-control-sm"
+                                               th:value="${keyword}">
                                     </div>
                                     <button class="btn btn-primary btn-sm">Tìm kiếm</button>
                                 </div>
@@ -74,6 +78,7 @@
                                     <th>Mã thiết bị</th>
                                     <th>Tên thiết bị</th>
                                     <th>Mô tả</th>
+                                    <th>Tình trạng</th>
                                     <th class="w-1"></th>
                                 </tr>
                                 </thead>
@@ -82,16 +87,22 @@
                                     <td th:text="${item.maTB}"></td>
                                     <td class="text-muted" th:text="${item.tenTB}"></td>
                                     <td class="text-muted" th:text="${item.moTaTB}"></td>
-
+                                    <td class="text-muted">
+                                        <span th:if="${item.tinhTrang.toString() == 'AVAILABLE'}" class="badge bg-teal text-teal-fg">Khả dụng</span>
+                                        <span th:if="${item.tinhTrang.toString() == 'BOOKED'}" class="badge bg-yellow text-yellow-fg">Đặt chỗ</span>
+                                        <span th:if="${item.tinhTrang.toString() == 'BORROWED'}" class="badge bg-red text-red-fg">Đã mượn</span>
+                                    </td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
-                                            <a th:href="@{/admin/borrow-history/{itemId}(itemId=${item.maTB})}" class="btn">
+                                            <a th:href="@{/admin/borrow-history/{itemId}(itemId=${item.maTB})}"
+                                               class="btn">
                                                 Lịch sử mượn
                                             </a>
                                             <a th:href="@{/admin/devices/{itemId}(itemId=${item.maTB})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
-                                            <form th:action="@{/admin/devices/delete/{itemId}(itemId=${item.maTB})}" method="post" onsubmit="submitForm(event, this)">
+                                            <form th:action="@{/admin/devices/delete/{itemId}(itemId=${item.maTB})}"
+                                                  method="post" onsubmit="submitForm(event, this)">
                                                 <button type="submit" class="btn btn-outline-danger">
                                                     Xoá
                                                 </button>
@@ -122,6 +133,7 @@
                 form.submit();
             }
         }
+
         const pageSize = document.getElementById('pageSize');
         pageSize.addEventListener('change', function () {
             pageSize.form.submit();

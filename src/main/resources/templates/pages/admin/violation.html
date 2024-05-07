@@ -16,6 +16,11 @@
                                 <div class="col">
                                     <h3 class="card-title">Danh sách xử lý vi phạm</h3>
                                 </div>
+                                <div class="col-2 d-flex align-items-center">
+                                    <input id="tongTien" type="text" class="form-control" th:value="${tongTien}"
+                                           readonly/>
+                                </div>
+
                                 <!-- Page title actions -->
                                 <div class="col-auto ms-auto d-print-none">
                                     <div class="btn-list">
@@ -49,17 +54,20 @@
                         </div>
                         <div class="card-body">
                             <form class="row w-full">
-                                <div class="col">
+                                <div class="col" style="justify-items: center;align-items: center;display: flex;">
                                     Show
-                                    <div class="mx-2 d-inline-block">
-                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
-                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
+                                    <div class="mx-4 d-inline-block">
+                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}"
+                                                class="form-select form-select-sm">
+                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}"
+                                                    th:selected="${s == pagedList.getSize()}"></option>
                                         </select>
                                     </div>
                                     entries
                                 </div>
                                 <div class="col">
-                                    <input name="keyword" type="text" class="form-control" th:value="${keyword}" placeholder="Nhập tên hoặc mã"/>
+                                    <input name="keyword" type="text" class="form-control" th:value="${keyword}"
+                                           placeholder="Nhập tên hoặc mã"/>
                                 </div>
                                 <div class="col">
                                     <select type="text" class="form-select" id="thong-ke-theo" name="thongKeTheo">
@@ -70,7 +78,8 @@
                                 </div>
                                 <div class="col">
                                     <div class="input-icon">
-                                        <input class="form-control " placeholder="Select a date" id="start-date" name="tgBatDau"
+                                        <input class="form-control " placeholder="Select a date" id="start-date"
+                                               name="tgBatDau"
                                                th:value="${tgBatDau}"/>
                                         <span class="input-icon-addon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -87,7 +96,8 @@
                                 <div class="col">
 
                                     <div class="input-icon">
-                                        <input class="form-control " placeholder="Select a date" id="end-date" name="tgKetThuc"
+                                        <input class="form-control " placeholder="Select a date" id="end-date"
+                                               name="tgKetThuc"
                                                th:value="${tgKetThuc}"/>
                                         <span class="input-icon-addon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -124,17 +134,21 @@
                                 <tr th:each="item : ${list}">
                                     <td th:text="${item.maXL}"></td>
                                     <td>
-                                        <div class="d-flex py-1 align-items-center">
+                                        <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.thanhVien.maTV})}"
+                                           class="text-reset">
+                                            <div class="d-flex py-1 align-items-center">
                                             <span class="avatar me-2"
                                                   style="background-image: url('/images/default_avatar.jpg')"></span>
-                                            <div class="flex-fill">
-                                                <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
-                                                </div>
-                                                <div class="text-muted">
-                                                    <a href="#" class="text-reset" th:text="${item.thanhVien.maTV}"></a>
+                                                <div class="flex-fill">
+                                                    <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
+                                                    </div>
+                                                    <div class="text-muted">
+                                                        <span class="text-reset"
+                                                              th:text="${item.thanhVien.maTV}"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </td>
                                     <td class="text-muted"><span th:text="${item.hinhThucXL}"></span></td>
                                     <td class="text-muted">
@@ -167,7 +181,7 @@
                             </table>
                         </div>
                         <div class="card-footer">
-                            <div th:replace="~{components/pagination :: nav}">
+                            <div th:replace="~{components/pagination/violation-pagination :: nav}">
                             </div>
                         </div>
                     </div>

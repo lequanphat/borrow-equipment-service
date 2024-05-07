@@ -1,0 +1,42 @@
+<nav aria-label="Pagination" th:if="${pagedList.getTotalPages() > 0}" class="d-flex align-items-center">
+    <p class="m-0 text-secondary">
+        Showing
+        <span th:text="${pagedList.getNumber() * pagedList.getSize() + 1}"></span>
+        to
+        <span th:text="${pagedList.getNumber() * pagedList.getSize() + pagedList.getSize() > pagedList.getTotalElements() ? pagedList.getTotalElements() : pagedList.getNumber() * pagedList.getSize() + pagedList.getSize()}"></span>
+        of
+        <span th:text="${pagedList.getTotalElements()}"></span>
+        entries
+    </p>
+    <ul class="pagination m-0 ms-auto">
+        <li th:class="${pagedList.hasPrevious() ? 'page-item' : 'page-item disabled'}">
+            <a class="page-link"
+               th:href="@{'?keyword=' + (${keyword} != null ? ${keyword} : '') + '&thongKeTheo=' + ${thongKeTheo} + '&tgBatDau=' + ${tgBatDau} + '&tgKetThuc=' + ${tgKetThuc} +  '&page=' + ${pagedList.getNumber()} + '&size=' + ${pagedList.getSize()}}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                     stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                     stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M15 6l-6 6l6 6"></path>
+                </svg>
+                prev
+            </a>
+        </li>
+        <li th:each="page : ${#numbers.sequence(1, pagedList.getTotalPages())}"
+            th:class="${pagedList.getNumber() + 1 == page ? 'page-item active' : 'page-item'}">
+            <a class="page-link"
+               th:href="@{'?keyword=' + (${keyword} != null ? ${keyword} : '') + '&thongKeTheo=' + ${thongKeTheo} + '&tgBatDau=' + ${tgBatDau} + '&tgKetThuc=' + ${tgKetThuc} + '&page=' + ${page} + '&size=' + ${pagedList.getSize()}}"
+               th:text="${page}"></a>
+        </li>
+        <li th:class="${pagedList.hasNext() ? 'page-item' : 'page-item disabled'}">
+            <a class="page-link"
+               th:href="@{'?keyword=' + (${keyword} != null ? ${keyword} : '') + '&thongKeTheo=' + ${thongKeTheo} + '&tgBatDau=' + ${tgBatDau} + '&tgKetThuc=' + ${tgKetThuc} + '&page=' + ${pagedList.getNumber() + 2} + '&size=' + ${pagedList.getSize()}}">
+                next
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                     stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M9 6l6 6l-6 6"></path>
+                </svg>
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -14,5 +14,6 @@ import java.util.List;
 public interface XuLyRepository extends JpaRepository<XuLyEntity, Integer> {
     XuLyEntity findByThanhVienAndTrangThaiXL(ThanhVienEntity thanhVien, int trangThaiXL);
 
-
+    @Query("SELECT SUM(xl.soTien) FROM XuLyEntity xl WHERE xl IN :list")
+    int sumTongTien(List<XuLyEntity> list);
 }

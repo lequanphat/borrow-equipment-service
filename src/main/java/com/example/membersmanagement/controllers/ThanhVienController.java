@@ -7,11 +7,16 @@ import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.entities.ThietBiEntity;
+import com.example.membersmanagement.entities.ThongTinSdEntity;
+import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.mappers.ThanhVienMapper;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
+import com.example.membersmanagement.services.ThongTinSdService;
+import com.example.membersmanagement.services.XuLyService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,11 +31,13 @@ import java.util.List;
 
 @Controller
 public class ThanhVienController {
+    @Autowired
     private ThanhVienService thanhVienService;
+    @Autowired
 
-    public ThanhVienController(ThanhVienService thanhVienService) {
-        this.thanhVienService = thanhVienService;
-    }
+    private ThongTinSdService thongTinSdService;
+    @Autowired
+    private XuLyService xuLyService;
 
     @GetMapping("/profile")
     public String profile(Model model, Authentication authentication) {
@@ -149,5 +156,21 @@ public class ThanhVienController {
     public String deleteMembers(@PathVariable int id) {
         thanhVienService.delete(id);
         return "redirect:/admin/members?success";
+    }
+
+    @GetMapping("/admin/detail-member/{id}")
+    public String detailMember(@PathVariable int id, Model model) {
+        if (thanhVienService.existsByMaTV(id) == false) {
+            return "pages/error/404";
+        }
+        ThanhVienEntity member = thanhVienService.findByMaTV(id);
+        List<ThongTinSdEntity> lichSuMuon = thongTinSdService.getThietBiDangMuonByMaTV(id);
+        List<ThongTinSdEntity> lichSuVaoKv = thongTinSdService.getLichSuVaoKVHocTap(id);
+        List<XuLyEntity> xuLy = xuLyService.getXuLyByMaTV(id);
+        model.addAttribute("memberInfo", member);
+        model.addAttribute("lichSuMuon", lichSuMuon);
+        model.addAttribute("lichSuVaoKv", lichSuVaoKv);
+        model.addAttribute("xuLy", xuLy);
+        return "pages/admin/detail-member";
     }
 }
