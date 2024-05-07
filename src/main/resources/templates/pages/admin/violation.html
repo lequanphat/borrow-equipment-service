@@ -138,18 +138,21 @@
                                     </td>
                                     <td class="text-muted"><span th:text="${item.ngayXL}"></span></td>
                                     <td class="text-muted">
-                                        <span class="badge bg-red text-red-fg"
+                                        <span class="badge bg-teal  text-teal-fg"
                                               th:if="${item.trangThaiXL != 1}">Đã xử lý</span>
-                                        <span class="badge bg-teal text-teal-fg" th:if="${item.trangThaiXL == 1}">Đang xử lý</span>
+                                        <span class="badge bg-red  text-red-fg" th:if="${item.trangThaiXL == 1}">Đang xử lý</span>
                                     </td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
                                             <a th:href="@{/admin/violation/{itemId}(itemId=${item.maXL})}" class="btn">
                                                 Chỉnh sửa
                                             </a>
-                                            <form id="deleteForm" action="/admin/violation/{itemId}" method="post" style="display: inline;">
+                                            <form class="deleteViolationForm"
+                                                  th:action="@{/admin/violation/{itemId}(itemId=${item.maXL})}"
+                                                  method="post"
+                                                  style="display: inline;">
                                                 <input type="hidden" name="itemId" th:value="${item.maXL}">
-                                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc muốn xóa thiết bị này không?')">
+                                                <button type="submit" class="btn btn-outline-danger">
                                                     Xoá
                                                 </button>
                                             </form>
@@ -194,28 +197,32 @@
         });
     </script>
     <script>
-        document.getElementById("deleteForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Ngăn chặn biểu mẫu gửi đi bằng phương thức POST mặc định
-            var confirmation = confirm('Bạn có chắc muốn xóa thiết bị này không?');
-            if (confirmation) {
-                var form = this;
-                var url = form.getAttribute("action");
-                fetch(url, {
-                    method: 'delete' ,
-                    headers: {
-                        "Content-Type": "application/json"
+        document.addEventListener("DOMContentLoaded", function () {
+            const deleteForms = document.querySelectorAll(".deleteViolationForm");
+            deleteForms.forEach(function (form) {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    var confirmation = confirm('Bạn có chắc muốn xóa xử lý vi phạm này không?');
+                    if (confirmation) {
+                        var url = form.getAttribute("action");
+                        console.log(url);
+                        fetch(url, {
+                            method: 'DELETE',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                        }).then(function (response) {
+                            console.log(response)
+                            form.closest("tr").remove();
+                        }).catch(function (error) {
+                            console.error('Có lỗi:', error);
+                        });
                     }
-                }).then(function(response) {
-                    if (response.ok) {
-                        window.location.href = "/admin/devices"; // Chuyển hướng sau khi xóa thành công
-                    } else {
-                        alert("Có lỗi xảy ra khi xóa thiết bị.");
-                    }
-                }).catch(function(error) {
-                    console.error('Có lỗi:', error);
                 });
-            }
+            });
+
         });
+
     </script>
 </div>
 </body>

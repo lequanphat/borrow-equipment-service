@@ -18,7 +18,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/images/**", "/css/**", "/svg/**", "/js/**").permitAll()
                         .requestMatchers("/login", "/register", "/forgot-password", "/send-password", "/check-email").anonymous()
-                        .requestMatchers("/admin/**").anonymous().anyRequest().authenticated())
+                        .requestMatchers("/admin/**").permitAll().anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin((form) -> form
                         .loginPage("/login")

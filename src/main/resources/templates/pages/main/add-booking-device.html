@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Chọn thời gian đặt</label>
-                                    <input type="datetime-local" class="form-control" th:errorclass="is-invalid" name="TGDatCho" th:field="*{TGDatCho}"/>
+                                    <input type="datetime-local" class="form-control" th:errorclass="is-invalid" name="TGDatCho" th:field="*{TGDatCho}">
                                     <div th:if="${#fields.hasErrors('TGDatCho')}" class="invalid-feedback" th:errors="*{TGDatCho}"></div>
                                 </div>
                             </div>

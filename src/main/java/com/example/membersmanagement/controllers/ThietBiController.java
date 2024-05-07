@@ -84,15 +84,14 @@ public class ThietBiController {
         return "redirect:/admin/devices?success";
     }
 
-    @DeleteMapping("/admin/devices/{id}")
+    @PostMapping("/admin/devices/delete/{id}")
     public String deleteDevice(@PathVariable int id, Model model) {
         if (thietBiService.isBorrowedOrBooked(id)) {
-            // Thiết bị đã được mượn hoặc đặt chỗ, không thể xóa
-            model.addAttribute("errorMessage", "Thiết bị này đã được đặt chỗ, không thể xóa thiết bị.");
+            model.addAttribute("error", "Thiết bị này đã được đặt chỗ, không thể xóa thiết bị.");
+            return "redirect:/admin/devices?error";
         } else {
-            // Nếu không có vấn đề gì, tiến hành xóa thiết bị
             thietBiService.delete(id);
+            return "redirect:/admin/devices?success";
         }
-        return "redirect:/admin/devices";
     }
 }

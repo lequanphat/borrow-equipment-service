@@ -24,9 +24,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -72,7 +74,7 @@ public class ThongTinSdController {
 
 
     @PostMapping("/add-booking-device")
-    public String addBookingDevice(@Valid BookingDeviceDto bookingDeviceDTO, BindingResult result, Model model, Authentication authentication,
+    public String addBookingDevice(@Valid @ModelAttribute("bookingDeviceDTO") BookingDeviceDto bookingDeviceDTO, BindingResult result, Model model, Authentication authentication,
                                    @RequestParam(required = false, defaultValue = "") String keyword,
                                    @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "8") int size){
@@ -82,8 +84,8 @@ public class ThongTinSdController {
         model.addAttribute("pagedList", list);
         model.addAttribute("bookingDeviceDTO", bookingDeviceDTO);
         if(result.hasErrors()) {
-            log.error(result.getAllErrors().toString());
             model.addAttribute("errors", result.getAllErrors());
+            log.error(result.getAllErrors().toString());
             return "pages/main/add-booking-device";
         }
         int maTv = ((CustomUserDetails) authentication.getPrincipal()).getMaTV();
@@ -93,12 +95,15 @@ public class ThongTinSdController {
             result.rejectValue("MaTB", "notFound", "Mã thiết bị không tồn tại.");
         }
 
+        if (bookingDeviceDTO.getTGDatCho().isBefore(LocalDateTime.now())) {
+            result.rejectValue("TGDatCho", null, "Thời gian đặt chỗ phải lớn hơn hoặc bằng thời gian hiện tại");
+        }
+
         if (thietBiService.isBorrowedOrBooked(maTb)) {
             result.rejectValue("MaTB", "unavailable", "Thiết bị đang được mượn hoặc đặt chỗ");
         }
 
         if(result.hasErrors()) {
-            model.addAttribute("bookingDeviceDTO", bookingDeviceDTO);
             model.addAttribute("errors", result.getAllErrors());
             return "pages/main/add-booking-device";
         }
@@ -218,6 +223,7 @@ public class ThongTinSdController {
                                 @RequestParam(defaultValue = "8") int size){
         Pageable paging = PageRequest.of(page - 1, size);
         Page<ThongTinSdEntity> list = thongTinSdService.getDsDatChoThietBi(keyword, paging);
+        log.info(list.toString());
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/booking-devices";
