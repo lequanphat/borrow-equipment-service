@@ -223,6 +223,7 @@ public class ThongTinSdController {
                                 @RequestParam(defaultValue = "8") int size){
         Pageable paging = PageRequest.of(page - 1, size);
         Page<ThongTinSdEntity> list = thongTinSdService.getDsDatChoThietBi(keyword, paging);
+        log.info(list.toString());
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/booking-devices";
