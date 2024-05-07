@@ -38,6 +38,10 @@ public class ThietBiService {
         return thietBiRepository.save(newDevice);
     }
 
+    public void saveAll(List<ThietBiEntity> devices) {
+        thietBiRepository.saveAll(devices);
+    }
+
     public List<ThietBiEntity> getAllDevices() {
         return thietBiRepository.findAll();
     }

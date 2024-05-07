@@ -1,6 +1,5 @@
 package com.example.membersmanagement.controllers;
 
-import com.example.membersmanagement.dtos.BookingDeviceDto;
 import com.example.membersmanagement.dtos.ThietBi.ReadThietBiDto;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 
 @Controller
 @Slf4j
@@ -32,7 +30,6 @@ public class ThietBiController {
                                 @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
         Page<ReadThietBiDto> list = thietBiService.getAll(keyword, paging);
-        log.info("List of devices: {}", list.getContent());
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/devices";
