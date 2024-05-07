@@ -59,8 +59,13 @@ public class ThongTinSdService {
                 .getResultList();
     }
 
-    public List<ThongTinSdEntity> getDsThietBiDangDuocMuon(String tenTB) {
-        return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgMuonIsNotNullAndTgTraIsNull(tenTB);
+    public List<ThongTinSdEntity> getDsThietBiDangDuocMuon(String search) {
+        String jpql = "SELECT ttsd " +
+                "FROM ThongTinSdEntity ttsd " +
+                "WHERE  ttsd.thietBi.tenTB LIKE :search OR CAST(ttsd.thietBi.maTB AS string) LIKE :search OR ttsd.thanhVien.hoTen LIKE :search OR CAST(ttsd.thanhVien.maTV AS string) LIKE :search";
+        return entityManager.createQuery(jpql, ThongTinSdEntity.class)
+                .setParameter("search", "%" + search + "%")
+                .getResultList();
     }
 
     public Page<ThongTinSdEntity> getDsDatChoThietBi(String keyword, Pageable paging) {
@@ -82,9 +87,9 @@ public class ThongTinSdService {
     public Page<ThongTinSdEntity> getLichSuMuonThietBi(int maTb, String keyword, Pageable paging) {
         return thongTinSdRepository.findByThietBiMaTBAndThanhVienHoTenContainingIgnoreCaseAndTgMuonIsNotNullOrderByTgMuonDesc(maTb, keyword, paging);
     }
-    
+
     //Xoá 1 tt theo mã
-    public void delete(int id){
+    public void delete(int id) {
         thongTinSdRepository.deleteById(id);
     }
 }

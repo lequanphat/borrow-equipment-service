@@ -162,10 +162,10 @@ public class ThongTinSdController {
             return "pages/admin/return-device";
         }
 
-        if (!thietBiService.existsByMaTb(traThietBiDto.getMaTB())) {
+        if (!thietBiService.existsByMaTb(Integer.parseInt(traThietBiDto.getMaTB()))) {
             result.rejectValue("maTB", "notFound", "Mã thiết bị không tồn tại.");
         } else {
-            if (!thietBiService.isBorrowed(traThietBiDto.getMaTB())) {
+            if (!thietBiService.isBorrowed(Integer.parseInt(traThietBiDto.getMaTB()))) {
                 result.rejectValue("maTB", "unavailable", "Thiết bị chưa được mượn.");
             }
         }
@@ -176,7 +176,7 @@ public class ThongTinSdController {
             return "pages/admin/return-device";
         }
 
-        thongTinSdService.traThietBi(traThietBiDto.getMaTB());
+        thongTinSdService.traThietBi(Integer.parseInt(traThietBiDto.getMaTB()));
         return "redirect:/admin/return-device?success";
     }
 
@@ -193,11 +193,11 @@ public class ThongTinSdController {
             return "pages/admin/enter-study-zone";
         }
 
-        if (!thanhVienService.existsByMaTV(vaoKhuVucHocTapDto.getMaTV())) {
+        if (!thanhVienService.existsByMaTV(Integer.parseInt(vaoKhuVucHocTapDto.getMaTV()))) {
             result.rejectValue("maTV", "notFound", "Mã thành viên không tồn tại.");
         }
 
-        XuLyEntity xuLyEntity = xuLyService.getXuLyByMaTVAndTrangThai(vaoKhuVucHocTapDto.getMaTV(), 1);
+        XuLyEntity xuLyEntity = xuLyService.getXuLyByMaTVAndTrangThai(Integer.parseInt(vaoKhuVucHocTapDto.getMaTV()), 1);
         if (xuLyEntity != null) {
             result.rejectValue("maTV", "unavailable", "Thành viên đang bị vi phạm: " + xuLyEntity.getHinhThucXL());
         }
@@ -230,7 +230,7 @@ public class ThongTinSdController {
                                 @RequestParam(required = false, defaultValue = "") String keyword,
                                 @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "8") int size,
-                                @PathVariable int maTb){
+                                @PathVariable int maTb) {
         Pageable paging = PageRequest.of(page - 1, size);
         Page<ThongTinSdEntity> list = thongTinSdService.getLichSuMuonThietBi(maTb, keyword, paging);
         log.info(list.toString());

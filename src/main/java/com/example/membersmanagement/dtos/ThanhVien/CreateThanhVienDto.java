@@ -1,6 +1,7 @@
 package com.example.membersmanagement.dtos.ThanhVien;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,8 @@ import jakarta.validation.constraints.Email;
 @Data
 @Builder
 public class CreateThanhVienDto {
-    @NotEmpty(message = "Mã thành viên không được để trống.")
-    @Size(min = 9, max = 9, message = "Mã thành viên phải 9 kí tự.")
+    @NotEmpty(message = "Mã sinh viên không được trống.")
+    @Pattern(regexp = "^[0-9]{8,9}$", message = "Mã sinh viên gồm 8 - 9 chữ số.")
     private String maTV;
 
     @Size(min = 5, max = 30, message = "Họ tên phải từ 5 - 30 kí tự.")

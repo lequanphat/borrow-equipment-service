@@ -17,13 +17,13 @@
                 <!-- Page title actions -->
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <div class="row g-2">
+                        <form class="row g-2">
                             <div class="col">
-                                <input id="search-input" type="text" class="form-control" placeholder="Search for…"
+                                <input name="search" type="text" class="form-control" placeholder="Search for…"
                                        th:value="${search}">
                             </div>
                             <div class="col-auto">
-                                <a id="search-btn" href="#" class="btn btn-icon" aria-label="Button">
+                                <button type="submit" href="#" class="btn btn-icon" aria-label="Button">
                                     <!-- Download SVG icon from http://tabler-icons.io/i/search -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -32,9 +32,9 @@
                                         <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
                                         <path d="M21 21l-6 -6"></path>
                                     </svg>
-                                </a>
+                                </button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -96,12 +96,12 @@
             </div>
         </div>
     </div>
-    <script>
-        document.getElementById('search-btn').addEventListener('click', function (e) {
-            const search = document.getElementById('search-input').value;
-            window.location.href = '/admin/manage-borrowed-devices?search=' + search;
-        });
-    </script>
+    <!--    <script>-->
+    <!--        document.getElementById('search-btn').addEventListener('click', function (e) {-->
+    <!--            const search = document.getElementById('search-input').value;-->
+    <!--            window.location.href = '/admin/manage-borrowed-devices?search=' + search;-->
+    <!--        });-->
+    <!--    </script>-->
 </div>
 
 </body>

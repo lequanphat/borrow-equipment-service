@@ -6,16 +6,17 @@ import com.example.membersmanagement.dtos.ThongTinSd.VaoKhuVucHocTapDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
+
 import java.time.ZoneId;
 import java.util.Date;
 
 public class ThongTinSdMapper {
     public static ThongTinSdEntity toThongTinSdFromMuonThietBi(MuonThietBiDto muonThietBiDto) {
-        ThanhVienEntity thanhVienEntity =  ThanhVienEntity.builder()
-                .maTV(muonThietBiDto.getMaTV())
+        ThanhVienEntity thanhVienEntity = ThanhVienEntity.builder()
+                .maTV(Integer.parseInt(muonThietBiDto.getMaTV()))
                 .build();
         ThietBiEntity thietBiEntity = ThietBiEntity.builder()
-                .maTB(muonThietBiDto.getMaTB())
+                .maTB(Integer.parseInt(muonThietBiDto.getMaTB()))
                 .build();
         return ThongTinSdEntity.builder()
                 .thanhVien(thanhVienEntity)
@@ -23,7 +24,6 @@ public class ThongTinSdMapper {
                 .tgMuon(new Date())
                 .build();
     }
-
 
 
     public static ThongTinSdEntity toThongTinSdFromBookingDevice(BookingDeviceDto bookingDeviceDTO) {
@@ -39,10 +39,10 @@ public class ThongTinSdMapper {
                 .thietBi(thietBiEntity)
                 .tgDatCho(tgDatCho).build();
     }
-                
+
     public static ThongTinSdEntity toThongTinSdFromVaoKhuVucHocTapDto(VaoKhuVucHocTapDto vaoKhuVucHocTapDto) {
-        ThanhVienEntity thanhVienEntity =  ThanhVienEntity.builder()
-                .maTV(vaoKhuVucHocTapDto.getMaTV())
+        ThanhVienEntity thanhVienEntity = ThanhVienEntity.builder()
+                .maTV(Integer.parseInt(vaoKhuVucHocTapDto.getMaTV()))
                 .build();
         return ThongTinSdEntity.builder()
                 .thanhVien(thanhVienEntity)
