@@ -1,10 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+
+      layout:decorate="~{layouts/admin}">
 <body>
-$END$
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="container">
+            <div class="row row-cards">
+                <div class="col-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Thông tin thành viên</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-borderless">
+                                <tbody>
+                                <tr>
+                                    <td>Mã thành viên</td>
+                                    <td th:text="${memberInfo.maTV}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Họ và tên</td>
+                                    <td th:text="${memberInfo.hoTen}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Khoa</td>
+                                    <td th:text="${memberInfo.khoa}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Ngành</td>
+                                    <td th:text="${memberInfo.nganh}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Số điện thoại</td>
+                                    <td th:text="${memberInfo.sdt}"></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td th:text="${memberInfo.email}"></td>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Lịch sử vào khu vực học tập</h3>
+                        </div>
+                        <div class="card-body" style="max-height: 296px; overflow: auto">
+                            <div class="table-responsive">
+                                <table
+                                        class="table table-vcenter table-mobile-md card-table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Thời gian vào</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:if="${lichSuVaoKv.empty}">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No data available</td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody th:unless="${lichSuVaoKv.empty}">
+                                    <tbody>
+                                    <tr th:each="item : ${lichSuVaoKv}">
+                                        <td class="text-muted"><span th:text="${item.tgVao}"></span></td>
+                                    </tr>
+                                    </tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Lịch sử mượn thiết bị</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table
+                                        class="table table-vcenter table-mobile-md card-table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Thiết bị</th>
+                                        <th>TG mượn</th>
+                                        <th>TG trả</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:if="${lichSuMuon.empty}">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No data available</td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody th:unless="${lichSuMuon.empty}">
+                                    <tbody th:each="item : ${lichSuMuon}">
+                                    <tr>
+                                        <td class="text-muted">
+                                            <span th:text="${item.thietBi.maTB}"></span>
+                                            <span> - </span>
+                                            <span th:text="${item.thietBi.tenTB}"></span>
+                                        </td>
+                                        <td class="text-muted">
+                                            <span th:if="${item.TgMuon != null}" th:text="${item.TgMuon}"></span>
+                                        </td>
+                                        <td class="text-muted">
+                                            <span th:if="${item.TgTra != null}" th:text="${item.TgTra}"></span>
+                                            <span th:if="${item.TgTra == null}"><span class="badge bg-red text-red-fg">Chưa trả</span></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Vi phạm</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table
+                                        class="table table-vcenter table-mobile-md card-table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Hình thức xử lý</th>
+                                        <th>Số tiền</th>
+                                        <th>Ngày xử lý</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody th:if="${xuLy.empty}">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No data available</td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody th:unless="${xuLy.empty}">
+                                    <tbody>
+                                    <tr th:each="item : ${xuLy}">
+                                        <td class="text-muted"><span th:text="${item.hinhThucXL}"></span></td>
+                                        <td class="text-muted">
+                                            <span th:if="${item.soTien != null}" th:text="${item.soTien}"></span>
+                                            <span th:if="${item.soTien == null}">Không có</span>
+                                        </td>
+                                        <td class="text-muted">
+                                            <span  th:text="${item.ngayXL}"></span></td>
+                                        <td class="text-muted">
+                                            <span class="badge bg-teal text-teal-fg" th:if="${item.trangThaiXL != 1}">Đã xử lý</span>
+                                            <span class="badge bg-red text-red-fg" th:if="${item.trangThaiXL == 1}">Đang xử lý</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

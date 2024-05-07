@@ -2,8 +2,10 @@ package com.example.membersmanagement.services;
 
 
 import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
+import com.example.membersmanagement.dtos.ThietBi.ReadThietBiDto;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
+import com.example.membersmanagement.enums.TinhTrangThietBi;
 import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.repositories.ThietBiRepository;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
@@ -21,8 +23,14 @@ public class ThietBiService {
     @Autowired
     private ThongTinSdRepository thongTinSdRepository;
 
-    public Page<ThietBiEntity> getAll(String keyword, Pageable paging) {
-        return thietBiRepository.findByTenTBContainingIgnoreCase(keyword, paging);
+    public Page<ReadThietBiDto> getAll(String keyword, Pageable paging) {
+        Page<ThietBiEntity> entities = thietBiRepository.findByTenTBContainingIgnoreCase(keyword, paging);
+        return entities.map(thietBiEntity ->
+                ThietBiMapper.toReadDto(
+                        thietBiEntity,
+                        getTinhTrang(thietBiEntity.getMaTB())
+                )
+        );
     }
 
     public ThietBiEntity save(CreateThietBiDto addDeviceDto) {
@@ -30,7 +38,7 @@ public class ThietBiService {
         return thietBiRepository.save(newDevice);
     }
 
-    public List<ThietBiEntity> getAllDevices(){
+    public List<ThietBiEntity> getAllDevices() {
         return thietBiRepository.findAll();
     }
 
@@ -61,5 +69,15 @@ public class ThietBiService {
 
     public boolean isBooked(int id) {
         return thongTinSdRepository.existsByThietBiMaTBAndTgDatChoIsNotNull(id);
+    }
+
+    public TinhTrangThietBi getTinhTrang(int id) {
+        if (isBorrowed(id)) {
+            return TinhTrangThietBi.BORROWED;
+        } else if (isBooked(id)) {
+            return TinhTrangThietBi.BOOKED;
+        } else {
+            return TinhTrangThietBi.AVAILABLE;
+        }
     }
 }

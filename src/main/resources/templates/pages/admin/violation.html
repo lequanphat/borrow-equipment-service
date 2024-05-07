@@ -124,17 +124,19 @@
                                 <tr th:each="item : ${list}">
                                     <td th:text="${item.maXL}"></td>
                                     <td>
-                                        <div class="d-flex py-1 align-items-center">
+                                        <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.thanhVien.maTV})}" class="text-reset">
+                                            <div class="d-flex py-1 align-items-center">
                                             <span class="avatar me-2"
                                                   style="background-image: url('/images/default_avatar.jpg')"></span>
-                                            <div class="flex-fill">
-                                                <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
-                                                </div>
-                                                <div class="text-muted">
-                                                    <a href="#" class="text-reset" th:text="${item.thanhVien.maTV}"></a>
+                                                <div class="flex-fill">
+                                                    <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
+                                                    </div>
+                                                    <div class="text-muted">
+                                                        <span class="text-reset" th:text="${item.thanhVien.maTV}"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </td>
                                     <td class="text-muted"><span th:text="${item.hinhThucXL}"></span></td>
                                     <td class="text-muted">

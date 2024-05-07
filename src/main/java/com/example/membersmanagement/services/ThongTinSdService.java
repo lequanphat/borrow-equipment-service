@@ -92,5 +92,9 @@ public class ThongTinSdService {
     public void delete(int id) {
         thongTinSdRepository.deleteById(id);
     }
+
+    public List<ThongTinSdEntity> getLichSuVaoKVHocTap(int maTV) {
+        return thongTinSdRepository.findByThanhVienMaTVAndTgVaoIsNotNull(maTV);
+    }
 }
 
