@@ -32,10 +32,7 @@ public class XuLyService {
     }
 
     public List<XuLyEntity> getXuLyByMaTV(int maTV) {
-        String jpql = "SELECT xu FROM XuLyEntity xu WHERE xu.thanhVien.maTV = :maTV";
-        return entityManager.createQuery(jpql, XuLyEntity.class)
-                .setParameter("maTV", maTV)
-                .getResultList();
+        return xuLyRepository.findByThanhVienMaTVOrderByNgayXLDesc(maTV);
     }
 
     public int getTongTien(Page<XuLyEntity> page) {
