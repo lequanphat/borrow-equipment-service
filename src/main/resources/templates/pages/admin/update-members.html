@@ -33,36 +33,36 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Khoa</label>
-                                    <textarea placeholder="Nhập khoa" class="form-control"
-                                              th:errorclass="is-invalid" th:field="*{khoa}"></textarea>
+                                    <input placeholder="Nhập khoa" type="text" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{khoa}"/>
                                     <div th:if="${#fields.hasErrors('khoa')}" th:errorclass="invalid-feedback"
                                          th:errors="*{khoa}"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Ngành</label>
-                                    <textarea placeholder="Nhập ngành" class="form-control"
-                                              th:errorclass="is-invalid" th:field="*{nganh}"></textarea>
+                                    <input placeholder="Nhập ngành" type="text" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{nganh}"/>
                                     <div th:if="${#fields.hasErrors('nganh')}" th:errorclass="invalid-feedback"
                                          th:errors="*{nganh}"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Số điện thoại</label>
-                                    <textarea placeholder="Nhập số điện thoại" class="form-control"
-                                              th:errorclass="is-invalid" th:field="*{sdt}"></textarea>
+                                    <input placeholder="Nhập số điện thoại" type="text" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{sdt}"/>
                                     <div th:if="${#fields.hasErrors('sdt')}" th:errorclass="invalid-feedback"
                                          th:errors="*{sdt}"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
-                                    <textarea placeholder="Nhập email" class="form-control"
-                                              th:errorclass="is-invalid" th:field="*{email}"></textarea>
+                                    <input placeholder="Nhập email" type="text" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{email}"/>
                                     <div th:if="${#fields.hasErrors('email')}" th:errorclass="invalid-feedback"
                                          th:errors="*{email}"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Mật khẩu</label>
-                                    <textarea placeholder="Nhập mật khẩu" class="form-control"
-                                              th:errorclass="is-invalid" th:field="*{password}"></textarea>
+                                    <input placeholder="Nhập mật khẩu" type="text" class="form-control"
+                                              th:errorclass="is-invalid" th:field="*{password}"/>
                                     <div th:if="${#fields.hasErrors('password')}" th:errorclass="invalid-feedback"
                                          th:errors="*{password}"></div>
                                 </div>
