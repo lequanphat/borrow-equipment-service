@@ -230,4 +230,10 @@ public class ThongTinSdController {
         thongTinSdService.delete(id);
         return "redirect:/my-booking-devices";
     }
+
+    @PostMapping("admin/booking-device/delete/{id}")
+    public String admindeleteBookingDevice(@PathVariable int id) {
+        thongTinSdService.delete(id);
+        return "redirect:/admin/booking-devices?success";
+    }
 }
