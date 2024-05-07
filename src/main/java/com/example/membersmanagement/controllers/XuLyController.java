@@ -4,11 +4,15 @@ import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
+import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.services.XuLyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -37,14 +41,18 @@ public class XuLyController {
                                   @RequestParam(name = "keyword",required = false, defaultValue = "") String keyword,
                                   @RequestParam(name = "thongKeTheo", required = false, defaultValue = "3") int thongKeTheo,
                                   @RequestParam(name = "tgBatDau", required = false, defaultValue = "01/01/1990") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
-                                  @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc) {
-        List<XuLyEntity> list = xuLyService.TimKiem(keyword,thongKeTheo,tgBatDau,tgKetThuc);
-        //List<XuLyEntity> list = xuLyService.getAll();
+                                  @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc,
+                                  @RequestParam(defaultValue = "1") int page,
+                                  @RequestParam(defaultValue = "8") int size) {
+        //List<XuLyEntity> list = xuLyService.TimKiem(keyword,thongKeTheo,tgBatDau,tgKetThuc);
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<XuLyEntity> list = xuLyService.TimKiem(keyword,thongKeTheo,tgBatDau,tgKetThuc,paging);
         model.addAttribute("list", list);
         model.addAttribute("keyword", keyword);
         model.addAttribute("thongKeTheo", thongKeTheo);
         model.addAttribute("tgBatDau", tgBatDau);
         model.addAttribute("tgKetThuc", tgKetThuc);
+        model.addAttribute("pagedList", list);
         return "pages/admin/violation";
     }
 
