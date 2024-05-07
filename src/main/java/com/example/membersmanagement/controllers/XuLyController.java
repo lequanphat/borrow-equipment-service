@@ -1,6 +1,7 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
+import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
 import com.example.membersmanagement.entities.XuLyEntity;
@@ -8,12 +9,14 @@ import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.services.XuLyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -30,9 +33,18 @@ public class XuLyController {
     }
 
     @GetMapping("/admin/violation")
-    public String admin_violation(Model model) {
-        List<XuLyEntity> list = xuLyService.getAll();
+    public String admin_violation(Model model,
+                                  @RequestParam(name = "keyword",required = false, defaultValue = "") String keyword,
+                                  @RequestParam(name = "thongKeTheo", required = false, defaultValue = "3") int thongKeTheo,
+                                  @RequestParam(name = "tgBatDau", required = false, defaultValue = "01/01/1990") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgBatDau,
+                                  @RequestParam(name = "tgKetThuc", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(pattern = "dd/MM/yyyy") LocalDate tgKetThuc) {
+        List<XuLyEntity> list = xuLyService.TimKiem(keyword,thongKeTheo,tgBatDau,tgKetThuc);
+        //List<XuLyEntity> list = xuLyService.getAll();
         model.addAttribute("list", list);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("thongKeTheo", thongKeTheo);
+        model.addAttribute("tgBatDau", tgBatDau);
+        model.addAttribute("tgKetThuc", tgKetThuc);
         return "pages/admin/violation";
     }
 
@@ -81,4 +93,5 @@ public class XuLyController {
         xuLyService.delete(id);
         return "redirect:/admin/violation";
     }
+
 }
