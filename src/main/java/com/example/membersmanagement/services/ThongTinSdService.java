@@ -3,8 +3,6 @@ package com.example.membersmanagement.services;
 import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
 import com.example.membersmanagement.dtos.ThongKe.ThongKeMuonThietBiDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
-import com.example.membersmanagement.repositories.ThanhVienRepository;
-import com.example.membersmanagement.repositories.ThietBiRepository;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -29,17 +27,11 @@ public class ThongTinSdService {
     }
 
     public List<ThongTinSdEntity> getThietBiDangDatChoByMaTV(int maTV) {
-        String jpql = "SELECT ttsd FROM ThongTinSdEntity ttsd WHERE ttsd.thanhVien.maTV = :maTV and ttsd.tgDatCho is not null ";
-        return entityManager.createQuery(jpql, ThongTinSdEntity.class)
-                .setParameter("maTV", maTV)
-                .getResultList();
+        return thongTinSdRepository.findByThanhVienMaTVAndTgDatChoIsNotNullAndTgMuonIsNull(maTV);
     }
 
     public List<ThongTinSdEntity> getThietBiDangMuonByMaTV(int maTV) {
-        String jpql = "SELECT ttsd FROM ThongTinSdEntity ttsd WHERE ttsd.thanhVien.maTV = :maTV and ttsd.tgMuon is not null ";
-        return entityManager.createQuery(jpql, ThongTinSdEntity.class)
-                .setParameter("maTV", maTV)
-                .getResultList();
+        return thongTinSdRepository.findByThanhVienMaTVAndTgMuonIsNotNullAndTgTraIsNull(maTV);
     }
 
     public ThongTinSdEntity save(ThongTinSdEntity thongTinSdEntity) {
@@ -72,22 +64,28 @@ public class ThongTinSdService {
     }
 
     public Page<ThongTinSdEntity> getDsDatChoThietBi(String keyword, Pageable paging) {
-        return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNotNull(keyword, paging);
+        return thongTinSdRepository.findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNull(keyword, paging);
     }
 
-    public List<ThongKeMuonThietBiDto> thongKeMuonThietBiTheoNgay(LocalDate tgBatDau, LocalDate tgKetThuc) {
+    public List<ThongKeMuonThietBiDto> thongKeMuonThietBiTheoNgay(String search, LocalDate tgBatDau, LocalDate tgKetThuc) {
         String jpql = "SELECT ttsd.thietBi.maTB, ttsd.thietBi.tenTB, ttsd.thietBi.moTaTB, count(ttsd.thietBi.maTB) " +
                 "FROM ThongTinSdEntity ttsd " +
-                "WHERE ttsd.tgMuon BETWEEN :tgBatDau AND :tgKetThuc " +
+                "WHERE ttsd.tgMuon BETWEEN :tgBatDau AND :tgKetThuc AND (ttsd.thietBi.tenTB LIKE :search OR CAST(ttsd.thietBi.maTB AS string) LIKE :search) " +
                 "GROUP BY ttsd.thietBi.maTB";
         return entityManager.createQuery(jpql, ThongKeMuonThietBiDto.class)
                 .setParameter("tgBatDau", java.sql.Date.valueOf(tgBatDau))
                 .setParameter("tgKetThuc", java.sql.Date.valueOf(tgKetThuc))
+                .setParameter("search", "%" + search + "%")
                 .getResultList();
     }
 
     public Page<ThongTinSdEntity> getLichSuMuonThietBi(int maTb, String keyword, Pageable paging) {
         return thongTinSdRepository.findByThietBiMaTBAndThanhVienHoTenContainingIgnoreCaseAndTgMuonIsNotNullOrderByTgMuonDesc(maTb, keyword, paging);
+    }
+    
+    //Xoá 1 tt theo mã
+    public void delete(int id){
+        thongTinSdRepository.deleteById(id);
     }
 }
 

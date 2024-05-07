@@ -149,8 +149,7 @@
                                             </a>
                                             <form class="deleteViolationForm"
                                                   th:action="@{/admin/violation/{itemId}(itemId=${item.maXL})}"
-                                                  method="post"
-                                                  style="display: inline;">
+                                                  method="post">
                                                 <input type="hidden" name="itemId" th:value="${item.maXL}">
                                                 <button type="submit" class="btn btn-outline-danger">
                                                     Xoá

@@ -47,6 +47,7 @@
                                     <th>Thành viên</th>
                                     <th>Tên thiết bị</th>
                                     <th>TG đặt chỗ</th>
+                                    <th>Hành động</th>
                                 </tr>
                                 </thead>
                                 <tbody th:if="${list.empty}">
@@ -77,10 +78,19 @@
                                         <span th:if="${item.thietBi != null}" th:text="${item.thietBi.tenTB}"></span>
                                         <span th:if="${item.thietBi == null}">/</span>
                                     </td>
-
                                     <td class="text-muted">
                                         <span th:if="${item.TgDatCho != null}" th:text="${item.TgDatCho}"></span>
-                                        <span th:if="${item.TgDatCho == null}">null</span>
+                                    </td>
+                                    <td class="">
+                                        <div class="btn-list flex-nowrap">
+                                            <form
+                                                  th:action="@{/booking-device/delete/{id}(id=${item.maTT})}"
+                                                  method="post">
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    Xoá
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>

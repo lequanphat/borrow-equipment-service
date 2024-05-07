@@ -12,6 +12,9 @@ import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,9 +79,14 @@ public class ThanhVienController {
     }
 
     @GetMapping("/admin/members")
-    public String admin_members(Model model) {
-        List<ThanhVienEntity> list = thanhVienService.getAll();
-        model.addAttribute("list", list);
+    public String admin_members(Model model,
+                                @RequestParam(required = false, defaultValue = "") String keyword,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "8") int size) {
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThanhVienEntity> list = thanhVienService.getAll2(keyword, paging);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pagedList", list);
         return "pages/admin/members";
     }
 
@@ -134,6 +142,12 @@ public class ThanhVienController {
         }
 
         thanhVienService.update(membersDto);
+        return "redirect:/admin/members?success";
+    }
+
+    @PostMapping("/admin/members/delete/{id}")
+    public String deleteMembers(@PathVariable int id) {
+        thanhVienService.delete(id);
         return "redirect:/admin/members?success";
     }
 }
