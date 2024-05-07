@@ -78,5 +78,10 @@ public class ThongTinSdService {
                 .setParameter("search", "%" + search + "%")
                 .getResultList();
     }
+
+    //Xoá 1 tt theo mã
+    public void delete(int id){
+        thongTinSdRepository.deleteById(id);
+    }
 }
 

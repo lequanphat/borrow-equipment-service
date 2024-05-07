@@ -23,10 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -71,7 +68,6 @@ public class ThongTinSdController {
         model.addAttribute("bookingDeviceDTO", BookingDeviceDto.builder().build());
         return "pages/main/add-booking-device";
     }
-
 
     @PostMapping("/add-booking-device")
     public String addBookingDevice(@Valid @ModelAttribute("bookingDeviceDTO") BookingDeviceDto bookingDeviceDTO, BindingResult result, Model model, Authentication authentication,
@@ -227,5 +223,11 @@ public class ThongTinSdController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/booking-devices";
+    }
+
+    @PostMapping("/booking-device/delete/{id}")
+    public String deleteDevice(@PathVariable int id) {
+        thongTinSdService.delete(id);
+        return "redirect:/my-booking-devices";
     }
 }
