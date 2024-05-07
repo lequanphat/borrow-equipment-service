@@ -6,92 +6,89 @@
 <body>
 <div layout:fragment="content">
     <!-- Page header -->
-    <div class="page-header d-print-none">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <!-- Page pre-title -->
-                    <div class="page-pretitle">
-                        Overview
-                    </div>
-                    <h2 class="page-title">
-                        Quản lý thành viên
-                    </h2>
-                </div>
-                <!-- Page title actions -->
-                <div class="col-auto ms-auto d-print-none">
-                    <div class="btn-list">
-<!--                  <span class="d-none d-sm-inline">-->
-<!--                    <a href="@{/admin/add-members" class="btn">-->
-<!--                      New view-->
-<!--                    </a>-->
-<!--                  </span>-->
-                        <a th:href="@{/admin/add-members}" class="btn btn-primary d-none d-sm-inline-block">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14"/>
-                                <path d="M5 12l14 0"/>
-                            </svg>
-                            Thêm thành viên
-                        </a>
-                        <a th:href="@{/admin/add-members}" class="btn btn-primary d-sm-none btn-icon"
-                           data-bs-toggle="modal"
-                           data-bs-target="#modal-team" aria-label="Create new report">
-                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14"/>
-                                <path d="M5 12l14 0"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
-
                 <div class="col-12">
                     <div class="card">
+                        <div class="card-header">
+                            <div class="row g-2 align-items-center w-full">
+                                <div class="col">
+                                    <h3 class="card-title">Quản lý thành viên</h3>
+                                </div>
+                                <!-- Page title actions -->
+                                <div class="col-auto ms-auto d-print-none">
+                                    <div class="btn-list">
+                                        <a th:href="@{/admin/add-members}" class="btn btn-primary d-none d-sm-inline-block">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 5l0 14"/>
+                                                <path d="M5 12l14 0"/>
+                                            </svg>
+                                            Thêm thành viên
+                                        </a>
+                                        <a th:href="@{/admin/add-members}" class="btn btn-primary d-sm-none btn-icon"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#modal-team" aria-label="Create new report">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 5l0 14"/>
+                                                <path d="M5 12l14 0"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <form method="get" class="d-flex">
+                                <div class="text-secondary">
+                                    Show
+                                    <div class="mx-2 d-inline-block">
+                                        <select name="size" th:value="${pagedList.getSize()}" class="form-select form-select-sm">
+                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}" th:selected="${s == pagedList.getSize()}"></option>
+                                        </select>
+                                    </div>
+                                    entries
+                                </div>
+                                <div class="ms-auto text-secondary">
+                                    Search:
+                                    <div class="ms-2 d-inline-block">
+                                        <input name="keyword" type="text" class="form-control form-control-sm" th:value="${keyword}">
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Tìm kiếm</button>
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table
                                     class="table table-vcenter table-mobile-md card-table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Thành viên</th>
-                                    <th>Email</th>
-                                    <th>Số điện thoại</th>
+                                    <th>Mã thành viên</th>
+                                    <th>Tên thành viên</th>
                                     <th>Khoa</th>
                                     <th>Ngành</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Email</th>
                                     <th class="w-1"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="item : ${list}">
-                                    <td>
-                                        <div class="d-flex py-1 align-items-center">
-                                            <span class="avatar me-2"
-                                                  style="background-image: url('/images/default_avatar.jpg')"></span>
-                                            <div class="flex-fill">
-                                                <div class="font-weight-medium" th:text="${item.hoTen}">
-                                                </div>
-                                                <div class="text-muted">
-                                                    <a href="#" class="text-reset" th:text="${item.maTV}"></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-muted" th:text="${item.email}"></td>
-                                    <td class="text-muted" th:text="${item.sdt}"></td>
-                                    <td class="text-muted" th:text="${item.nganh}"></td>
+                                <tr th:each="item : ${pagedList.getContent()}">
+                                    <td th:text="${item.maTV}"></td>
+                                    <td class="text-muted" th:text="${item.hoTen}"></td>
                                     <td class="text-muted" th:text="${item.khoa}"></td>
+                                    <td class="text-muted" th:text="${item.nganh}"></td>
+                                    <td class="text-muted" th:text="${item.sdt}"></td>
+                                    <td class="text-muted" th:text="${item.email}"></td>
+
                                     <td>
                                         <div class="btn-list flex-nowrap">
                                             <a th:href="@{/admin/members/{itemId}(itemId=${item.maTV})}" class="btn">
@@ -108,8 +105,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <p th:if="${param.success}" class="text-success text-center">Xoá thành viên thành công.</p>
-                        <p th:if="${param.error}" class="text-danger text-center">Không thể xoá thành viên</p>
+                        <div class="card-footer">
+                            <div th:replace="~{components/pagination :: nav}">
+                            </div>
+                        </div>
+                        <p th:if="${param.success}" class="text-success text-center">Xoá thiết bị thành công.</p>
+                        <p th:if="${param.error}" class="text-danger text-center">Không thể xoá thiết bị</p>
                     </div>
                 </div>
             </div>

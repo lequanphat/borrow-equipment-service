@@ -9,6 +9,8 @@ import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.RegistrationDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,6 +28,10 @@ public class ThanhVienService {
 
     public List<ThanhVienEntity> getAll() {
         return thanhVienRepository.findAll();
+    }
+
+    public Page<ThanhVienEntity> getAll2(String keyword, Pageable paging) {
+        return thanhVienRepository.findByHoTenContainingIgnoreCase(keyword, paging);
     }
 
     public ThanhVienEntity findByEmail(String email) {

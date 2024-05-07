@@ -145,7 +145,7 @@ public class ThongTinSdController {
 
         ThongTinSdEntity thongTinSdEntity = ThongTinSdMapper.toThongTinSdFromMuonThietBi(muonThietBiDto);
         thongTinSdService.save(thongTinSdEntity);
-        return "redirect:/admin/device-borrowing";
+        return "redirect:/admin/device-borrowing?success";
     }
 
     @GetMapping("/admin/return-device")
@@ -165,7 +165,7 @@ public class ThongTinSdController {
         if (!thietBiService.existsByMaTb(traThietBiDto.getMaTB())) {
             result.rejectValue("maTB", "notFound", "Mã thiết bị không tồn tại.");
         } else {
-            if (!thietBiService.isBorrowedOrBooked(traThietBiDto.getMaTB())) {
+            if (!thietBiService.isBorrowed(traThietBiDto.getMaTB())) {
                 result.rejectValue("maTB", "unavailable", "Thiết bị chưa được mượn.");
             }
         }
@@ -177,7 +177,7 @@ public class ThongTinSdController {
         }
 
         thongTinSdService.traThietBi(traThietBiDto.getMaTB());
-        return "redirect:/admin/return-device";
+        return "redirect:/admin/return-device?success";
     }
 
     @GetMapping("/admin/enter-study-zone")
@@ -209,7 +209,7 @@ public class ThongTinSdController {
 
         ThongTinSdEntity thongTinSdEntity = ThongTinSdMapper.toThongTinSdFromVaoKhuVucHocTapDto(vaoKhuVucHocTapDto);
         thongTinSdService.save(thongTinSdEntity);
-        return "redirect:/admin/enter-study-zone";
+        return "redirect:/admin/enter-study-zone?success";
     }
 
     @GetMapping("/admin/booking-devices")
@@ -223,6 +223,20 @@ public class ThongTinSdController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/booking-devices";
+    }
+
+    @GetMapping("/admin/borrow-history/{maTb}")
+    public String borrowHistory(Model model,
+                                @RequestParam(required = false, defaultValue = "") String keyword,
+                                @RequestParam(defaultValue = "1") int page,
+                                @RequestParam(defaultValue = "8") int size,
+                                @PathVariable int maTb){
+        Pageable paging = PageRequest.of(page - 1, size);
+        Page<ThongTinSdEntity> list = thongTinSdService.getLichSuMuonThietBi(maTb, keyword, paging);
+        log.info(list.toString());
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pagedList", list);
+        return "pages/admin/borrow-history";
     }
 
     @PostMapping("/booking-device/delete/{id}")

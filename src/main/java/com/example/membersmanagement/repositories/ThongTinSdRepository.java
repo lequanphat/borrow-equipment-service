@@ -21,8 +21,9 @@ public interface ThongTinSdRepository extends JpaRepository<ThongTinSdEntity, In
 
     List<ThongTinSdEntity> findByThietBiTenTBContainingIgnoreCaseAndTgMuonIsNotNullAndTgTraIsNull(String tenTB);
 
+    Page<ThongTinSdEntity> findByThietBiMaTBAndThanhVienHoTenContainingIgnoreCaseAndTgMuonIsNotNullOrderByTgMuonDesc(int maTB, String hoTen, Pageable paging);
+    
     Page<ThongTinSdEntity> findByThietBiTenTBContainingIgnoreCaseAndTgDatChoIsNotNullAndTgMuonIsNull(String tenTB, Pageable paging);
-
 
     List<ThongTinSdEntity> findByThanhVienMaTVAndTgMuonIsNotNullAndTgTraIsNull(int maTV);
 

@@ -10,10 +10,6 @@
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
-                    <!-- Page pre-title -->
-                    <div class="page-pretitle">
-                        Overview
-                    </div>
                     <h2 class="page-title">
                         Thông tin sử dụng
                     </h2>
@@ -106,7 +102,7 @@
                                     </td>
                                     <td class="text-muted">
                                         <span th:if="${item.TgTra != null}" th:text="${item.TgTra}"></span>
-                                        <span th:if="${item.TgTra == null}">null</span>
+                                        <span th:if="${item.TgTra == null}"><span class="badge bg-red  text-red-fg">Chưa trả</span></span>
                                     </td>
 
                                 </tr>

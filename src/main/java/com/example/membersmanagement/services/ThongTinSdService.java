@@ -79,6 +79,10 @@ public class ThongTinSdService {
                 .getResultList();
     }
 
+    public Page<ThongTinSdEntity> getLichSuMuonThietBi(int maTb, String keyword, Pageable paging) {
+        return thongTinSdRepository.findByThietBiMaTBAndThanhVienHoTenContainingIgnoreCaseAndTgMuonIsNotNullOrderByTgMuonDesc(maTb, keyword, paging);
+    }
+    
     //Xoá 1 tt theo mã
     public void delete(int id){
         thongTinSdRepository.deleteById(id);
