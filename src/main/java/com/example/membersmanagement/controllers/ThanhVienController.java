@@ -162,7 +162,6 @@ public class ThanhVienController {
         return "redirect:/admin/members?success";
     }
 
-<<<<<<< Updated upstream
     @GetMapping("/admin/detail-member/{id}")
     public String detailMember(@PathVariable int id, Model model) {
         if (thanhVienService.existsByMaTV(id) == false) {
@@ -179,11 +178,4 @@ public class ThanhVienController {
         return "pages/admin/detail-member";
     }
 
-=======
-    @PostMapping("/admin/deleteMulti-members")
-    public String deleteMultiMembers(@RequestParam("khoa") int khoa) {
-        thanhVienService.multipleDelete(khoa);
-        return "redirect:/admin/members?success";
-    }
->>>>>>> Stashed changes
 }

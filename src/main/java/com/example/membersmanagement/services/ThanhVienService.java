@@ -137,8 +137,4 @@ public class ThanhVienService {
     public void delete(int id) {
         thanhVienRepository.deleteById(id);
     }
-
-    public void multipleDelete(int khoa) {
-        thanhVienRepository.deleteBySecondAndThirdDigitsOfMaTV(String.valueOf(khoa));
-    }
 }
