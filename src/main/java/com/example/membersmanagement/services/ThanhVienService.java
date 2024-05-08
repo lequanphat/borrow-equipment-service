@@ -3,7 +3,6 @@ package com.example.membersmanagement.services;
 import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
 import com.example.membersmanagement.dtos.ThanhVien.UpdateThanhVienDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThanhVienMapper;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
@@ -52,7 +51,7 @@ public class ThanhVienService {
         return this.save(registerData);
     }
 
-    public ThanhVienEntity save2(CreateThanhVienDto addMemberDto) {
+    public ThanhVienEntity createMember(CreateThanhVienDto addMemberDto) {
         ThanhVienEntity thanhVien = ThanhVienMapper.toThanhvienFromCreate(addMemberDto);
         return thanhVienRepository.save(thanhVien);
     }

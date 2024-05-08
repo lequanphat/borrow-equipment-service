@@ -3,8 +3,10 @@ package com.example.membersmanagement.controllers;
 import com.example.membersmanagement.entities.ThanhVienEntity;
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.helpers.AjaxResponse;
+import com.example.membersmanagement.helpers.Validator;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.services.ThietBiService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class AjaxController {
     @Autowired
     ThietBiService thietBiService;
@@ -76,24 +79,6 @@ public class AjaxController {
         );
     }
 
-    @DeleteMapping("/api/delete-multiple-devices/{maLoai}")
-    public ResponseEntity<AjaxResponse> deleteMultipleDevices(@PathVariable("maLoai") int maLoai) {
-        thietBiService.multipleDelete(maLoai);
-        return new ResponseEntity<>(
-                new AjaxResponse("Deleted successfully"),
-                HttpStatus.OK
-        );
-    }
-
-    @DeleteMapping("/api/delete-multiple-members/{khoa}")
-    public ResponseEntity<AjaxResponse> deleteMultipleMembers(@PathVariable("khoa") int khoa) {
-        thanhVienService.multipleDelete(khoa);
-        return new ResponseEntity<>(
-                new AjaxResponse("Deleted successfully"),
-                HttpStatus.OK
-        );
-    }
-
     @PostMapping("/api/import-members")
     public ResponseEntity<AjaxResponse> importExcelFileThanhVien(@RequestParam("file") MultipartFile files) throws IOException {
         List<ThanhVienEntity> listThanhVien = new ArrayList<>();
@@ -109,17 +94,12 @@ public class AjaxController {
             String khoa = formatter.formatCellValue(row.getCell(2));
             String nganh = formatter.formatCellValue(row.getCell(3));
             String sdt = formatter.formatCellValue(row.getCell(4));
-            String email = formatter.formatCellValue(row.getCell(5));
-            String password = formatter.formatCellValue(row.getCell(6));
+            String password = formatter.formatCellValue(row.getCell(5));
+            String email = formatter.formatCellValue(row.getCell(6));
 
-            if (idStr.isEmpty() || !idStr.matches("\\d+")) {
+            if (idStr.isEmpty() || !idStr.matches("\\d+") || idStr.length() < 8 || idStr.length() > 9) {
                 return new ResponseEntity<>(
                         new AjaxResponse("Mã thành viên không hợp lệ"),
-                        HttpStatus.BAD_REQUEST
-                );
-            } else if (thanhVienService.existsByMaTV(Integer.parseInt(idStr))) {
-                return new ResponseEntity<>(
-                        new AjaxResponse("Mã thành viên " + idStr + " đã tồn tại"),
                         HttpStatus.BAD_REQUEST
                 );
             }
@@ -150,11 +130,21 @@ public class AjaxController {
                         new AjaxResponse("Số điện thoại không được để trống"),
                         HttpStatus.BAD_REQUEST
                 );
+            } else if (Validator.isPhoneNumber(sdt)) {
+                return new ResponseEntity<>(
+                        new AjaxResponse("Số điện thoại không hợp lệ"),
+                        HttpStatus.BAD_REQUEST
+                );
             }
 
             if (email.isEmpty()) {
                 return new ResponseEntity<>(
                         new AjaxResponse("Email không được để trống"),
+                        HttpStatus.BAD_REQUEST
+                );
+            } else if (Validator.isEmail(email)) {
+                return new ResponseEntity<>(
+                        new AjaxResponse("Email không hợp lệ"),
                         HttpStatus.BAD_REQUEST
                 );
             }
@@ -164,16 +154,22 @@ public class AjaxController {
                         new AjaxResponse("Mật khẩu không được để trống"),
                         HttpStatus.BAD_REQUEST
                 );
+            } else if (password.length() >= 10) {
+                return new ResponseEntity<>(
+                        new AjaxResponse("Mật khẩu không được quá 10 ký tự"),
+                        HttpStatus.BAD_REQUEST
+                );
             }
 
-            ThanhVienEntity thanhVienEntity = new ThanhVienEntity();
-            thanhVienEntity.setMaTV(Integer.parseInt(idStr));
-            thanhVienEntity.setHoTen(hoTen);
-            thanhVienEntity.setKhoa(khoa);
-            thanhVienEntity.setNganh(nganh);
-            thanhVienEntity.setSdt(sdt);
-            thanhVienEntity.setEmail(email);
-            thanhVienEntity.setPassword(password);
+            ThanhVienEntity thanhVienEntity = new ThanhVienEntity().builder()
+                    .maTV(Integer.parseInt(idStr))
+                    .hoTen(hoTen)
+                    .khoa(khoa)
+                    .nganh(nganh)
+                    .sdt(sdt)
+                    .email(email)
+                    .password(password)
+                    .build();
             listThanhVien.add(thanhVienEntity);
         }
 
@@ -181,6 +177,25 @@ public class AjaxController {
 
         return new ResponseEntity<>(
                 new AjaxResponse("Imported successfully"),
+                HttpStatus.OK
+        );
+    }
+
+
+    @DeleteMapping("/api/delete-multiple-devices/{maLoai}")
+    public ResponseEntity<AjaxResponse> deleteMultipleDevices(@PathVariable("maLoai") int maLoai) {
+        thietBiService.multipleDelete(maLoai);
+        return new ResponseEntity<>(
+                new AjaxResponse("Deleted successfully"),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/api/delete-multiple-members/{khoa}")
+    public ResponseEntity<AjaxResponse> deleteMultipleMembers(@PathVariable("khoa") int khoa) {
+        thanhVienService.multipleDelete(khoa);
+        return new ResponseEntity<>(
+                new AjaxResponse("Deleted successfully"),
                 HttpStatus.OK
         );
     }

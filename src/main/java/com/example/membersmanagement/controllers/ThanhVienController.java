@@ -122,7 +122,7 @@ public class ThanhVienController {
             return "pages/admin/add-members";
         }
 
-        thanhVienService.save2(membersDto);
+        thanhVienService.createMember(membersDto);
         return "redirect:/admin/members?success";
     }
 
