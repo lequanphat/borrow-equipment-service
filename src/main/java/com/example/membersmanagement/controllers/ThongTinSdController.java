@@ -136,7 +136,7 @@ public class ThongTinSdController {
             result.rejectValue("maTB", "notFound", "Mã thiết bị không tồn tại.");
         }
 
-        if (thietBiService.isBorrowedAtThatTime(maTB, LocalDate.now())) {
+        if (thietBiService.isBorrowed(maTB)) {
             result.rejectValue("maTB", "unavailable", "Thiết bị đã được mượn trong thời gian này.");
         }
         if (thietBiService.isBookedAtThatTimeByAnotherMember(maTB, maTV, LocalDate.now())) {

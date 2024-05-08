@@ -89,5 +89,4 @@ public class XuLyService {
     public boolean canBorrowDevice(int maTV) {
         return !xuLyRepository.existsByThanhVienMaTVAndTrangThaiXL(maTV, 1);
     }
-
 }

@@ -1,17 +1,13 @@
 package com.example.membersmanagement.repositories;
 
-import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ThongTinSdRepository extends JpaRepository<ThongTinSdEntity, Integer> {

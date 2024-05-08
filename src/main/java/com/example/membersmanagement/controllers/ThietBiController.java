@@ -1,6 +1,5 @@
 package com.example.membersmanagement.controllers;
 
-import com.example.membersmanagement.dtos.ThietBi.ReadThietBiDto;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThietBiMapper;

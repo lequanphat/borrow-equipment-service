@@ -1,10 +1,8 @@
 package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
-import com.example.membersmanagement.dtos.ThongKe.ThongKeLuotVaoDto;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.mappers.XuLyMapper;
 import com.example.membersmanagement.services.XuLyService;
@@ -73,7 +71,7 @@ public class XuLyController {
 
         String hinhThucXL = violationsDto.getHinhThucXL();
 
-        if(hinhThucXL.toLowerCase().contains("bồi thường")) {
+        if (hinhThucXL.toLowerCase().contains("bồi thường")) {
             String soTien = String.valueOf(violationsDto.getSoTien());
             if (soTien == "null") {
                 result.rejectValue("soTien", "empty", "Số tiền không để trống");
@@ -107,10 +105,10 @@ public class XuLyController {
 
         String hinhThucXL = xuLyDto.getHinhThucXL();
 
-        if(hinhThucXL.toLowerCase().contains("bồi thường")){
+        if (hinhThucXL.toLowerCase().contains("bồi thường")) {
             String soTien = String.valueOf(xuLyDto.getSoTien());
-            if(soTien=="null"){
-                result.rejectValue("soTien","empty","Số tiền không để trống");
+            if (soTien == "null") {
+                result.rejectValue("soTien", "empty", "Số tiền không để trống");
             }
         }
         if (result.hasErrors()) {

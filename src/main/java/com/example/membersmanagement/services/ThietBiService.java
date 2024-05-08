@@ -2,10 +2,8 @@ package com.example.membersmanagement.services;
 
 
 import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
-import com.example.membersmanagement.dtos.ThietBi.ReadThietBiDto;
 import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
-import com.example.membersmanagement.enums.TinhTrangThietBi;
 import com.example.membersmanagement.mappers.ThietBiMapper;
 import com.example.membersmanagement.repositories.ThietBiRepository;
 import com.example.membersmanagement.repositories.ThongTinSdRepository;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
