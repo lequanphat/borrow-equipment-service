@@ -29,33 +29,19 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="hinhThucXL">Hình thức xử lý</label>
                                     <select class="form-select" id="hinhThucXL" name="hinhThucXL">
-                                        <option th:selected="${hinhThucXL == 'Khóa thẻ 1 tháng'}">Khóa thẻ 1
-                                            tháng
-                                        </option>
-                                        <option th:selected="${hinhThucXL == 'Khóa thẻ 2 tháng'}">Khóa thẻ 2
-                                            tháng
-                                        </option>
-                                        <option th:selected="${hinhThucXL == 'Bồi thường mất tài sản'}">Bồi thường mất
-                                            tài sản
-                                        </option>
-                                        <option
-                                                th:selected="${hinhThucXL == 'Khóa thẻ 1 tháng và bồi thường'}">Khóa thẻ
-                                            1 tháng và bồi thường
-                                        </option>
-                                        <option
-                                                th:selected="${hinhThucXL == 'Khóa thẻ 2 tháng và bồi thường'}">Khóa thẻ
-                                            2 tháng và bồi thường
-                                        </option>
-                                        <option th:selected="${hinhThucXL == 'Khóa thẻ vĩnh viễn'}">Khóa thẻ
-                                            vĩnh viễn
-                                        </option>
+                                        <option value="Khóa thẻ 1 tháng" th:selected="${violationsDto.hinhThucXL == 'Khóa thẻ 1 tháng'}">Khóa thẻ 1 tháng</option>
+                                        <option value="Khóa thẻ 2 tháng" th:selected="${violationsDto.hinhThucXL == 'Khóa thẻ 2 tháng'}">Khóa thẻ 2 tháng</option>
+                                        <option value="Bồi thường mất tài sản" th:selected="${violationsDto.hinhThucXL == 'Bồi thường mất tài sản'}">Bồi thường mất tài sản</option>
+                                        <option value="Khóa thẻ 1 tháng và bồi thường" th:selected="${violationsDto.hinhThucXL == 'Khóa thẻ 1 tháng và bồi thường'}">Khóa thẻ 1 tháng và bồi thường</option>
+                                        <option value="Khóa thẻ 2 tháng và bồi thường" th:selected="${violationsDto.hinhThucXL == 'Khóa thẻ 2 tháng và bồi thường'}">Khóa thẻ 2 tháng và bồi thường</option>
+                                        <option value="Khóa thẻ vĩnh viễn" th:selected="${violationsDto.hinhThucXL == 'Khóa thẻ vĩnh viễn'}">Khóa thẻ vĩnh viễn</option>
                                         <!-- Thêm các tùy chọn cố định tại đây -->
                                     </select>
                                     <div th:if="${#fields.hasErrors('hinhThucXL')}" th:errorclass="invalid-feedback"
                                          th:errors="*{hinhThucXL}"></div>
                                 </div>
 
-                                <div class="mb-3" id="soTienWrapper ">
+                                <div class="mb-3" id="soTienWrapper">
                                     <label class="form-label" for="soTien">Số tiền</label>
                                     <input type="number" placeholder="Nhập số tiền phạt (VD: 100000)"
                                            class="form-control" th:errorclass="is-invalid" id="soTien"
@@ -96,8 +82,17 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var hinhThucXL = document.getElementById("hinhThucXL");
-            var soTienWrapper = document.getElementById("soTienWrapper ");
+            var soTienWrapper = document.getElementById("soTienWrapper");
+            var soTien = document.getElementById("soTien");
 
+            var selectedOption = hinhThucXL.options[hinhThucXL.selectedIndex];
+            var selectedText = selectedOption.textContent;
+            if (selectedText.toLowerCase().includes("bồi thường")) {
+                soTienWrapper.style.display = "block";
+            }else {
+                soTienWrapper.style.display = "none";
+                soTien.value = "";
+            }
             hinhThucXL.addEventListener("change", function () {
                 var selectedOption = hinhThucXL.options[hinhThucXL.selectedIndex];
                 var selectedText = selectedOption.textContent;
@@ -106,11 +101,10 @@
                     soTienWrapper.style.display = "block";
                 } else {
                     soTienWrapper.style.display = "none";
+                    soTien.value = "";
                 }
             });
 
-            // Ẩn input số tiền ban đầu
-            soTienWrapper.style.display = "none";
         });
     </script>
     <script>
