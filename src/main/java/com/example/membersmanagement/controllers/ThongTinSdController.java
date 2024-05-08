@@ -152,6 +152,9 @@ public class ThongTinSdController {
 
         ThongTinSdEntity thongTinSdEntity = ThongTinSdMapper.toThongTinSdFromMuonThietBi(muonThietBiDto);
         thongTinSdService.save(thongTinSdEntity);
+        if (tinhTrang == TinhTrangThietBi.BOOKED) {
+            thongTinSdService.deleteDatCho(maTV, maTB);
+        }
         return "redirect:/admin/device-borrowing?success";
     }
 

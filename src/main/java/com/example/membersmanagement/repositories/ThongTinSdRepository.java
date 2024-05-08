@@ -6,6 +6,7 @@ import com.example.membersmanagement.entities.ThongTinSdEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -36,4 +37,6 @@ public interface ThongTinSdRepository extends JpaRepository<ThongTinSdEntity, In
 
 
     public boolean existsByThanhVien_MaTVAndThietBi_MaTBAndTgDatChoIsNotNull(int maTV, int maTB);
+
+    public void deleteByThanhVienMaTVAndThietBiMaTBAndTgDatChoIsNotNull(int maTV, int maTB);
 }
