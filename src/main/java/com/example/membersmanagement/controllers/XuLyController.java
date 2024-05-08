@@ -70,6 +70,20 @@ public class XuLyController {
             model.addAttribute("errors", result.getAllErrors());
             return "pages/admin/add-violation";
         }
+
+        String hinhThucXL = violationsDto.getHinhThucXL();
+
+        if(hinhThucXL.toLowerCase().contains("bồi thường")){
+            String soTien = String.valueOf(violationsDto.getSoTien());
+            if(soTien=="null"){
+                result.rejectValue("soTien","empty","Số tiền không để trống");
+            }
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("violationsDto", violationsDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/add-violation";
+        }
         xuLyService.save(violationsDto);
         return "redirect:/admin/violation?success";
     }
@@ -84,9 +98,23 @@ public class XuLyController {
 
     @PostMapping("/admin/violation/{id}")
     public String updateViolationProcess(@PathVariable int id,
-                                         @Valid @ModelAttribute("violationDto") UpdateXuLyDto xuLyDto,
+                                         @Valid @ModelAttribute("xuLyDto") UpdateXuLyDto xuLyDto,
                                          BindingResult result,
                                          Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("xuLyDto", xuLyDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/update-violation";
+        }
+
+        String hinhThucXL = xuLyDto.getHinhThucXL();
+
+        if(hinhThucXL.toLowerCase().contains("bồi thường")){
+            String soTien = String.valueOf(xuLyDto.getSoTien());
+            if(soTien=="null"){
+                result.rejectValue("soTien","empty","Số tiền không để trống");
+            }
+        }
         if (result.hasErrors()) {
             model.addAttribute("xuLyDto", xuLyDto);
             model.addAttribute("errors", result.getAllErrors());
