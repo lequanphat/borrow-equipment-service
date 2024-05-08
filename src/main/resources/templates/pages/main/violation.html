@@ -62,7 +62,7 @@
                                         <span th:if="${item.soTien == null}">Không có</span>
                                     </td>
                                     <td class="text-muted">
-                                        <span  th:text="${item.ngayXL}"></span></td>
+                                        <span th:text="${#dates.format(item.ngayXL, 'dd-MM-yyyy HH:mm')}"></span></td>
                                     <td class="text-muted">
                                         <span class="badge bg-teal text-teal-fg" th:if="${item.trangThaiXL != 1}">Đã xử lý</span>
                                         <span class="badge bg-red text-red-fg" th:if="${item.trangThaiXL == 1}">Đang xử lý</span>

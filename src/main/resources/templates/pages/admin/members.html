@@ -1,272 +1,279 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/admin}">
+      layout:decorate="~{layouts/admin}">
 
 <body>
-    <div layout:fragment="content">
-        <!-- Page header -->
-        <div class="page-body">
-            <div class="container-xl">
-                <div class="row row-cards">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row g-2 align-items-center w-full">
-                                    <div class="col">
-                                        <h3 class="card-title">Quản lý thành viên</h3>
-                                    </div>
-                                    <!-- Page title actions -->
-                                    <div class="col-auto ms-auto d-print-none">
-                                        <div class="btn-list">
-                                            <button class="btn btn-teal btn-icon" aria-label="Import excel" type="button"
-                                                    data-bs-toggle="modal" data-bs-target="#importModal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                     stroke-linecap="round" stroke-linejoin="round"
-                                                     class="icon icon-tabler icons-tabler-outline icon-tabler-table-import">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                                    <path d="M12 21h-7a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v8"/>
-                                                    <path d="M3 10h18"/>
-                                                    <path d="M10 3v18"/>
-                                                    <path d="M19 22v-6"/>
-                                                    <path d="M22 19l-3 -3l-3 3"/>
-                                                </svg>
-                                            </button>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteMembersModal">
-                                                Xóa nhiều thành viên
-                                            </button>
-                                            <a th:href="@{/admin/add-members}"
-                                                class="btn btn-primary d-none d-sm-inline-block">
-                                                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M12 5l0 14" />
-                                                    <path d="M5 12l14 0" />
-                                                </svg>
-                                                Thêm thành viên
-                                            </a>
-                                            <a th:href="@{/admin/add-members}"
-                                                class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                                                data-bs-target="#modal-team" aria-label="Create new report">
-                                                <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
-                                                    height="24" viewBox="0 0 24 24" stroke-width="2"
-                                                    stroke="currentColor" fill="none" stroke-linecap="round"
-                                                    stroke-linejoin="round">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M12 5l0 14" />
-                                                    <path d="M5 12l14 0" />
-                                                </svg>
-                                            </a>
-                                        </div>
+<div layout:fragment="content">
+    <!-- Page header -->
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row g-2 align-items-center w-full">
+                                <div class="col">
+                                    <h3 class="card-title">Quản lý thành viên</h3>
+                                </div>
+                                <!-- Page title actions -->
+                                <div class="col-auto ms-auto d-print-none">
+                                    <div class="btn-list">
+                                        <button class="btn btn-teal btn-icon" aria-label="Import excel" type="button"
+                                                data-bs-toggle="modal" data-bs-target="#importModal">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-table-import">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 21h-7a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v8"/>
+                                                <path d="M3 10h18"/>
+                                                <path d="M10 3v18"/>
+                                                <path d="M19 22v-6"/>
+                                                <path d="M22 19l-3 -3l-3 3"/>
+                                            </svg>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                data-bs-target="#deleteMembersModal">
+                                            Xóa nhiều thành viên
+                                        </button>
+                                        <a th:href="@{/admin/add-members}"
+                                           class="btn btn-primary d-none d-sm-inline-block">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                 stroke="currentColor" fill="none" stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 5l0 14"/>
+                                                <path d="M5 12l14 0"/>
+                                            </svg>
+                                            Thêm thành viên
+                                        </a>
+                                        <a th:href="@{/admin/add-members}"
+                                           class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
+                                           data-bs-target="#modal-team" aria-label="Create new report">
+                                            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                 stroke="currentColor" fill="none" stroke-linecap="round"
+                                                 stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                <path d="M12 5l0 14"/>
+                                                <path d="M5 12l14 0"/>
+                                            </svg>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body border-bottom py-3">
-                                <form id="form-members" method="get" class="d-flex">
-                                    <div class="text-secondary">
-                                        Show
-                                        <div class="mx-2 d-inline-block">
-                                            <select id="pageSize" name="size" th:value="${pagedList.getSize()}"
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <form id="form-members" method="get" class="d-flex">
+                                <div class="text-secondary">
+                                    Show
+                                    <div class="mx-2 d-inline-block">
+                                        <select id="pageSize" name="size" th:value="${pagedList.getSize()}"
                                                 class="form-select form-select-sm">
-                                                <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}"
+                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}"
                                                     th:selected="${s == pagedList.getSize()}"></option>
-                                            </select>
-                                        </div>
-                                        entries
+                                        </select>
                                     </div>
-                                    <div class="ms-auto text-secondary">
-                                        Search:
-                                        <div class="ms-2 d-inline-block">
-                                            <input name="keyword" type="text" class="form-control form-control-sm"
-                                                th:value="${keyword}">
-                                        </div>
-                                        <button class="btn btn-primary btn-sm">Tìm kiếm</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-vcenter table-mobile-md card-table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Mã thành viên</th>
-                                            <th>Tên thành viên</th>
-                                            <th>Khoa</th>
-                                            <th>Ngành</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Email</th>
-                                            <th class="w-1"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="item : ${pagedList.getContent()}">
-                                            <td th:text="${item.maTV}"></td>
-                                            <td class="text-muted" th:text="${item.hoTen}"></td>
-                                            <td class="text-muted" th:text="${item.khoa}"></td>
-                                            <td class="text-muted" th:text="${item.nganh}"></td>
-                                            <td class="text-muted" th:text="${item.sdt}"></td>
-                                            <td class="text-muted" th:text="${item.email}"></td>
-
-                                            <td>
-                                                <div class="btn-list flex-nowrap">
-                                                    <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.maTV})}"
-                                                       class="btn">
-                                                        Chi tiết
-                                                    </a>
-                                                    <a th:href="@{/admin/members/{itemId}(itemId=${item.maTV})}"
-                                                        class="btn">
-                                                        Chỉnh sửa
-                                                    </a>
-                                                    <form
-                                                        th:action="@{/admin/members/delete/{itemId}(itemId=${item.maTV})}"
-                                                        method="post" onsubmit="submitForm(event, this)">
-                                                        <button type="submit" class="btn btn-outline-danger">
-                                                            Xoá
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card-footer">
-                                <div th:replace="~{components/pagination :: nav}">
+                                    entries
                                 </div>
+                                <div class="ms-auto text-secondary">
+                                    Search:
+                                    <div class="ms-2 d-inline-block">
+                                        <input name="keyword" type="text" class="form-control form-control-sm"
+                                               th:value="${keyword}">
+                                    </div>
+                                    <button class="btn btn-primary btn-sm">Tìm kiếm</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-vcenter table-mobile-md card-table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Mã thành viên</th>
+                                    <th>Tên thành viên</th>
+                                    <th>Khoa</th>
+                                    <th>Ngành</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Email</th>
+                                    <th class="w-1"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item : ${pagedList.getContent()}">
+                                    <td th:text="${item.maTV}"></td>
+                                    <td class="text-muted" th:text="${item.hoTen}"></td>
+                                    <td class="text-muted" th:text="${item.khoa}"></td>
+                                    <td class="text-muted" th:text="${item.nganh}"></td>
+                                    <td class="text-muted" th:text="${item.sdt}"></td>
+                                    <td class="text-muted" th:text="${item.email}"></td>
+
+                                    <td>
+                                        <div class="btn-list flex-nowrap">
+                                            <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.maTV})}"
+                                               class="btn">
+                                                Chi tiết
+                                            </a>
+                                            <a th:href="@{/admin/members/{itemId}(itemId=${item.maTV})}"
+                                               class="btn">
+                                                Chỉnh sửa
+                                            </a>
+                                            <form
+                                                    th:action="@{/admin/members/delete/{itemId}(itemId=${item.maTV})}"
+                                                    method="post" onsubmit="submitForm(event, this)">
+                                                <button type="submit" class="btn btn-outline-danger">
+                                                    Xoá
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer">
+                            <div th:replace="~{components/pagination :: nav}">
                             </div>
-                            <p th:if="${param.success}" class="text-success text-center">Xoá thiết bị thành công.</p>
-                            <p th:if="${param.error}" class="text-danger text-center">Không thể xoá thiết bị</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal" id="importModal" tabindex="-1">
-            <div class="modal-dialog modal-md" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Import excel</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="section-alert"></div>
-                        <div class="mb-3">
-                            <label class="form-label">File excel</label>
-                            <input type="file" class="form-control" id="file-excel"
-                                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                                   placeholder="Chọn file excel"/>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                            Huỷ
-                        </a>
-                        <button id="import-excel" class="btn btn-primary ms-auto" disabled>
-                            Import
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal" id="deleteMembersModal" tabindex="-1" aria-labelledby="deleteMembersModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteMembersModalLabel">Xóa nhiều thành viên</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Nhập khoá cần xoá :</p>
-                        <input type="number" class="form-control" id="khoaInput" placeholder="Nhập khoá (VD: 21)">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn" data-bs-dismiss="modal">Đóng</button>
-                        <button disabled type="button" class="btn btn-danger" id="btn-delete-members">Xóa</button>
+                        <p th:if="${param.success}" class="text-success text-center">Xoá thiết bị thành công.</p>
+                        <p th:if="${param.error}" class="text-danger text-center">Không thể xoá thiết bị</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div layout:fragment="scripts">
-        <script>
-            function submitForm(event, form) {
-                event.preventDefault();
-                if (confirm('Bạn có chắc muốn xóa thành viên này không?')) {
-                    form.submit();
-                }
+    <div class="modal" id="importModal" tabindex="-1">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Import excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="section-alert"></div>
+                    <div class="mb-3">
+                        <label class="form-label">File excel</label>
+                        <input type="file" class="form-control" id="file-excel"
+                               accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                               placeholder="Chọn file excel"/>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                        Huỷ
+                    </a>
+                    <button id="import-excel" class="btn btn-primary ms-auto" disabled>
+                        Import
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="deleteMembersModal" tabindex="-1" aria-labelledby="deleteMembersModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteMembersModalLabel">Xóa nhiều thành viên</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="khoaInput">Nhập khoá cần xoá :</label>
+                        <input type="number" class="form-control" id="khoaInput" placeholder="Nhập khoá (VD: 21)">
+                    </div>
+                    <p>Lưu ý: Hành động này sẽ xoá tất cả thông tin sử dụng của các thành viên đã xoá và không thể hoàn
+                        tác </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal">Đóng</button>
+                    <button disabled type="button" class="btn btn-danger" id="btn-delete-members">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div layout:fragment="scripts">
+    <script>
+        function submitForm(event, form) {
+            event.preventDefault();
+            if (confirm('Bạn có chắc muốn xóa thành viên này không?')) {
+                form.submit();
             }
+        }
 
-            const pageSize = document.getElementById('pageSize');
-            pageSize.addEventListener('change', function () {
-                pageSize.form.submit();
-            });
-        </script>
-        <script>
-            const khoaInput = document.getElementById('khoaInput');
-            const btnDelete = document.querySelector('#btn-delete-members');
-            khoaInput.addEventListener('input', function () {
-                if (khoaInput.value.trim().length == 2) {
-                    btnDelete.removeAttribute('disabled');
-                } else {
-                    btnDelete.setAttribute('disabled', 'disabled');
-                }
-            });
-            btnDelete.addEventListener('click', function () {
-                if (confirm('Bạn có chắc muốn xóa tất cả thành viên có khoá ' + khoaInput.value + ' không?')) {
-                    fetch('/api/delete-multiple-members/' + khoaInput.value, {
-                        method: 'DELETE',
-                        credentials: 'same-origin'
-                    }).then(response => {
-                        if (response.ok) {
-                            window.location.reload();
-                        }
-                    });
-                }
-            });
+        const pageSize = document.getElementById('pageSize');
+        pageSize.addEventListener('change', function () {
+            pageSize.form.submit();
+        });
+    </script>
+    <script>
+        const khoaInput = document.getElementById('khoaInput');
+        const btnDelete = document.querySelector('#btn-delete-members');
+        khoaInput.addEventListener('input', function () {
+            if (khoaInput.value.trim().length == 2) {
+                btnDelete.removeAttribute('disabled');
+            } else {
+                btnDelete.setAttribute('disabled', 'disabled');
+            }
+        });
+        btnDelete.addEventListener('click', function () {
+            if (confirm('Bạn có chắc muốn xóa tất cả thành viên có khoá ' + khoaInput.value + ' không?')) {
+                fetch('/api/delete-multiple-members/' + khoaInput.value, {
+                    method: 'DELETE',
+                    credentials: 'same-origin'
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
 
 
-            const importExcel = document.getElementById('import-excel');
-            const fileExcel = document.getElementById('file-excel');
+        const importExcel = document.getElementById('import-excel');
+        const fileExcel = document.getElementById('file-excel');
 
-            fileExcel.addEventListener('change', function () {
-                importExcel.disabled = !fileExcel.files[0];
-            });
+        fileExcel.addEventListener('change', function () {
+            importExcel.disabled = !fileExcel.files[0];
+        });
 
-            importExcel.addEventListener('click', function () {
-                const file = document.getElementById('file-excel').files[0];
-                if (file) {
-                    const alert = document.querySelector('.section-alert');                const formData = new FormData();
-                    formData.append('file', file);
-                    fetch('/api/import-members', {
-                        method: 'POST',
-                        body: formData,
-                        credentials: 'same-origin'
-                    }).then(response => {
-                        if (response.ok) {
-                            alert.innerHTML = `
+        importExcel.addEventListener('click', function () {
+            const file = document.getElementById('file-excel').files[0];
+            if (file) {
+                const alert = document.querySelector('.section-alert');
+                const formData = new FormData();
+                formData.append('file', file);
+                fetch('/api/import-members', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'same-origin'
+                }).then(response => {
+                    if (response.ok) {
+                        alert.innerHTML = `
                             <div class="alert alert-success mb-3" role="alert"><div class="d-flex"><div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
                             </div><div>Import thành công</div></div></div>
                         `;
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 2000);
-                        } else {
-                            response.json().then(data => {
-                                alert.innerHTML = `
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        response.json().then(data => {
+                            alert.innerHTML = `
                                 <div class="alert alert-danger mb-3" role="alert"><div class="d-flex"><div>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
                                 </div><div>${data.message}</div></div></div>
                             `;
-                            });
-                        }
-                    });
-                }
-            });
-        </script>
-    </div>
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</div>
 </body>
 </html>

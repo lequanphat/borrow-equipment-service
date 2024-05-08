@@ -64,11 +64,11 @@
                                         <span th:if="${item.thietBi == null}">/</span>
                                     </td>
                                     <td class="text-muted">
-                                        <span th:if="${item.TgMuon != null}" th:text="${item.TgMuon}"></span>
+                                        <span th:if="${item.TgMuon != null}" th:text="${#dates.format(item.TgMuon, 'dd-MM-yyyy HH:mm')}"></span>
                                         <span th:if="${item.TgMuon == null}">null</span>
                                     </td>
                                     <td class="text-muted">
-                                        <span th:if="${item.TgTra != null}" th:text="${item.TgTra}"></span>
+                                        <span th:if="${item.TgTra != null}" th:text="${#dates.format(item.TgTra, 'dd-MM-yyyy HH:mm')}"></span>
                                         <span th:if="${item.TgTra == null}"><span class="badge bg-red  text-red-fg">Chưa trả</span></span>
                                     </td>
 

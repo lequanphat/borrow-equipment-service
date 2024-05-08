@@ -161,7 +161,7 @@ public class ThanhVienController {
             return "pages/error/404";
         }
         ThanhVienEntity member = thanhVienService.findByMaTV(id);
-        List<ThongTinSdEntity> lichSuMuon = thongTinSdService.getThietBiDangMuonByMaTV(id);
+        List<ThongTinSdEntity> lichSuMuon = thongTinSdService.getLichSuMuonByMaTV(id);
         List<ThongTinSdEntity> lichSuVaoKv = thongTinSdService.getLichSuVaoKVHocTap(id);
         List<XuLyEntity> xuLy = xuLyService.getXuLyByMaTV(id);
         model.addAttribute("memberInfo", member);

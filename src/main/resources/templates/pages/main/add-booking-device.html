@@ -45,6 +45,7 @@
                                     class="table align-middle table-vcenter table-mobile-md card-table table-striped">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Mã thiết bị</th>
                                     <th>Tên thiết bị</th>
                                     <th>Mô tả</th>
@@ -53,7 +54,7 @@
                                 <tbody>
                                 <tr th:class="cursor-pointer"
                                     th:each="item : ${pagedList.getContent()}">
-                                    <td class="d-none">
+                                    <td>
                                         <label class="form-check mb-0">
                                             <input class="form-check-input select-device-radio" type="radio"
                                                    name="maTBRadio"

@@ -65,7 +65,7 @@
                                     <tbody th:unless="${lichSuVaoKv.empty}">
                                     <tbody>
                                     <tr th:each="item : ${lichSuVaoKv}">
-                                        <td class="text-muted"><span th:text="${item.tgVao}"></span></td>
+                                        <td class="text-muted"><span th:text="${#dates.format(item.tgVao, 'dd-MM-yyyy HH:mm')}"></span></td>
                                     </tr>
                                     </tbody>
                                     </tbody>
@@ -79,7 +79,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Lịch sử mượn thiết bị</h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="max-height: 290px; overflow: auto">
                             <div class="table-responsive">
                                 <table
                                         class="table table-vcenter table-mobile-md card-table table-striped">
@@ -104,10 +104,10 @@
                                             <span th:text="${item.thietBi.tenTB}"></span>
                                         </td>
                                         <td class="text-muted">
-                                            <span th:if="${item.TgMuon != null}" th:text="${item.TgMuon}"></span>
+                                            <span th:if="${item.TgMuon != null}" th:text="${#dates.format(item.TgMuon, 'dd-MM-yyyy HH:mm')}"></span>
                                         </td>
                                         <td class="text-muted">
-                                            <span th:if="${item.TgTra != null}" th:text="${item.TgTra}"></span>
+                                            <span th:if="${item.TgTra != null}" th:text="${#dates.format(item.TgTra, 'dd-MM-yyyy HH:mm')}"></span>
                                             <span th:if="${item.TgTra == null}"><span class="badge bg-red text-red-fg">Chưa trả</span></span>
                                         </td>
                                     </tr>
@@ -148,7 +148,7 @@
                                             <span th:if="${item.soTien == null}">Không có</span>
                                         </td>
                                         <td class="text-muted">
-                                            <span  th:text="${item.ngayXL}"></span></td>
+                                            <span th:text="${#dates.format(item.ngayXL, 'dd-MM-yyyy')}"></span></td>
                                         <td class="text-muted">
                                             <span class="badge bg-teal text-teal-fg" th:if="${item.trangThaiXL != 1}">Đã xử lý</span>
                                             <span class="badge bg-red text-red-fg" th:if="${item.trangThaiXL == 1}">Đang xử lý</span>

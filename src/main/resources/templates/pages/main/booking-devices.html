@@ -52,7 +52,7 @@
                                 </thead>
                                 <tbody th:if="${list.empty}">
                                 <tr>
-                                    <td colspan="4" class="text-center text-muted">No data available</td>
+                                    <td colspan="5" class="text-center text-muted">No data available</td>
                                 </tr>
                                 </tbody>
                                 <tbody th:unless="${list.empty}">
@@ -79,7 +79,7 @@
                                         <span th:if="${item.thietBi == null}">/</span>
                                     </td>
                                     <td class="text-muted">
-                                        <span th:if="${item.TgDatCho != null}" th:text="${item.TgDatCho}"></span>
+                                        <span th:if="${item.TgDatCho != null}" th:text="${#dates.format(item.tgDatCho, 'dd-MM-yyyy HH:mm')}"></span>
                                     </td>
                                     <td class="">
                                         <div class="btn-list flex-nowrap">

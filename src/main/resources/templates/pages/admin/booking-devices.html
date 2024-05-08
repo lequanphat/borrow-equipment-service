@@ -70,7 +70,7 @@
                                     <td th:text="${item.thietBi.maTB}"></td>
                                     <td class="text-muted" th:text="${item.thietBi.tenTB}"></td>
                                     <td class="text-muted" th:text="${item.thietBi.moTaTB}"></td>
-                                    <td class="text-muted" th:text="${item.tgDatCho}"></td>
+                                    <td class="text-muted" th:text="${#dates.format(item.tgDatCho, 'dd-MM-yyyy HH:mm')}"></td>
                                     <td class="">
                                         <div class="btn-list flex-nowrap">
                                             <form

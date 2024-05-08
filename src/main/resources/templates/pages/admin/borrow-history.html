@@ -19,6 +19,22 @@
                             </div>
                         </div>
                         <div class="card-body border-bottom py-3">
+                            <table class="table table-borderless table-sm">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Mã thiết bị</th>
+                                    <th scope="col">Tên thiết bị</th>
+                                    <th scope="col">Mô tả</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row" th:text="${deviceInfo.maTB}"></th>
+                                    <td th:text="${deviceInfo.tenTB}"></td>
+                                    <td th:text="${deviceInfo.moTaTB}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                             <form id="form-devices" method="get" class="d-flex">
                                 <div class="text-secondary">
                                     Show
@@ -66,19 +82,19 @@
                                             <span class="avatar me-2"
                                                   style="background-image: url('/images/default_avatar.jpg')"></span>
                                             <div class="flex-fill">
-                                                <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
-                                                </div>
+                                                <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.thanhVien.maTV})}" class="font-weight-medium text-reset" th:text="${item.thanhVien.hoTen}">
+                                                </a>
                                                 <div class="text-muted">
-                                                    <a href="#" class="text-reset" th:text="${item.thanhVien.maTV}"></a>
+                                                    <span class="text-reset" th:text="${item.thanhVien.maTV}"></span>
                                                 </div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="text-muted">
-                                        <span th:text="${item.TgMuon}"></span>
+                                        <span th:text="${#dates.format(item.TgMuon, 'dd-MM-yyyy HH:mm')}"></span>
                                     </td>
                                     <td class="text-muted">
-                                        <span th:if="${item.TgTra != null}" th:text="${item.TgTra}"></span>
+                                        <span th:if="${item.TgTra != null}" th:text="${#dates.format(item.TgTra, 'dd-MM-yyyy HH:mm')}"></span>
                                         <span th:if="${item.TgTra == null}"><span class="badge bg-red  text-red-fg">Chưa trả</span></span>
                                     </td>
 

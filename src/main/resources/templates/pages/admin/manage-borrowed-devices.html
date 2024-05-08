@@ -67,19 +67,17 @@
                                 <tr>
                                     <td th:text="${item.maTT}"></td>
                                     <td>
-                                        <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.thanhVien.maTV})}" class="text-reset">
-                                            <div class="d-flex py-1 align-items-center">
+                                        <div class="d-flex py-1 align-items-center">
                                             <span class="avatar me-2"
                                                   style="background-image: url('/images/default_avatar.jpg')"></span>
-                                                <div class="flex-fill">
-                                                    <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
-                                                    </div>
-                                                    <div class="text-muted">
-                                                        <span class="text-reset" th:text="${item.thanhVien.maTV}"></span>
-                                                    </div>
+                                            <div class="flex-fill">
+                                                <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.thanhVien.maTV})}" class="font-weight-medium text-reset" th:text="${item.thanhVien.hoTen}">
+                                                </a>
+                                                <div class="text-muted">
+                                                    <span class="text-reset" th:text="${item.thanhVien.maTV}"></span>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                     </td>
                                     <td class="text-muted">
                                         <span th:text="${item.thietBi.maTB}"></span>
@@ -87,7 +85,7 @@
                                         <span th:text="${item.thietBi.tenTB}"></span>
                                     </td>
                                     <td class="text-muted">
-                                        <span th:if="${item.TgMuon != null}" th:text="${item.TgMuon}"></span>
+                                        <span th:if="${item.TgMuon != null}" th:text="${#dates.format(item.TgMuon, 'dd-MM-yyyy HH:mm')}"></span>
                                     </td>
                                 </tr>
                                 </tbody>

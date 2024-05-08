@@ -17,7 +17,7 @@
                                     <h3 class="card-title">Danh sách xử lý vi phạm</h3>
                                 </div>
                                 <div class="col-2 d-flex align-items-center">
-                                    <input id="tongTien" type="text" class="form-control" th:value="${tongTien}"
+                                    <input id="tongTien" type="text" class="form-control" th:value="${'Tổng tiền: ' + tongTien}"
                                            readonly/>
                                 </div>
 
@@ -145,28 +145,25 @@
                                 <tr th:each="item : ${list}">
                                     <td th:text="${item.maXL}"></td>
                                     <td>
-                                        <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.thanhVien.maTV})}"
-                                           class="text-reset">
-                                            <div class="d-flex py-1 align-items-center">
+                                        <div class="d-flex py-1 align-items-center">
                                             <span class="avatar me-2"
                                                   style="background-image: url('/images/default_avatar.jpg')"></span>
-                                                <div class="flex-fill">
-                                                    <div class="font-weight-medium" th:text="${item.thanhVien.hoTen}">
-                                                    </div>
-                                                    <div class="text-muted">
+                                            <div class="flex-fill">
+                                                <a th:href="@{/admin/detail-member/{itemId}(itemId=${item.thanhVien.maTV})}" class="font-weight-medium text-reset" th:text="${item.thanhVien.hoTen}">
+                                                </a>
+                                                <div class="text-muted">
                                                         <span class="text-reset"
                                                               th:text="${item.thanhVien.maTV}"></span>
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </div>
                                     </td>
                                     <td class="text-muted"><span th:text="${item.hinhThucXL}"></span></td>
                                     <td class="text-muted">
-                                        <span th:if="${item.soTien != null}" th:text="${item.soTien}"></span>
+                                        <span th:if="${item.soTien != null}" th:text="${T(com.example.membersmanagement.helpers.CurrencyFormatter).formatCurrency(item.soTien)}"></span>
                                         <span th:if="${item.soTien == null}">Không có</span>
                                     </td>
-                                    <td class="text-muted"><span th:text="${item.ngayXL}"></span></td>
+                                    <td class="text-muted"><span th:text="${#dates.format(item.ngayXL, 'dd-MM-yyyy')}"></span></td>
                                     <td class="text-muted">
                                         <span class="badge bg-teal  text-teal-fg"
                                               th:if="${item.trangThaiXL != 1}">Đã xử lý</span>

@@ -2,14 +2,12 @@ package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.dtos.BookingDeviceDto;
-import com.example.membersmanagement.dtos.ThietBi.ReadThietBiDto;
 import com.example.membersmanagement.dtos.ThongTinSd.MuonThietBiDto;
 import com.example.membersmanagement.dtos.ThongTinSd.TraThietBiDto;
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.dtos.ThongTinSd.VaoKhuVucHocTapDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
-import com.example.membersmanagement.enums.TinhTrangThietBi;
 import com.example.membersmanagement.mappers.ThongTinSdMapper;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.services.ThietBiService;
@@ -46,7 +44,7 @@ public class ThongTinSdController {
     @GetMapping("/my-borrow-devices")
     public String usageInformation(Model model, Authentication authentication) {
         int maTv = ((CustomUserDetails) authentication.getPrincipal()).getMaTV();
-        List<ThongTinSdEntity> list = thongTinSdService.getThietBiDangMuonByMaTV(maTv);
+        List<ThongTinSdEntity> list = thongTinSdService.getLichSuMuonByMaTV(maTv);
         model.addAttribute("list", list);
         return "pages/main/borrow-devices";
     }
@@ -137,7 +135,7 @@ public class ThongTinSdController {
         }
 
         if (thietBiService.isBorrowed(maTB)) {
-            result.rejectValue("maTB", "unavailable", "Thiết bị đã được mượn trong thời gian này.");
+            result.rejectValue("maTB", "unavailable", "Thiết bị đã được mượn.");
         }
         if (thietBiService.isBookedAtThatTimeByAnotherMember(maTB, maTV, LocalDate.now())) {
             result.rejectValue("maTB", "unavailable", "Thiết bị đã được đặt chỗ bởi thành viên khác.");
@@ -245,10 +243,14 @@ public class ThongTinSdController {
                                 @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "8") int size,
                                 @PathVariable int maTb) {
+        ThietBiEntity thietBiEntity = thietBiService.getById(maTb);
+        if (thietBiEntity == null) {
+            return "pages/error/404";
+        }
         Pageable paging = PageRequest.of(page - 1, size);
         Page<ThongTinSdEntity> list = thongTinSdService.getLichSuMuonThietBi(maTb, keyword, paging);
-        log.info(list.toString());
         model.addAttribute("keyword", keyword);
+        model.addAttribute("deviceInfo", thietBiEntity);
         model.addAttribute("pagedList", list);
         return "pages/admin/borrow-history";
     }

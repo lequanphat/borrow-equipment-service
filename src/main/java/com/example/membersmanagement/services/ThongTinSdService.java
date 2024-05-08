@@ -31,8 +31,8 @@ public class ThongTinSdService {
         return thongTinSdRepository.findByThanhVienMaTVAndTgDatChoIsNotNullAndTgMuonIsNull(maTV);
     }
 
-    public List<ThongTinSdEntity> getThietBiDangMuonByMaTV(int maTV) {
-        return thongTinSdRepository.findByThanhVienMaTVAndTgMuonIsNotNullAndTgTraIsNull(maTV);
+    public List<ThongTinSdEntity> getLichSuMuonByMaTV(int maTV) {
+        return thongTinSdRepository.findByThanhVienMaTVAndTgMuonIsNotNull(maTV);
     }
 
     public ThongTinSdEntity save(ThongTinSdEntity thongTinSdEntity) {

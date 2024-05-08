@@ -4,7 +4,9 @@ import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.dtos.XuLy.CreateXuLyDto;
 import com.example.membersmanagement.dtos.XuLy.UpdateXuLyDto;
 import com.example.membersmanagement.entities.XuLyEntity;
+import com.example.membersmanagement.helpers.CurrencyFormatter;
 import com.example.membersmanagement.mappers.XuLyMapper;
+import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.services.XuLyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import java.util.List;
 public class XuLyController {
     @Autowired
     private XuLyService xuLyService;
+    @Autowired
+    private ThanhVienService thanhVienService;
 
     @GetMapping("/violation")
     public String myViolation(Model model, Authentication authentication) {
@@ -51,7 +55,7 @@ public class XuLyController {
         model.addAttribute("tgBatDau", tgBatDau);
         model.addAttribute("tgKetThuc", tgKetThuc);
         model.addAttribute("pagedList", list);
-        model.addAttribute("tongTien", "Tổng tiền : " + tongTien + " VNĐ");
+        model.addAttribute("tongTien", CurrencyFormatter.formatCurrency(tongTien));
         return "pages/admin/violation";
     }
 
@@ -69,17 +73,27 @@ public class XuLyController {
             return "pages/admin/add-violation";
         }
 
+        if (!thanhVienService.existsByMaTV(Integer.valueOf(violationsDto.getMaTV()))) {
+            result.rejectValue("maTV", "notFound", "Thành viên không tồn tại");
+        }
+
+
         String hinhThucXL = violationsDto.getHinhThucXL();
 
         if (hinhThucXL.toLowerCase().contains("bồi thường")) {
             String soTien = String.valueOf(violationsDto.getSoTien());
             if (soTien == "null") {
                 result.rejectValue("soTien", "empty", "Số tiền không để trống");
-                model.addAttribute("violationsDto", violationsDto);
-                model.addAttribute("errors", result.getAllErrors());
-                return "pages/admin/add-violation";
             }
         }
+
+        if (result.hasErrors()) {
+            model.addAttribute("violationsDto", violationsDto);
+            model.addAttribute("errors", result.getAllErrors());
+            return "pages/admin/add-violation";
+        }
+
+
         xuLyService.save(violationsDto);
         return "redirect:/admin/violation?success";
     }
