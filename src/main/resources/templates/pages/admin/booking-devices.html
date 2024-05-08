@@ -53,6 +53,7 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>Mã TV</th>
                                     <th>Họ tên</th>
                                     <th>Mã thiết bị</th>
                                     <th>Tên thiết bị</th>
@@ -64,6 +65,7 @@
                                 <tbody>
                                 <tr th:each="item : ${pagedList.getContent()}">
                                     <td th:text="${item.maTT}"></td>
+                                    <td th:text="${item.thanhVien.maTV}"></td>
                                     <td th:text="${item.thanhVien.hoTen}"></td>
                                     <td th:text="${item.thietBi.maTB}"></td>
                                     <td class="text-muted" th:text="${item.thietBi.tenTB}"></td>

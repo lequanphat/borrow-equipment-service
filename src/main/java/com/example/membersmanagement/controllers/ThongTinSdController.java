@@ -134,8 +134,12 @@ public class ThongTinSdController {
             result.rejectValue("maTB", "notFound", "Mã thiết bị không tồn tại.");
         }
 
-        if (thietBiService.isBorrowedOrBooked(maTB)) {
-            result.rejectValue("maTB", "unavailable", "Thiết bị không thể mượn.");
+        if (!thietBiService.isMemberAllowedToBorrow(maTV, maTB)) {
+            result.rejectValue("maTB", "unavailable", "Thiết bị đã được đặt chỗ bởi thành viên khác.");
+        }
+
+        if (thietBiService.isBorrowed(maTB)) {
+            result.rejectValue("maTB", "unavailable", "Thiết bị đã được mượn.");
         }
 
         if (result.hasErrors()) {

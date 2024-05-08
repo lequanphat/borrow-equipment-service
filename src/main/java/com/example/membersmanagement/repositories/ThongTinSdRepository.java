@@ -13,8 +13,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ThongTinSdRepository extends JpaRepository<ThongTinSdEntity, Integer> {
-    List<ThongTinSdEntity> findByTgMuonIsNotNull();
-
     boolean existsByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNull(int maTB);
 
     boolean existsByThietBiMaTBAndTgDatChoIsNotNull(int maTB);
@@ -35,4 +33,7 @@ public interface ThongTinSdRepository extends JpaRepository<ThongTinSdEntity, In
             "FROM ThongTinSdEntity ttsd " +
             "WHERE ttsd.tgMuon IS NOT NULL AND ttsd.tgTra IS NULL AND (ttsd.thietBi.tenTB LIKE  :search OR CAST(ttsd.thietBi.maTB AS string) LIKE :search OR ttsd.thanhVien.hoTen LIKE :search OR CAST(ttsd.thanhVien.maTV AS string) LIKE :search)")
     List<ThongTinSdEntity> getDsThietBiDangDuocMuon(@Param("search") String search);
+
+
+    public boolean existsByThanhVien_MaTVAndThietBi_MaTBAndTgDatChoIsNotNull(int maTV, int maTB);
 }
