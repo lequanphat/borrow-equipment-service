@@ -18,7 +18,23 @@
                                     <!-- Page title actions -->
                                     <div class="col-auto ms-auto d-print-none">
                                         <div class="btn-list">
-                                            <a href="#deleteMembersModal" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal">Xóa nhiều thành viên</a>
+                                            <button class="btn btn-teal btn-icon" aria-label="Import excel" type="button"
+                                                    data-bs-toggle="modal" data-bs-target="#importModal">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                     stroke-linecap="round" stroke-linejoin="round"
+                                                     class="icon icon-tabler icons-tabler-outline icon-tabler-table-import">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M12 21h-7a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v8"/>
+                                                    <path d="M3 10h18"/>
+                                                    <path d="M10 3v18"/>
+                                                    <path d="M19 22v-6"/>
+                                                    <path d="M22 19l-3 -3l-3 3"/>
+                                                </svg>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteMembersModal">
+                                                Xóa nhiều thành viên
+                                            </button>
                                             <a th:href="@{/admin/add-members}"
                                                 class="btn btn-primary d-none d-sm-inline-block">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -128,27 +144,52 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal Xóa nhiều thành viên -->
-    <div class="modal fade" id="deleteMembersModal" tabindex="-1" aria-labelledby="deleteMembersModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteMembersModalLabel">Xóa nhiều thành viên</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal" id="importModal" tabindex="-1">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Import excel</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="section-alert"></div>
+                        <div class="mb-3">
+                            <label class="form-label">File excel</label>
+                            <input type="file" class="form-control" id="file-excel"
+                                   accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                   placeholder="Chọn file excel"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                            Huỷ
+                        </a>
+                        <button id="import-excel" class="btn btn-primary ms-auto" disabled>
+                            Import
+                        </button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>Nhập mã khoa để xác nhận xóa nhiều thành viên:</p>
-                    <input type="text" class="form-control" id="khoaInput" placeholder="Mã khoa">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteMultipleMembers()">Xóa</button>
+            </div>
+        </div>
+        <div class="modal" id="deleteMembersModal" tabindex="-1" aria-labelledby="deleteMembersModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteMembersModalLabel">Xóa nhiều thành viên</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Nhập khoá cần xoá :</p>
+                        <input type="number" class="form-control" id="khoaInput" placeholder="Nhập khoá (VD: 21)">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Đóng</button>
+                        <button disabled type="button" class="btn btn-danger" id="btn-delete-members">Xóa</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div layout:fragment="scripts">
         <script>
             function submitForm(event, form) {
@@ -163,13 +204,69 @@
                 pageSize.form.submit();
             });
         </script>
-    </div>
-    <script>
-        function deleteMultipleMembers() {
-            var khoa = document.getElementById('khoaInput').value;
-            window.location.href = '/admin/members/delete-multiple?khoa=' + khoa;
-        }
-    </script>
+        <script>
+            const khoaInput = document.getElementById('khoaInput');
+            const btnDelete = document.querySelector('#btn-delete-members');
+            khoaInput.addEventListener('input', function () {
+                if (khoaInput.value.trim().length == 2) {
+                    btnDelete.removeAttribute('disabled');
+                } else {
+                    btnDelete.setAttribute('disabled', 'disabled');
+                }
+            });
+            btnDelete.addEventListener('click', function () {
+                if (confirm('Bạn có chắc muốn xóa tất cả thành viên có khoá ' + khoaInput.value + ' không?')) {
+                    fetch('/api/delete-multiple-members/' + khoaInput.value, {
+                        method: 'DELETE',
+                        credentials: 'same-origin'
+                    }).then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
 
+
+            const importExcel = document.getElementById('import-excel');
+            const fileExcel = document.getElementById('file-excel');
+
+            fileExcel.addEventListener('change', function () {
+                importExcel.disabled = !fileExcel.files[0];
+            });
+
+            importExcel.addEventListener('click', function () {
+                const file = document.getElementById('file-excel').files[0];
+                if (file) {
+                    const alert = document.querySelector('.section-alert');                const formData = new FormData();
+                    formData.append('file', file);
+                    fetch('/api/import-members', {
+                        method: 'POST',
+                        body: formData,
+                        credentials: 'same-origin'
+                    }).then(response => {
+                        if (response.ok) {
+                            alert.innerHTML = `
+                            <div class="alert alert-success mb-3" role="alert"><div class="d-flex"><div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                            </div><div>Import thành công</div></div></div>
+                        `;
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 2000);
+                        } else {
+                            response.json().then(data => {
+                                alert.innerHTML = `
+                                <div class="alert alert-danger mb-3" role="alert"><div class="d-flex"><div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon alert-icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+                                </div><div>${data.message}</div></div></div>
+                            `;
+                            });
+                        }
+                    });
+                }
+            });
+        </script>
+    </div>
 </body>
 </html>

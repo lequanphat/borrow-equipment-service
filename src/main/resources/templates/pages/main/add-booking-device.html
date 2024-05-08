@@ -24,7 +24,7 @@
                                     <div class="mx-2 d-inline-block">
                                         <select id="pageSize" name="size" th:value="${pagedList.getSize()}"
                                                 class="form-select form-select-sm">
-                                            <option th:each="s : ${ {6, 8, 10} }" th:value="${s}" th:text="${s}"
+                                            <option th:each="s : ${ {6, 8, 10, 12, 20} }" th:value="${s}" th:text="${s}"
                                                     th:selected="${s == pagedList.getSize()}"></option>
                                         </select>
                                     </div>
@@ -132,6 +132,20 @@
 
         document.getElementById('pageSize').addEventListener('change', function () {
             this.form.submit();
+        });
+
+        // Click row to select radio
+        document.addEventListener('DOMContentLoaded', function () {
+            var rows = document.querySelectorAll('tr');
+            rows.forEach(function (row) {
+                row.addEventListener('click', function (event) {
+                    var radio = row.querySelector('input[name="maTBRadio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        radio.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
         });
     </script>
 </div>

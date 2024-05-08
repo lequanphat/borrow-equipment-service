@@ -8,34 +8,25 @@ import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.RegistrationDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Slf4j
 public class ThanhVienService {
     @Autowired
     private EmailService emailService;
     @Autowired
     private ThanhVienRepository thanhVienRepository;
 
-    public ThanhVienService(ThanhVienRepository thanhVienRepository) {
-        this.thanhVienRepository = thanhVienRepository;
-    }
-
-    public List<ThanhVienEntity> getAll() {
-        return thanhVienRepository.findAll();
-    }
-
-    public Page<ThanhVienEntity> getAll2(String keyword, Pageable paging) {
-        return thanhVienRepository.findByHoTenContainingIgnoreCase(keyword, paging);
-    }
-
-    public ThanhVienEntity findByEmail(String email) {
-        return thanhVienRepository.findByEmail(email);
+    public Page<ThanhVienEntity> getAll(String keyword, Pageable paging) {
+        return thanhVienRepository.findBySearchText(keyword, paging);
     }
 
     public ThanhVienEntity findByMaTV(int maTV) {
@@ -60,7 +51,7 @@ public class ThanhVienService {
         return this.save(registerData);
     }
 
-    public ThanhVienEntity save2(CreateThanhVienDto addMemberDto) {
+    public ThanhVienEntity createMember(CreateThanhVienDto addMemberDto) {
         ThanhVienEntity thanhVien = ThanhVienMapper.toThanhvienFromCreate(addMemberDto);
         return thanhVienRepository.save(thanhVien);
     }
@@ -138,7 +129,12 @@ public class ThanhVienService {
         thanhVienRepository.deleteById(id);
     }
 
+    @Transactional
     public void multipleDelete(int khoa) {
         thanhVienRepository.multipleDeleteByKhoa(String.valueOf(khoa));
+    }
+
+    public void saveAll(List<ThanhVienEntity> members) {
+        thanhVienRepository.saveAll(members);
     }
 }

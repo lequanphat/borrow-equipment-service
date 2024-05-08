@@ -64,8 +64,7 @@
                                          th:errors="*{soTien}"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label" for="ngayXL">Ngày xử lý</label>
-                                    <input type="text" class="form-control" th:errorclass="is-invalid" id="ngayXL"
+                                    <input type="hidden" class="form-control" th:errorclass="is-invalid" id="ngayXL"
                                            th:field="*{ngayXL}"/>
                                     <div th:if="${#fields.hasErrors('ngayXL')}" class="invalid-feedback"
                                          th:errors="*{ngayXL}"></div>

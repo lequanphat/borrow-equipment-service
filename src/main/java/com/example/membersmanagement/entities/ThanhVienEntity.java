@@ -42,5 +42,4 @@ public class ThanhVienEntity {
         this.email = email;
         this.password = password;
     }
-
 }

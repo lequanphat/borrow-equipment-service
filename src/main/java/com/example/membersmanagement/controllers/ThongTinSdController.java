@@ -9,6 +9,7 @@ import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.dtos.ThongTinSd.VaoKhuVucHocTapDto;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
+import com.example.membersmanagement.enums.TinhTrangThietBi;
 import com.example.membersmanagement.mappers.ThongTinSdMapper;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.services.ThietBiService;
@@ -134,8 +135,13 @@ public class ThongTinSdController {
             result.rejectValue("maTB", "notFound", "Mã thiết bị không tồn tại.");
         }
 
-        if (thietBiService.isBorrowedOrBooked(maTB)) {
-            result.rejectValue("maTB", "unavailable", "Thiết bị không thể mượn.");
+        TinhTrangThietBi tinhTrang = thietBiService.getTinhTrang(maTB);
+        if (tinhTrang == TinhTrangThietBi.BORROWED) {
+            result.rejectValue("maTB", "unavailable", "Thiết bị đã được mượn.");
+        } else if (tinhTrang == TinhTrangThietBi.BOOKED) {
+            if (!thietBiService.isMemberAllowedToBorrow(maTV, maTB)) {
+                result.rejectValue("maTB", "unavailable", "Thiết bị đã được đặt chỗ bởi thành viên khác.");
+            }
         }
 
         if (result.hasErrors()) {
@@ -146,6 +152,9 @@ public class ThongTinSdController {
 
         ThongTinSdEntity thongTinSdEntity = ThongTinSdMapper.toThongTinSdFromMuonThietBi(muonThietBiDto);
         thongTinSdService.save(thongTinSdEntity);
+        if (tinhTrang == TinhTrangThietBi.BOOKED) {
+            thongTinSdService.deleteDatCho(maTV, maTB);
+        }
         return "redirect:/admin/device-borrowing?success";
     }
 

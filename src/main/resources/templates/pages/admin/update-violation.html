@@ -72,7 +72,7 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="ngayXL">Ngày xử lý</label>
                                     <input type="text" class="form-control" th:errorclass="is-invalid" id="ngayXL"
-                                           th:field="*{ngayXL}"/>
+                                           th:field="*{ngayXL}" readonly/>
                                     <div th:if="${#fields.hasErrors('ngayXL')}" class="invalid-feedback"
                                          th:errors="*{ngayXL}"></div>
 
@@ -105,6 +105,7 @@
             var hinhThucXL = document.getElementById("hinhThucXL");
             var soTienWrapper = document.getElementById("soTienWrapper");
             var soTien = document.getElementById("soTien");
+
             hinhThucXL.addEventListener("change", function () {
                 var selectedOption = hinhThucXL.options[hinhThucXL.selectedIndex];
                 var selectedText = selectedOption.textContent;
@@ -121,6 +122,26 @@
             soTienWrapper.style.display = "none";
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var hinhThucXLSelect = document.getElementById("hinhThucXL");
+            var soTienWrapper = document.getElementById("soTienWrapper");
+
+            function toggleSoTien() {
+                var selectedOption = hinhThucXLSelect.options[hinhThucXLSelect.selectedIndex].value;
+                if (selectedOption.toLowerCase().includes("bồi thường")) {
+                    soTienWrapper.style.display = "block";
+                } else {
+                    soTienWrapper.style.display = "none";
+                }
+            }
+
+            toggleSoTien(); // Check initially on page load
+
+            hinhThucXLSelect.addEventListener("change", toggleSoTien);
+        });
+    </script>
+
 </div>
 </body>
 </html>

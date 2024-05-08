@@ -33,6 +33,9 @@
                                                 <path d="M22 19l-3 -3l-3 3"/>
                                             </svg>
                                         </button>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteDevicesModal">
+                                            Xóa nhiều thiết bị
+                                        </button>
                                         <a th:href="@{/admin/add-device}"
                                            class="btn btn-primary d-none d-sm-inline-block">
                                             <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -168,6 +171,25 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="deleteDevicesModal" tabindex="-1" aria-labelledby="deleteDevicesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteDevicesModalLabel">Xóa nhiều thiết bị</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Nhập mã loại thiết bị cần xoá :</p>
+                    <input type="number" class="form-control" id="maLoaiInput" placeholder="Nhập mã loại thiết bị (VD: 1)">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal">Đóng</button>
+                    <button disabled type="button" class="btn btn-danger" id="btn-delete-devices">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <div layout:fragment="scripts">
     <script>
@@ -217,6 +239,29 @@
                                 </div><div>${data.message}</div></div></div>
                             `;
                         });
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        const maLoaiInput = document.getElementById('maLoaiInput');
+        const btnDelete = document.querySelector('#btn-delete-devices');
+        maLoaiInput.addEventListener('input', function () {
+            if (maLoaiInput.value.trim().length == 1) {
+                btnDelete.removeAttribute('disabled');
+            } else {
+                btnDelete.setAttribute('disabled', 'disabled');
+            }
+        });
+        btnDelete.addEventListener('click', function () {
+            if (confirm('Bạn có chắc muốn xóa tất cả thiết bị có mã lọai thiết bị ' + maLoaiInput.value + ' không?')) {
+                fetch('/api/delete-multiple-devices/' + maLoaiInput.value, {
+                    method: 'DELETE',
+                    credentials: 'same-origin'
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
                     }
                 });
             }

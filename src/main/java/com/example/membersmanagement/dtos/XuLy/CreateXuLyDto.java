@@ -22,5 +22,4 @@ public class CreateXuLyDto {
     private Date ngayXL;
 
     private Integer trangThaiXL;
-
 }

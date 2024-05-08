@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ThietBiService {
     private ThongTinSdRepository thongTinSdRepository;
 
     public Page<ReadThietBiDto> getAll(String keyword, Pageable paging) {
-        Page<ThietBiEntity> entities = thietBiRepository.findByTenTBContainingIgnoreCase(keyword, paging);
+        Page<ThietBiEntity> entities = thietBiRepository.findBySearchText(keyword.trim(), paging);
         return entities.map(thietBiEntity ->
                 ThietBiMapper.toReadDto(
                         thietBiEntity,
@@ -40,10 +41,6 @@ public class ThietBiService {
 
     public void saveAll(List<ThietBiEntity> devices) {
         thietBiRepository.saveAll(devices);
-    }
-
-    public List<ThietBiEntity> getAllDevices() {
-        return thietBiRepository.findAll();
     }
 
     public boolean existsByMaTb(int maTb) {
@@ -83,5 +80,14 @@ public class ThietBiService {
         } else {
             return TinhTrangThietBi.AVAILABLE;
         }
+    }
+
+    @Transactional
+    public void multipleDelete(int maLoai) {
+        thietBiRepository.multipleDeleteByMaLoai(String.valueOf(maLoai));
+    }
+
+    public boolean isMemberAllowedToBorrow(int maTV, int maTB) {
+        return thongTinSdRepository.existsByThanhVien_MaTVAndThietBi_MaTBAndTgDatChoIsNotNull(maTV, maTB);
     }
 }
