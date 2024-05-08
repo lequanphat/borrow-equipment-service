@@ -73,16 +73,14 @@ public class XuLyController {
 
         String hinhThucXL = violationsDto.getHinhThucXL();
 
-        if(hinhThucXL.toLowerCase().contains("bồi thường")){
+        if(hinhThucXL.toLowerCase().contains("bồi thường")) {
             String soTien = String.valueOf(violationsDto.getSoTien());
-            if(soTien=="null"){
-                result.rejectValue("soTien","empty","Số tiền không để trống");
+            if (soTien == "null") {
+                result.rejectValue("soTien", "empty", "Số tiền không để trống");
+                model.addAttribute("violationsDto", violationsDto);
+                model.addAttribute("errors", result.getAllErrors());
+                return "pages/admin/add-violation";
             }
-        }
-        if (result.hasErrors()) {
-            model.addAttribute("violationsDto", violationsDto);
-            model.addAttribute("errors", result.getAllErrors());
-            return "pages/admin/add-violation";
         }
         xuLyService.save(violationsDto);
         return "redirect:/admin/violation?success";
