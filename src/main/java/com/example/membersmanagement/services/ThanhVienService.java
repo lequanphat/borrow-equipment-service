@@ -3,6 +3,7 @@ package com.example.membersmanagement.services;
 import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
 import com.example.membersmanagement.dtos.ThanhVien.UpdateThanhVienDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
+import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.mappers.ThanhVienMapper;
 import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
@@ -144,5 +145,9 @@ public class ThanhVienService {
     @Transactional
     public void multipleDelete(int khoa) {
         thanhVienRepository.multipleDeleteByKhoa(String.valueOf(khoa));
+    }
+
+    public void saveAll(List<ThanhVienEntity> members) {
+        thanhVienRepository.saveAll(members);
     }
 }
