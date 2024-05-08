@@ -85,7 +85,7 @@
                                         <div class="btn-list flex-nowrap">
                                             <form
                                                   th:action="@{/booking-device/delete/{id}(id=${item.maTT})}"
-                                                  method="post">
+                                                  method="post" onsubmit="submitForm(event, this)">
                                                 <button type="submit" class="btn btn-outline-danger">
                                                     Xoá
                                                 </button>
@@ -101,6 +101,16 @@
             </div>
         </div>
     </div>
+</div>
+<div layout:fragment="scripts">
+    <script>
+        function submitForm(event, form) {
+            event.preventDefault();
+            if (confirm('Bạn có chắc muốn xóa thiết bị này không?')) {
+                form.submit();
+            }
+        }
+    </script>
 </div>
 </body>
 </html>
