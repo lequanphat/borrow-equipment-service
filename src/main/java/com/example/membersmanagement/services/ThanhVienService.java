@@ -8,14 +8,17 @@ import com.example.membersmanagement.repositories.ThanhVienRepository;
 import com.example.membersmanagement.dtos.ChangePasswordDto;
 import com.example.membersmanagement.dtos.RegistrationDto;
 import com.example.membersmanagement.dtos.UpdateProfileDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Slf4j
 public class ThanhVienService {
     @Autowired
     private EmailService emailService;
@@ -138,6 +141,7 @@ public class ThanhVienService {
         thanhVienRepository.deleteById(id);
     }
 
+    @Transactional
     public void multipleDelete(int khoa) {
         thanhVienRepository.multipleDeleteByKhoa(String.valueOf(khoa));
     }

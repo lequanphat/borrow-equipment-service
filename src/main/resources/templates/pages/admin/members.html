@@ -18,7 +18,9 @@
                                     <!-- Page title actions -->
                                     <div class="col-auto ms-auto d-print-none">
                                         <div class="btn-list">
-                                            <a href="#deleteMembersModal" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal">Xóa nhiều thành viên</a>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteMembersModal">
+                                                Xóa nhiều thành viên
+                                            </button>
                                             <a th:href="@{/admin/add-members}"
                                                 class="btn btn-primary d-none d-sm-inline-block">
                                                 <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
@@ -128,27 +130,25 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal Xóa nhiều thành viên -->
-    <div class="modal fade" id="deleteMembersModal" tabindex="-1" aria-labelledby="deleteMembersModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteMembersModalLabel">Xóa nhiều thành viên</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Nhập mã khoa để xác nhận xóa nhiều thành viên:</p>
-                    <input type="text" class="form-control" id="khoaInput" placeholder="Mã khoa">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteMultipleMembers()">Xóa</button>
+        <div class="modal" id="deleteMembersModal" tabindex="-1" aria-labelledby="deleteMembersModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteMembersModalLabel">Xóa nhiều thành viên</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Nhập khoá cần xoá :</p>
+                        <input type="number" class="form-control" id="khoaInput" placeholder="Nhập khoá (VD: 21)">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">Đóng</button>
+                        <button disabled type="button" class="btn btn-danger" id="btn-delete-members">Xóa</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div layout:fragment="scripts">
         <script>
             function submitForm(event, form) {
@@ -163,13 +163,29 @@
                 pageSize.form.submit();
             });
         </script>
+        <script>
+            const khoaInput = document.getElementById('khoaInput');
+            const btnDelete = document.querySelector('#btn-delete-members');
+            khoaInput.addEventListener('input', function () {
+                if (khoaInput.value.trim().length == 2) {
+                    btnDelete.removeAttribute('disabled');
+                } else {
+                    btnDelete.setAttribute('disabled', 'disabled');
+                }
+            });
+            btnDelete.addEventListener('click', function () {
+                if (confirm('Bạn có chắc muốn xóa tất cả thành viên có khoá ' + khoaInput.value + ' không?')) {
+                    fetch('/api/delete-multiple-members/' + khoaInput.value, {
+                        method: 'DELETE',
+                        credentials: 'same-origin'
+                    }).then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+        </script>
     </div>
-    <script>
-        function deleteMultipleMembers() {
-            var khoa = document.getElementById('khoaInput').value;
-            window.location.href = '/admin/members/delete-multiple?khoa=' + khoa;
-        }
-    </script>
-
 </body>
 </html>

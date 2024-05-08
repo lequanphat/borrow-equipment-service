@@ -2,6 +2,7 @@ package com.example.membersmanagement.controllers;
 
 import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.helpers.AjaxResponse;
+import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.services.ThietBiService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -12,9 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,6 +24,8 @@ import java.util.List;
 public class AjaxController {
     @Autowired
     ThietBiService thietBiService;
+    @Autowired
+    ThanhVienService thanhVienService;
 
     @PostMapping("/api/import-devices")
     public ResponseEntity<AjaxResponse> importExcelFile(@RequestParam("file") MultipartFile files) throws IOException {
@@ -70,6 +71,15 @@ public class AjaxController {
 
         return new ResponseEntity<>(
                 new AjaxResponse("Imported successfully"),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/api/delete-multiple-members/{khoa}")
+    public ResponseEntity<AjaxResponse> deleteMultipleMembers(@PathVariable("khoa") int khoa) {
+        thanhVienService.multipleDelete(khoa);
+        return new ResponseEntity<>(
+                new AjaxResponse("Deleted successfully"),
                 HttpStatus.OK
         );
     }

@@ -24,6 +24,6 @@ public interface ThanhVienRepository extends JpaRepository<ThanhVienEntity, Inte
     public Page<ThanhVienEntity> findByHoTenContainingIgnoreCase(String hoTen, Pageable paging);
 
     @Modifying
-    @Query("DELETE FROM ThanhVienEntity WHERE SUBSTRING(CAST(maTV AS string), 2, 2) = :khoa")
+    @Query("DELETE FROM ThanhVienEntity WHERE SUBSTRING(CONCAT('', maTV), 2, 2) = :khoa")
     void multipleDeleteByKhoa(@Param("khoa") String khoa);
 }
