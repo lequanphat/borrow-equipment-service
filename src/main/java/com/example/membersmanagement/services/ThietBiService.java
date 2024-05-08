@@ -25,7 +25,7 @@ public class ThietBiService {
     private ThongTinSdRepository thongTinSdRepository;
 
     public Page<ReadThietBiDto> getAll(String keyword, Pageable paging) {
-        Page<ThietBiEntity> entities = thietBiRepository.findBySearchText(keyword, paging);
+        Page<ThietBiEntity> entities = thietBiRepository.findBySearchText(keyword.trim(), paging);
         return entities.map(thietBiEntity ->
                 ThietBiMapper.toReadDto(
                         thietBiEntity,
@@ -85,5 +85,9 @@ public class ThietBiService {
     @Transactional
     public void multipleDelete(int maLoai) {
         thietBiRepository.multipleDeleteByMaLoai(String.valueOf(maLoai));
+    }
+
+    public boolean isMemberAllowedToBorrow(int maTV, int maTB) {
+        return thongTinSdRepository.existsByThanhVien_MaTVAndThietBi_MaTBAndTgDatChoIsNotNull(maTV, maTB);
     }
 }
