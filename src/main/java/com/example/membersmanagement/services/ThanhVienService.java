@@ -137,4 +137,8 @@ public class ThanhVienService {
     public void delete(int id) {
         thanhVienRepository.deleteById(id);
     }
+
+    public void multipleDelete(int khoa) {
+        thanhVienRepository.multipleDeleteByKhoa(String.valueOf(khoa));
+    }
 }

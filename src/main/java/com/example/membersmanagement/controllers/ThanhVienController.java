@@ -178,4 +178,10 @@ public class ThanhVienController {
         return "pages/admin/detail-member";
     }
 
+    @PostMapping("/admin/members/delete-multiple")
+    public String deleteMultiMembers(@RequestParam("khoa") int khoa) {
+        thanhVienService.multipleDelete(khoa);
+        return "redirect:/admin/members?success";
+    }
+
 }
