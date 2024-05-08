@@ -27,6 +27,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class ThongTinSdController {
                                    @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<ReadThietBiDto> list = thietBiService.getAll(keyword, paging);
+        Page<ThietBiEntity> list = thietBiService.getAllDevices(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         model.addAttribute("bookingDeviceDTO", BookingDeviceDto.builder().build());
@@ -77,7 +78,7 @@ public class ThongTinSdController {
                                    @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<ReadThietBiDto> list = thietBiService.getAll(keyword, paging);
+        Page<ThietBiEntity> list = thietBiService.getAllDevices(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         model.addAttribute("bookingDeviceDTO", bookingDeviceDTO);
@@ -94,11 +95,11 @@ public class ThongTinSdController {
         }
 
         if (bookingDeviceDTO.getTGDatCho().isBefore(LocalDateTime.now())) {
-            result.rejectValue("TGDatCho", null, "Thời gian đặt chỗ phải lớn hơn hoặc bằng thời gian hiện tại");
+            result.rejectValue("TGDatCho", null, "Thời gian đặt chỗ phải lớn hơn hoặc bằng thời gian hiện tại.");
         }
 
-        if (thietBiService.isBorrowedOrBooked(maTb)) {
-            result.rejectValue("MaTB", "unavailable", "Thiết bị đang được mượn hoặc đặt chỗ");
+        if (thietBiService.isBorrowedOrBookedAtThatTime(maTb, bookingDeviceDTO.getTGDatCho().toLocalDate())) {
+            result.rejectValue("MaTB", "unavailable", "Thiết bị đã được mượn hoặc đặt chỗ trong thời gian này.");
         }
 
         if (result.hasErrors()) {
@@ -135,13 +136,8 @@ public class ThongTinSdController {
             result.rejectValue("maTB", "notFound", "Mã thiết bị không tồn tại.");
         }
 
-        TinhTrangThietBi tinhTrang = thietBiService.getTinhTrang(maTB);
-        if (tinhTrang == TinhTrangThietBi.BORROWED) {
-            result.rejectValue("maTB", "unavailable", "Thiết bị đã được mượn.");
-        } else if (tinhTrang == TinhTrangThietBi.BOOKED) {
-            if (!thietBiService.isMemberAllowedToBorrow(maTV, maTB)) {
-                result.rejectValue("maTB", "unavailable", "Thiết bị đã được đặt chỗ bởi thành viên khác.");
-            }
+        if (thietBiService.isBorrowedOrBookedAtThatTimeByAnotherMember(maTB, maTV, LocalDate.now())) {
+            result.rejectValue("maTB", "unavailable", "Thiết bị đã được mượn hoặc đặt chỗ bởi thành viên khác.");
         }
 
         if (result.hasErrors()) {
@@ -152,7 +148,8 @@ public class ThongTinSdController {
 
         ThongTinSdEntity thongTinSdEntity = ThongTinSdMapper.toThongTinSdFromMuonThietBi(muonThietBiDto);
         thongTinSdService.save(thongTinSdEntity);
-        if (tinhTrang == TinhTrangThietBi.BOOKED) {
+
+        if (thietBiService.isBookedByMember(maTB, maTV)) {
             thongTinSdService.deleteDatCho(maTV, maTB);
         }
         return "redirect:/admin/device-borrowing?success";

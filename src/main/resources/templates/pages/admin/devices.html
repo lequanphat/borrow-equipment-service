@@ -95,7 +95,6 @@
                                     <th>Mã thiết bị</th>
                                     <th>Tên thiết bị</th>
                                     <th>Mô tả</th>
-                                    <th>Tình trạng</th>
                                     <th class="w-1"></th>
                                 </tr>
                                 </thead>
@@ -104,14 +103,7 @@
                                     <td th:text="${item.maTB}"></td>
                                     <td class="text-muted" th:text="${item.tenTB}"></td>
                                     <td class="text-muted" th:text="${item.moTaTB}"></td>
-                                    <td class="text-muted">
-                                        <span th:if="${item.tinhTrang.toString() == 'AVAILABLE'}"
-                                              class="badge bg-teal text-teal-fg">Khả dụng</span>
-                                        <span th:if="${item.tinhTrang.toString() == 'BOOKED'}"
-                                              class="badge bg-yellow text-yellow-fg">Đặt chỗ</span>
-                                        <span th:if="${item.tinhTrang.toString() == 'BORROWED'}"
-                                              class="badge bg-red text-red-fg">Đã mượn</span>
-                                    </td>
+
                                     <td>
                                         <div class="btn-list flex-nowrap">
                                             <a th:href="@{/admin/borrow-history/{itemId}(itemId=${item.maTB})}"

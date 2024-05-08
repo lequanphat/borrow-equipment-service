@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,14 +26,8 @@ public class ThietBiService {
     @Autowired
     private ThongTinSdRepository thongTinSdRepository;
 
-    public Page<ReadThietBiDto> getAll(String keyword, Pageable paging) {
-        Page<ThietBiEntity> entities = thietBiRepository.findBySearchText(keyword.trim(), paging);
-        return entities.map(thietBiEntity ->
-                ThietBiMapper.toReadDto(
-                        thietBiEntity,
-                        getTinhTrang(thietBiEntity.getMaTB())
-                )
-        );
+    public Page<ThietBiEntity> getAllDevices(String keyword, Pageable paging) {
+        return thietBiRepository.findBySearchText(keyword.trim(), paging);
     }
 
     public ThietBiEntity save(CreateThietBiDto addDeviceDto) {
@@ -55,6 +51,26 @@ public class ThietBiService {
         return isBorrowed(id) || isBooked(id);
     }
 
+    public boolean isBorrowedOrBookedAtThatTime(int id, LocalDate date) {
+        return isBorrowedAtThatTime(id, date) || isBookedAtThatTime(id, date);
+    }
+
+    public boolean isBorrowedOrBookedAtThatTimeByAnotherMember(int maTB, int maTV, LocalDate date) {
+        return isBorrowedAtThatTime(maTB, date) || isBookedAtThatTimeByAnotherMember(maTB, maTV, date);
+    }
+
+    public boolean isBorrowedAtThatTime(int id, LocalDate date) {
+        return thongTinSdRepository.existsByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNullAndTgMuon(id, date);
+    }
+
+    public boolean isBookedAtThatTime(int id, LocalDate date) {
+        return thongTinSdRepository.existsByThietBiMaTBAndTgDatChoIsNotNullAndTgDatCho(id, date);
+    }
+
+    public boolean isBookedAtThatTimeByAnotherMember(int maTB, int maTV, LocalDate date) {
+        return thongTinSdRepository.isBorrowingByAnotherMember(maTB, maTV, date);
+    }
+
     public void update(UpdateThietBiDto deviceDto) {
         ThietBiEntity device = ThietBiMapper.toThietBiFromUpdate(deviceDto);
         thietBiRepository.save(device);
@@ -72,14 +88,8 @@ public class ThietBiService {
         return thongTinSdRepository.existsByThietBiMaTBAndTgDatChoIsNotNull(id);
     }
 
-    public TinhTrangThietBi getTinhTrang(int id) {
-        if (isBorrowed(id)) {
-            return TinhTrangThietBi.BORROWED;
-        } else if (isBooked(id)) {
-            return TinhTrangThietBi.BOOKED;
-        } else {
-            return TinhTrangThietBi.AVAILABLE;
-        }
+    public boolean isBookedByMember(int maTB, int maTV) {
+        return thongTinSdRepository.existsByThietBiMaTBAndTgDatChoIsNotNullAndThanhVienMaTV(maTB, maTV);
     }
 
     @Transactional
@@ -87,7 +97,4 @@ public class ThietBiService {
         thietBiRepository.multipleDeleteByMaLoai(String.valueOf(maLoai));
     }
 
-    public boolean isMemberAllowedToBorrow(int maTV, int maTB) {
-        return thongTinSdRepository.existsByThanhVien_MaTVAndThietBi_MaTBAndTgDatChoIsNotNull(maTV, maTB);
-    }
 }

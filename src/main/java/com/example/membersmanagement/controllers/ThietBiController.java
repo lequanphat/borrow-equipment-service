@@ -29,7 +29,7 @@ public class ThietBiController {
                                 @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<ReadThietBiDto> list = thietBiService.getAll(keyword, paging);
+        Page<ThietBiEntity> list = thietBiService.getAllDevices(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/devices";
