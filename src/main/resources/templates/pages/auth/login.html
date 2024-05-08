@@ -5,7 +5,8 @@
 <body>
 <div layout:fragment="content">
     <div class="text-center mb-4">
-        <a th:href="@{/}" class="navbar-brand navbar-brand-autodark"><img th:src="@{/svg/klf_logo.png}" height="46" alt=""></a>
+        <a th:href="@{/}" class="navbar-brand navbar-brand-autodark"><img th:src="@{/svg/klf_logo.png}" height="46"
+                                                                          alt=""></a>
     </div>
     <div class="card card-md">
         <div class="card-body">
@@ -14,7 +15,7 @@
                 <div class="mb-3">
                     <label class="form-label">Tên tài khoản</label>
                     <input name="email" type="email" class="form-control" placeholder="Email hoặc mã thành viên..."
-                           autocomplete="off">
+                           autocomplete="off" th:value="${username}">
                 </div>
                 <div class="mb-2">
                     <label class="form-label">Mật khẩu

@@ -3,6 +3,7 @@ package com.example.membersmanagement.controllers;
 import com.example.membersmanagement.services.ThanhVienService;
 import com.example.membersmanagement.dtos.ForgotPasswordDto;
 import com.example.membersmanagement.dtos.RegistrationDto;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,13 +21,17 @@ import java.util.Set;
 public class AuthController {
     @Autowired
     private ThanhVienService thanhVienService;
+    @Autowired
+    private HttpSession session;
 
     public AuthController(ThanhVienService thanhVienService) {
         this.thanhVienService = thanhVienService;
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("username", username);
         return "pages/auth/login";
     }
 
