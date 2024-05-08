@@ -3,10 +3,7 @@ package com.example.membersmanagement.controllers;
 import com.example.membersmanagement.config.CustomUserDetails;
 import com.example.membersmanagement.dtos.ThanhVien.CreateThanhVienDto;
 import com.example.membersmanagement.dtos.ThanhVien.UpdateThanhVienDto;
-import com.example.membersmanagement.dtos.ThietBi.CreateThietBiDto;
-import com.example.membersmanagement.dtos.ThietBi.UpdateThietBiDto;
 import com.example.membersmanagement.entities.ThanhVienEntity;
-import com.example.membersmanagement.entities.ThietBiEntity;
 import com.example.membersmanagement.entities.ThongTinSdEntity;
 import com.example.membersmanagement.entities.XuLyEntity;
 import com.example.membersmanagement.mappers.ThanhVienMapper;
@@ -16,9 +13,6 @@ import com.example.membersmanagement.dtos.UpdateProfileDto;
 import com.example.membersmanagement.services.ThongTinSdService;
 import com.example.membersmanagement.services.XuLyService;
 import jakarta.validation.Valid;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -95,7 +88,7 @@ public class ThanhVienController {
                                 @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "8") int size) {
         Pageable paging = PageRequest.of(page - 1, size);
-        Page<ThanhVienEntity> list = thanhVienService.getAll2(keyword, paging);
+        Page<ThanhVienEntity> list = thanhVienService.getAll(keyword, paging);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pagedList", list);
         return "pages/admin/members";
