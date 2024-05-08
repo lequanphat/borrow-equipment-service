@@ -27,7 +27,7 @@ public class ThanhVienService {
     private ThanhVienRepository thanhVienRepository;
 
     public Page<ThanhVienEntity> getAll(String keyword, Pageable paging) {
-        return thanhVienRepository.findByHoTenContainingIgnoreCase(keyword, paging);
+        return thanhVienRepository.findBySearchText(keyword, paging);
     }
 
     public ThanhVienEntity findByMaTV(int maTV) {

@@ -21,7 +21,8 @@ public interface ThanhVienRepository extends JpaRepository<ThanhVienEntity, Inte
 
     List<ThanhVienEntity> findAll();
 
-    public Page<ThanhVienEntity> findByHoTenContainingIgnoreCase(String hoTen, Pageable paging);
+    @Query("SELECT tv FROM ThanhVienEntity tv WHERE tv.hoTen LIKE %:searchText% OR cast(tv.maTV as STRING) LIKE %:searchText% OR tv.email LIKE %:searchText% OR tv.sdt LIKE %:searchText%")
+    public Page<ThanhVienEntity> findBySearchText(@Param("searchText") String searchText, Pageable paging);
 
     @Modifying
     @Query("DELETE FROM ThanhVienEntity WHERE SUBSTRING(CONCAT('', maTV), 2, 2) = :khoa")

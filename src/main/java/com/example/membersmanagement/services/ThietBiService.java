@@ -25,7 +25,7 @@ public class ThietBiService {
     private ThongTinSdRepository thongTinSdRepository;
 
     public Page<ReadThietBiDto> getAll(String keyword, Pageable paging) {
-        Page<ThietBiEntity> entities = thietBiRepository.findByTenTBContainingIgnoreCase(keyword, paging);
+        Page<ThietBiEntity> entities = thietBiRepository.findBySearchText(keyword, paging);
         return entities.map(thietBiEntity ->
                 ThietBiMapper.toReadDto(
                         thietBiEntity,
@@ -41,10 +41,6 @@ public class ThietBiService {
 
     public void saveAll(List<ThietBiEntity> devices) {
         thietBiRepository.saveAll(devices);
-    }
-
-    public List<ThietBiEntity> getAllDevices() {
-        return thietBiRepository.findAll();
     }
 
     public boolean existsByMaTb(int maTb) {

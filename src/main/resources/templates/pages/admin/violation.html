@@ -66,15 +66,26 @@
                                     entries
                                 </div>
                                 <div class="col">
-                                    <input name="keyword" type="text" class="form-control" th:value="${keyword}"
-                                           placeholder="Nhập tên hoặc mã"/>
-                                </div>
-                                <div class="col">
                                     <select type="text" class="form-select" id="thong-ke-theo" name="thongKeTheo">
                                         <option value="3" th:selected="${thongKeTheo == 3}">Tất cả</option>
                                         <option value="1" th:selected="${thongKeTheo == 1}">Đang xử lý</option>
                                         <option value="0" th:selected="${thongKeTheo == 0}">Đã xử lý</option>
                                     </select>
+                                </div>
+                                <div class="col">
+                                    <div class="input-icon">
+                                        <input name="keyword" type="text" class="form-control" th:value="${keyword}"
+                                               placeholder="Nhập tên hoặc mã"/>
+                                        <span class="input-icon-addon">
+                                          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                               viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                               stroke-linecap="round" stroke-linejoin="round"><path stroke="none"
+                                                                                                    d="M0 0h24v24H0z"
+                                                                                                    fill="none"></path><path
+                                                  d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path
+                                                  d="M21 21l-6 -6"></path></svg>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <div class="input-icon">
