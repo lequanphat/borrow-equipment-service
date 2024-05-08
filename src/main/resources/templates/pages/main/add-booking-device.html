@@ -133,6 +133,20 @@
         document.getElementById('pageSize').addEventListener('change', function () {
             this.form.submit();
         });
+
+        // Click row to select radio
+        document.addEventListener('DOMContentLoaded', function () {
+            var rows = document.querySelectorAll('tr');
+            rows.forEach(function (row) {
+                row.addEventListener('click', function (event) {
+                    var radio = row.querySelector('input[name="maTBRadio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        radio.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+        });
     </script>
 </div>
 </body>

@@ -25,20 +25,8 @@ public class ThanhVienService {
     @Autowired
     private ThanhVienRepository thanhVienRepository;
 
-    public ThanhVienService(ThanhVienRepository thanhVienRepository) {
-        this.thanhVienRepository = thanhVienRepository;
-    }
-
-    public List<ThanhVienEntity> getAll() {
-        return thanhVienRepository.findAll();
-    }
-
-    public Page<ThanhVienEntity> getAll2(String keyword, Pageable paging) {
+    public Page<ThanhVienEntity> getAll(String keyword, Pageable paging) {
         return thanhVienRepository.findByHoTenContainingIgnoreCase(keyword, paging);
-    }
-
-    public ThanhVienEntity findByEmail(String email) {
-        return thanhVienRepository.findByEmail(email);
     }
 
     public ThanhVienEntity findByMaTV(int maTV) {
