@@ -18,4 +18,7 @@ public interface XuLyRepository extends JpaRepository<XuLyEntity, Integer> {
 
     @Query("SELECT SUM(xl.soTien) FROM XuLyEntity xl WHERE xl IN :list")
     int sumTongTien(List<XuLyEntity> list);
+
+
+    boolean existsByThanhVienMaTVAndTrangThaiXL(int maTV, int trangThaiXL);
 }

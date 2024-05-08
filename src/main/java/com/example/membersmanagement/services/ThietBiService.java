@@ -55,10 +55,6 @@ public class ThietBiService {
         return isBorrowedAtThatTime(id, date) || isBookedAtThatTime(id, date);
     }
 
-    public boolean isBorrowedOrBookedAtThatTimeByAnotherMember(int maTB, int maTV, LocalDate date) {
-        return isBorrowedAtThatTime(maTB, date) || isBookedAtThatTimeByAnotherMember(maTB, maTV, date);
-    }
-
     public boolean isBorrowedAtThatTime(int id, LocalDate date) {
         return thongTinSdRepository.existsByThietBiMaTBAndTgMuonIsNotNullAndTgTraIsNullAndTgMuon(id, date);
     }

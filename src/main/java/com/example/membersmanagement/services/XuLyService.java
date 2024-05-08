@@ -85,4 +85,9 @@ public class XuLyService {
         // Create and return a Page object
         return new PageImpl<>(resultList, paging, totalResults);
     }
+
+    public boolean canBorrowDevice(int maTV) {
+        return !xuLyRepository.existsByThanhVienMaTVAndTrangThaiXL(maTV, 1);
+    }
+
 }

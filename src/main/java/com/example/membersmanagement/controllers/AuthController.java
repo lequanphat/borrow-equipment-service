@@ -31,7 +31,9 @@ public class AuthController {
     @GetMapping("/login")
     public String login(Model model) {
         String username = (String) session.getAttribute("username");
+        String loginError = (String) session.getAttribute("loginError");
         model.addAttribute("username", username);
+        model.addAttribute("loginError", loginError);
         return "pages/auth/login";
     }
 

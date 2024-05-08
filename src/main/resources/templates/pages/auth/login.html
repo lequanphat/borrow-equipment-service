@@ -41,7 +41,9 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <p th:if="${param.error}" class="text-danger">Tên đăng nhập hoặc mật khẩu sai.</p>
+                    <p th:if="${loginError}" class="text-danger" th:text="${loginError}"></p>
+                    <p th:unless="${loginError}" th:if="${param.error}" class="text-danger">Tên đăng nhập hoặc mật khẩu
+                        sai.</p>
                     <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
                 </div>
             </form>
